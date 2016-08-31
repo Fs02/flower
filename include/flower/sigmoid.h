@@ -13,7 +13,7 @@ namespace flower
     public:
         Sigmoid();
 
-        inline const char* type() const;
+        inline const char* type() const { return "Sigmoid"; }
 
         void forward(Blob& bottom, Blob& top);
         void backward(Blob& top, Blob& bottom);

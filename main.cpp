@@ -15,11 +15,18 @@ int main()
 
     flower::Sigmoid s;
     s.forward(input, output);
-    cout << s.type()
+    s.backward(output, input);
+    cout << "Forward"
          << endl
          << input.data()
          << endl
-         << output.data();
+         << output.data()
+         << endl
+         << "Backward"
+         << endl
+         << input.diff()
+         << endl
+         << output.diff();
 
     return 0;
 }

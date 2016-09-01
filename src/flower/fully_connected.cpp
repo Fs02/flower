@@ -17,7 +17,7 @@ FullyConnected::FullyConnected(FullyConnectedDef *definition)
 
 void FullyConnected::forward(Feature &bottom, Feature &top)
 {
-    // TODO:
+    top.set_data((weights_.data() * bottom.data()) + bias_.data());
 }
 
 void FullyConnected::backward(Feature &top, Feature &bottom)

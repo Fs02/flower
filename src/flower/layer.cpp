@@ -7,4 +7,5 @@ ILayerDef::ILayerDef(const char *name)
 {}
 
 ILayer::ILayer(ILayerDef *definition)
+    : name_(definition->name())
 {}

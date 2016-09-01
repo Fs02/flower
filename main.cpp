@@ -1,6 +1,6 @@
 #include <iostream>
 #include <array>
-#include <flower/blob.h>
+#include <flower/feature.h>
 #include <flower/sigmoid.h>
 
 using namespace std;
@@ -10,8 +10,8 @@ int main()
     Eigen::VectorXd data(4);
     data << 0, 1, 2, 3;
 
-    flower::Blob input = flower::Blob(data);
-    flower::Blob output = flower::Blob(data);
+    flower::Feature input = flower::Feature(data);
+    flower::Feature output = flower::Feature(data);
 
     flower::Sigmoid s;
     s.forward(input, output);
@@ -30,4 +30,3 @@ int main()
 
     return 0;
 }
-

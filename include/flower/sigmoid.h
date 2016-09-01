@@ -6,17 +6,17 @@
 
 namespace flower
 {
-    class Blob;
+    class Feature;
 
     class Sigmoid : Layer
     {
     public:
         Sigmoid();
 
-        inline const char* type() const { return "Sigmoid"; }
+        inline const char *type() const { return "Sigmoid"; }
 
-        void forward(Blob& bottom, Blob& top);
-        void backward(Blob& top, Blob& bottom);
+        void forward(Feature &bottom, Feature &top);
+        void backward(Feature &top, Feature &bottom);
     };
 }
 

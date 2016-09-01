@@ -7,7 +7,7 @@ using namespace std;
 
 int main()
 {
-    Eigen::VectorXd data(4);
+    Eigen::MatrixXd data(4, 1);
     data << 0, 1, 2, 3;
 
     flower::Feature input = flower::Feature(data);

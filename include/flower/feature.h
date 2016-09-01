@@ -7,18 +7,18 @@ namespace flower {
     class Feature
     {
     public:
-        Feature(unsigned int size);
-        Feature(const Eigen::VectorXd &data);
+        Feature(unsigned int x, unsigned int y);
+        Feature(const Eigen::MatrixXd &data);
 
-        const Eigen::VectorXd &data() const;
-        const Eigen::VectorXd &diff() const;
+        const Eigen::MatrixXd &data() const;
+        const Eigen::MatrixXd &diff() const;
 
-        void set_data(const Eigen::VectorXd &data);
-        void set_diff(const Eigen::VectorXd &diff);
+        void set_data(const Eigen::MatrixXd &data);
+        void set_diff(const Eigen::MatrixXd &diff);
 
     private:
-        Eigen::VectorXd data_;
-        Eigen::VectorXd diff_;
+        Eigen::MatrixXd data_;
+        Eigen::MatrixXd diff_;
     };
 }
 

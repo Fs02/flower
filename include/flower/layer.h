@@ -4,9 +4,26 @@
 namespace flower {
     class Feature;
 
-    class Layer
+    class ILayerDef
     {
     public:
+        ILayerDef() = delete;
+        ILayerDef(const char *name);
+
+        virtual inline const char *type() const = 0;
+
+        const inline char *name() const { return name_; }
+
+    protected:
+        const char *name_;
+    };
+
+    class ILayer
+    {
+    public:
+        ILayer(ILayerDef *definition);
+        ILayer(const ILayer&) = delete;
+
         virtual inline const char *type() const = 0;
 
         virtual void forward(Feature &bottom, Feature &top) = 0;

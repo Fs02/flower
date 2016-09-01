@@ -8,10 +8,22 @@ namespace flower
 {
     class Feature;
 
-    class Sigmoid : Layer
+    class SigmoidDef : public ILayerDef
     {
     public:
-        Sigmoid();
+        SigmoidDef(const char *name, unsigned int size);
+
+        inline const char *type() const { return "Sigmoid"; }
+        inline unsigned int size() const { return size_; }
+
+    protected:
+        unsigned int size_;
+    };
+
+    class Sigmoid : ILayer
+    {
+    public:
+        Sigmoid(SigmoidDef *definition);
 
         inline const char *type() const { return "Sigmoid"; }
 

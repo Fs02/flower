@@ -6,7 +6,13 @@ using namespace flower;
 
 inline double sigmoid(double x) { return 1.0 / (1.0 + exp(-x)); }
 
-Sigmoid::Sigmoid()
+SigmoidDef::SigmoidDef(const char *name, unsigned int size)
+    : ILayerDef(name), size_(size)
+{}
+
+
+Sigmoid::Sigmoid(SigmoidDef *definition)
+    : ILayer(definition)
 {}
 
 void Sigmoid::forward(Feature &bottom, Feature &top)

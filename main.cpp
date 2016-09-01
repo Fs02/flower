@@ -13,7 +13,8 @@ int main()
     flower::Feature input = flower::Feature(data);
     flower::Feature output = flower::Feature(data);
 
-    flower::Sigmoid s;
+    flower::SigmoidDef s1 = flower::SigmoidDef("s1", 3);
+    flower::Sigmoid s(&s1);
     s.forward(input, output);
     s.backward(output, input);
     cout << "Forward"

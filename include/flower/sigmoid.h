@@ -1,5 +1,5 @@
-#ifndef SIGMOID_H
-#define SIGMOID_H
+#ifndef FLOWER_SIGMOID_H
+#define FLOWER_SIGMOID_H
 
 #include <flower/layer.h>
 #include <cmath>

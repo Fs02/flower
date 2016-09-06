@@ -1,5 +1,5 @@
-#ifndef BLOB_H
-#define BLOB_H
+#ifndef FLOWER_BLOB_H
+#define FLOWER_BLOB_H
 
 #include <Eigen/Core>
 

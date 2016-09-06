@@ -1,5 +1,5 @@
-#ifndef ACTIVATION_H
-#define ACTIVATION_H
+#ifndef FLOWER_LAYER_H
+#define FLOWER_LAYER_H
 
 namespace flower {
     class Feature;

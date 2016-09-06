@@ -1,5 +1,5 @@
-#ifndef FULLY_CONNECTED_H
-#define FULLY_CONNECTED_H
+#ifndef FLOWER_FULLY_CONNECTED_H
+#define FLOWER_FULLY_CONNECTED_H
 
 #include <flower/layer.h>
 #include <flower/feature.h>
@@ -26,8 +26,6 @@ namespace flower
         FullyConnected(FullyConnectedDef *definition);
 
         inline const char *type() const { return "FullyConnected"; }
-
-        void setup(ILayerDef *definition);
 
         void forward(Feature &bottom, Feature &top);
         void backward(Feature &top, Feature &bottom);

@@ -2,27 +2,24 @@
 #define FLOWER_LAYER_H
 
 namespace flower {
+    class Net;
     class Feature;
 
     class ILayerDef
     {
     public:
-        ILayerDef() = delete;
-        ILayerDef(const char *name);
+        ILayerDef();
 
         virtual inline const char *type() const = 0;
-
-        const inline char *name() const { return name_; }
-
-    protected:
-        const char *name_;
     };
 
     class ILayer
     {
     public:
-        ILayer(ILayerDef *definition);
+        ILayer() = delete;
         ILayer(const ILayer&) = delete;
+
+        explicit ILayer(Net* net, const char *name, ILayerDef *definition);
 
         virtual inline const char *type() const = 0;
         virtual inline const char *name() const { return name_; }
@@ -32,6 +29,7 @@ namespace flower {
 
     protected:
         const char *name_;
+        Net* net_;
     };
 }
 

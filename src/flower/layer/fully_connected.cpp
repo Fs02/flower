@@ -1,15 +1,15 @@
-#include <flower/fully_connected.h>
+#include <flower/layer/fully_connected.h>
 #include <flower/feature.h>
 #include <iostream>
 
 using namespace flower;
 
-FullyConnectedDef::FullyConnectedDef(const char *name, unsigned int bottom_size, unsigned int top_size)
-    : ILayerDef(name), bottom_size_(bottom_size), top_size_(top_size)
+FullyConnectedDef::FullyConnectedDef(unsigned int bottom_size, unsigned int top_size)
+    : bottom_size_(bottom_size), top_size_(top_size)
 {}
 
-FullyConnected::FullyConnected(FullyConnectedDef *definition)
-    : ILayer(definition), weights_(0, 0), bias_(0, 0)
+FullyConnected::FullyConnected(Net* net, const char *name, FullyConnectedDef *definition)
+    : ILayer(net, name, definition), weights_(0, 0), bias_(0, 0)
 {
     // TODO: Merge bias to be single multiplication
     // f(x, W, b) = Wx + b

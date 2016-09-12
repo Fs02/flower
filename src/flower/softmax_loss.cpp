@@ -4,12 +4,12 @@
 
 using namespace flower;
 
-flower::SoftmaxLossDef::SoftmaxLossDef(const char *name)
-    : ILayerDef(name)
+flower::SoftmaxLossDef::SoftmaxLossDef()
+    : ILayerDef()
 {}
 
-SoftmaxLoss::SoftmaxLoss(SoftmaxLossDef *definition)
-    : ILayer(definition)
+SoftmaxLoss::SoftmaxLoss(Net *net, const char *name, SoftmaxLossDef *definition)
+    : ILayer(net, name, definition)
 {}
 
 void SoftmaxLoss::forward(Feature &bottom, Feature &top)

@@ -1,8 +1,9 @@
 #include <iostream>
 #include <array>
+#include <flower/net.h>
 #include <flower/feature.h>
-#include <flower/sigmoid.h>
-#include <flower/fully_connected.h>
+#include <flower/layer/sigmoid.h>
+#include <flower/layer/fully_connected.h>
 #include <flower/hinge_loss.h>
 #include <flower/softmax_loss.h>
 #include <Eigen/Core>
@@ -11,6 +12,8 @@ using namespace std;
 
 int main()
 {
+    flower::Net net = flower::Net();
+
     Eigen::MatrixXd data(4, 1);
     data << 10, 1, 2, 4;
 
@@ -19,14 +22,14 @@ int main()
     flower::Feature sig = flower::Feature(data);
     flower::Feature loss = flower::Feature(data);
 
-    flower::SigmoidDef sdef("s1", 3);
-    flower::Sigmoid s(&sdef);
+    flower::SigmoidDef sdef(3);
+    flower::Sigmoid s(&net, "", &sdef);
 
-    flower::FullyConnectedDef fdef("f1", 4, 4);
-    flower::FullyConnected f(&fdef);
+    flower::FullyConnectedDef fdef(4, 4);
+    flower::FullyConnected f(&net, "f1", &fdef);
 
-    flower::HingeLossDef ldef("loss", 1.0);
-    flower::HingeLoss l(&ldef);
+    flower::HingeLossDef ldef(1.0);
+    flower::HingeLoss l(&net, "loss", &ldef);
 
 //    f.forward(input, full);
     s.forward(input, sig);
@@ -44,8 +47,8 @@ int main()
     Eigen::MatrixXd score(3, 1);
     score << -2.85, 0.86, 0.28;
 
-    flower::SoftmaxLossDef sldef("sl");
-    flower::SoftmaxLoss sl(&sldef);
+    flower::SoftmaxLossDef sldef = flower::SoftmaxLossDef();
+    flower::SoftmaxLoss sl(&net, "sl", &sldef);
 
 
     flower::Feature sf = flower::Feature(score);

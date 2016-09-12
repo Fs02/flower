@@ -9,7 +9,7 @@ namespace flower
     class HingeLossDef : public ILayerDef
     {
     public:
-        HingeLossDef(const char *name, double regularization);
+        HingeLossDef(double regularization);
 
         inline const char *type() const { return "SvmLoss"; }
         inline bool regularization() const { return regularization_; }
@@ -21,7 +21,7 @@ namespace flower
     class HingeLoss : ILayer
     {
     public:
-        HingeLoss(HingeLossDef *definition);
+        HingeLoss(Net *net, const char *name, HingeLossDef *definition);
 
         inline const char *type() const { return "SvmLoss"; }
 

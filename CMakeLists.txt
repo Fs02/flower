@@ -2,6 +2,7 @@ project(Flower)
 cmake_minimum_required(VERSION 2.8)
 aux_source_directory(. SRC_LIST)
 aux_source_directory(src/flower SRC_LIST)
+aux_source_directory(src/flower/layer SRC_LIST)
 add_executable(${PROJECT_NAME} ${SRC_LIST})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
@@ -11,6 +12,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/lib/eigen3)
 
 # add src
 add_subdirectory(src/flower)
+add_subdirectory(src/flower/layer)
 
 # add header to qt project folder
 FILE(GLOB_RECURSE LibFiles "include/*.h" "include/*.inl")

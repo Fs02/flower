@@ -2,10 +2,9 @@
 
 using namespace flower;
 
-ILayerDef::ILayerDef(const char *name)
-    : name_(name)
+ILayerDef::ILayerDef()
 {}
 
-ILayer::ILayer(ILayerDef *definition)
-    : name_(definition->name())
+ILayer::ILayer(Net* net, const char *name, ILayerDef *definition)
+    : net_(net), name_(name)
 {}

@@ -3,12 +3,12 @@
 
 using namespace flower;
 
-flower::HingeLossDef::HingeLossDef(const char *name, double regularization)
-    : ILayerDef(name), regularization_(regularization)
+flower::HingeLossDef::HingeLossDef(double regularization)
+    : ILayerDef(), regularization_(regularization)
 {}
 
-HingeLoss::HingeLoss(HingeLossDef *definition)
-    : ILayer(definition), regularization_(definition->regularization())
+HingeLoss::HingeLoss(Net *net, const char* name, HingeLossDef *definition)
+    : ILayer(net, name, definition), regularization_(definition->regularization())
 {}
 
 void HingeLoss::forward(Feature &bottom, Feature &top)

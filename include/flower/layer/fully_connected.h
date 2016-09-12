@@ -2,6 +2,7 @@
 #define FLOWER_FULLY_CONNECTED_H
 
 #include <flower/layer.h>
+#include <flower/net.h>
 #include <flower/feature.h>
 
 namespace flower
@@ -9,9 +10,10 @@ namespace flower
     class FullyConnectedDef : public ILayerDef
     {
     public:
-        FullyConnectedDef(const char *name, unsigned int bottom_size, unsigned int top_size);
+        FullyConnectedDef(unsigned int bottom_size, unsigned int top_size);
 
         inline const char *type() const { return "FullyConnected"; }
+
         inline unsigned int bottom_size() const { return bottom_size_; }
         inline unsigned int top_size() const { return top_size_; }
 
@@ -23,7 +25,7 @@ namespace flower
     class FullyConnected : ILayer
     {
     public:
-        FullyConnected(FullyConnectedDef *definition);
+        FullyConnected(Net* net, const char *name, FullyConnectedDef *definition);
 
         inline const char *type() const { return "FullyConnected"; }
 

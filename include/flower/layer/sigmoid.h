@@ -2,6 +2,7 @@
 #define FLOWER_SIGMOID_H
 
 #include <flower/layer.h>
+#include <flower/feature.h>
 #include <cmath>
 
 namespace flower
@@ -11,19 +12,17 @@ namespace flower
     class SigmoidDef : public ILayerDef
     {
     public:
-        SigmoidDef(const char *name, unsigned int size);
+        SigmoidDef(unsigned int size);
 
         inline const char *type() const { return "Sigmoid"; }
-        inline unsigned int size() const { return size_; }
 
-    protected:
         unsigned int size_;
     };
 
     class Sigmoid : ILayer
     {
     public:
-        Sigmoid(SigmoidDef *definition);
+        explicit Sigmoid(Net* net, const char *name, SigmoidDef *definition);
 
         inline const char *type() const { return "Sigmoid"; }
 

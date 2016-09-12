@@ -1,18 +1,17 @@
-#include <flower/sigmoid.h>
-#include <flower/feature.h>
+#include <flower/layer/sigmoid.h>
 #include <iostream>
 
 using namespace flower;
 
 inline double sigmoid(double x) { return 1.0 / (1.0 + exp(-x)); }
 
-SigmoidDef::SigmoidDef(const char *name, unsigned int size)
-    : ILayerDef(name), size_(size)
+SigmoidDef::SigmoidDef(unsigned int size)
+    : ILayerDef(), size_(size)
 {}
 
 
-Sigmoid::Sigmoid(SigmoidDef *definition)
-    : ILayer(definition)
+Sigmoid::Sigmoid(Net* net, const char *name, SigmoidDef *definition)
+    : ILayer(net, name, definition)
 {}
 
 void Sigmoid::forward(Feature &bottom, Feature &top)

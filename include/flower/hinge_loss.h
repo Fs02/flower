@@ -14,11 +14,13 @@ namespace flower
         inline const char *type() const { return "SvmLoss"; }
         inline bool regularization() const { return regularization_; }
 
+        ILayer *create(Net *net, const char* name);
+
     protected:
         double regularization_;
     };
 
-    class HingeLoss : ILayer
+    class HingeLoss : public ILayer
     {
     public:
         HingeLoss(Net *net, const char *name, HingeLossDef *definition);

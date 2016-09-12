@@ -9,6 +9,11 @@ SigmoidDef::SigmoidDef(unsigned int size)
     : ILayerDef(), size_(size)
 {}
 
+ILayer *SigmoidDef::create(Net *net, const char *name)
+{
+    return new Sigmoid(net, name, this);
+}
+
 
 Sigmoid::Sigmoid(Net* net, const char *name, SigmoidDef *definition)
     : ILayer(net, name, definition)

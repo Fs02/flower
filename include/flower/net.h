@@ -16,9 +16,14 @@ namespace flower {
         void train(const std::vector<Eigen::MatrixXd>& data, const std::vector<Eigen::MatrixXd>& labels);
         void eval();
 
+        template<class T>
+        void add(const char *name, ILayerDef* definition);
+
     private:
-        std::unordered_map<char*, ILayer*> layers_;
+        std::unordered_map<const char*, ILayer*> layers_;
     };
 }
+
+#include <flower/net.inl>
 
 #endif

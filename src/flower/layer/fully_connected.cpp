@@ -8,6 +8,11 @@ FullyConnectedDef::FullyConnectedDef(unsigned int bottom_size, unsigned int top_
     : bottom_size_(bottom_size), top_size_(top_size)
 {}
 
+ILayer *FullyConnectedDef::create(Net *net, const char *name)
+{
+    return new FullyConnected(net, name, this);
+}
+
 FullyConnected::FullyConnected(Net* net, const char *name, FullyConnectedDef *definition)
     : ILayer(net, name, definition), weights_(0, 0), bias_(0, 0)
 {

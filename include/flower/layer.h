@@ -4,6 +4,7 @@
 namespace flower {
     class Net;
     class Feature;
+    class ILayer;
 
     class ILayerDef
     {
@@ -11,6 +12,8 @@ namespace flower {
         ILayerDef();
 
         virtual inline const char *type() const = 0;
+
+        virtual ILayer *create(Net *net, const char* name) = 0;
     };
 
     class ILayer

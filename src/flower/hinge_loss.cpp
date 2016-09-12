@@ -3,9 +3,14 @@
 
 using namespace flower;
 
-flower::HingeLossDef::HingeLossDef(double regularization)
+HingeLossDef::HingeLossDef(double regularization)
     : ILayerDef(), regularization_(regularization)
 {}
+
+ILayer *HingeLossDef::create(Net *net, const char* name)
+{
+    return new HingeLoss(net, name, this);
+}
 
 HingeLoss::HingeLoss(Net *net, const char* name, HingeLossDef *definition)
     : ILayer(net, name, definition), regularization_(definition->regularization())

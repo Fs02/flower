@@ -4,9 +4,14 @@
 
 using namespace flower;
 
-flower::SoftmaxLossDef::SoftmaxLossDef()
+SoftmaxLossDef::SoftmaxLossDef()
     : ILayerDef()
 {}
+
+ILayer *SoftmaxLossDef::create(Net *net, const char *name)
+{
+    return new SoftmaxLoss(net, name, this);
+}
 
 SoftmaxLoss::SoftmaxLoss(Net *net, const char *name, SoftmaxLossDef *definition)
     : ILayer(net, name, definition)

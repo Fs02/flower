@@ -17,12 +17,14 @@ namespace flower
         inline unsigned int bottom_size() const { return bottom_size_; }
         inline unsigned int top_size() const { return top_size_; }
 
+        ILayer *create(Net *net, const char* name);
+
     protected:
         unsigned int bottom_size_;
         unsigned int top_size_;
     };
 
-    class FullyConnected : ILayer
+    class FullyConnected : public ILayer
     {
     public:
         FullyConnected(Net* net, const char *name, FullyConnectedDef *definition);

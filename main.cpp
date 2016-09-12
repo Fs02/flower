@@ -31,6 +31,8 @@ int main()
     flower::HingeLossDef ldef(1.0);
     flower::HingeLoss l(&net, "loss", &ldef);
 
+    net.add<flower::Sigmoid>("Sigmoid1", &sdef);
+
 //    f.forward(input, full);
     s.forward(input, sig);
     l.forward(sig, loss);

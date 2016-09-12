@@ -17,9 +17,11 @@ namespace flower
         inline const char *type() const { return "Sigmoid"; }
 
         unsigned int size_;
+
+        ILayer *create(Net *net, const char* name);
     };
 
-    class Sigmoid : ILayer
+    class Sigmoid : public ILayer
     {
     public:
         explicit Sigmoid(Net* net, const char *name, SigmoidDef *definition);

@@ -13,9 +13,11 @@ namespace flower
         SoftmaxLossDef();
 
         inline const char *type() const { return "SoftmaxLoss"; }
+
+        ILayer *create(Net *net, const char* name);
     };
 
-    class SoftmaxLoss : ILayer
+    class SoftmaxLoss : public ILayer
     {
     public:
         SoftmaxLoss(Net *net, const char *name, SoftmaxLossDef *definition);

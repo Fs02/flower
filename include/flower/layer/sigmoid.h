@@ -2,8 +2,6 @@
 #define FLOWER_SIGMOID_H
 
 #include <flower/layer.h>
-#include <flower/net.h>
-#include <flower/feature.h>
 
 namespace flower
 {
@@ -18,6 +16,7 @@ namespace flower
 
         unsigned int size_;
 
+    protected:
         layer_ptr create(Net *net, const char* name) const;
     };
 
@@ -28,11 +27,11 @@ namespace flower
 
         inline const char *type() const { return "Sigmoid"; }
 
-        void forward(Feature &bottom, Feature &top);
-        void backward(Feature &top, Feature &bottom);
+        Eigen::MatrixXd forward(const Eigen::MatrixXd &data);
+        Eigen::MatrixXd backward(const Eigen::MatrixXd &errors);
 
-        Eigen::MatrixXd forward(const Eigen::MatrixXd &bottom_feat);
-        Eigen::MatrixXd backward(const Eigen::MatrixXd &top_diff);
+    protected:
+        Eigen::MatrixXd data_;
     };
 }
 

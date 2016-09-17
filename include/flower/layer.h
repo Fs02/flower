@@ -6,18 +6,19 @@
 
 namespace flower {
     class Net;
-    class Feature;
     class ILayer;
 
     typedef std::shared_ptr<ILayer> layer_ptr;
 
     class ILayerDef
     {
+        friend class Net;
     public:
         ILayerDef();
 
         virtual inline const char *type() const = 0;
 
+    protected:
         virtual layer_ptr create(Net *net, const char* name) const = 0;
     };
 
@@ -27,19 +28,17 @@ namespace flower {
         ILayer() = delete;
         ILayer(const ILayer&) = delete;
 
-        explicit ILayer(Net* net, const char *name, const ILayerDef &definition, unsigned int size_x, unsigned size_y);
+        explicit ILayer(Net* net, const char *name, const ILayerDef &definition);
 
         virtual inline const char *type() const = 0;
         virtual inline const char *name() const { return name_; }
 
-        virtual Eigen::MatrixXd forward(const Eigen::MatrixXd &bottom_feat) = 0;
-        virtual Eigen::MatrixXd backward(const Eigen::MatrixXd &top_diff) = 0;
+        virtual Eigen::MatrixXd forward(const Eigen::MatrixXd &data) = 0;
+        virtual Eigen::MatrixXd backward(const Eigen::MatrixXd &errors) = 0;
 
     protected:
         const char *name_;
         Net* net_;
-        Eigen::MatrixXd feat_;
-        Eigen::MatrixXd diff_;
     };
 }
 

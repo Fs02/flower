@@ -2,8 +2,6 @@
 #define FLOWER_FULLY_CONNECTED_H
 
 #include <flower/layer.h>
-#include <flower/net.h>
-#include <flower/feature.h>
 
 namespace flower
 {
@@ -17,9 +15,9 @@ namespace flower
         inline unsigned int bottom_size() const { return bottom_size_; }
         inline unsigned int top_size() const { return top_size_; }
 
+    protected:
         layer_ptr create(Net *net, const char* name) const;
 
-    protected:
         unsigned int bottom_size_;
         unsigned int top_size_;
     };
@@ -31,22 +29,15 @@ namespace flower
 
         inline const char *type() const { return "FullyConnected"; }
 
-        void forward(Feature &bottom, Feature &top);
-        void backward(Feature &top, Feature &bottom);
-
-        Eigen::MatrixXd forward(const Eigen::MatrixXd &bottom_feat);
-        Eigen::MatrixXd backward(const Eigen::MatrixXd &top_diff);
+        Eigen::MatrixXd forward(const Eigen::MatrixXd &data);
+        Eigen::MatrixXd backward(const Eigen::MatrixXd &errors);
 
         static int count;
 
     protected:
-        Eigen::MatrixXd weight_feat;
-        Eigen::MatrixXd weight_diff;
-        Eigen::MatrixXd bias_feat;
-        Eigen::MatrixXd bias_diff;
-
-        Feature weights_;
-        Feature bias_;
+        Eigen::MatrixXd data_;
+        Eigen::MatrixXd weights_;
+        Eigen::MatrixXd bias_;
     };
 }
 

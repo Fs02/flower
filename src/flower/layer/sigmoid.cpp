@@ -1,6 +1,4 @@
 #include <flower/layer/sigmoid.h>
-#include <flower/feature.h>
-#include <iostream>
 
 using namespace flower;
 
@@ -13,36 +11,20 @@ SigmoidDef::SigmoidDef(unsigned int size)
 layer_ptr SigmoidDef::create(Net *net, const char *name) const
 {
     return std::make_shared<Sigmoid>(net, name, *this);
-//    return new Sigmoid(net, name, this);
 }
 
 
 Sigmoid::Sigmoid(Net* net, const char *name, const SigmoidDef &definition)
-    : ILayer(net, name, definition, 1, definition.size())
+    : ILayer(net, name, definition), data_(0, 0)
 {}
 
-void Sigmoid::forward(Feature &bottom, Feature &top)
+Eigen::MatrixXd Sigmoid::forward(const Eigen::MatrixXd &data)
 {
-    auto data = bottom.data().unaryExpr(&sigmoid);
-    top.set_data(data);
+    data_ = data;
+    return data.unaryExpr(&sigmoid);
 }
 
-void Sigmoid::backward(Feature &top, Feature &bottom)
+Eigen::MatrixXd Sigmoid::backward(const Eigen::MatrixXd &errors)
 {
-    // calculate derivative in one pass
-    // d = (sigmoid(bottom.data) * (1.0 - sigmoid(bottom.data))) * top.diff
-    auto d = bottom.data().unaryExpr([](double x) { return sigmoid(x) * (1.0 - sigmoid(x)); }).cwiseProduct(top.diff());
-    bottom.set_diff(bottom.diff() + d);
-}
-
-Eigen::MatrixXd Sigmoid::forward(const Eigen::MatrixXd &bottom_feat)
-{
-    feat_ = bottom_feat;
-    return bottom_feat.unaryExpr(&sigmoid);
-}
-
-Eigen::MatrixXd Sigmoid::backward(const Eigen::MatrixXd &top_diff)
-{
-    diff_ = feat_.unaryExpr([](double x) { return sigmoid(x) * (1.0 - sigmoid(x)); }).transpose().cwiseProduct(top_diff);
-    return diff_;
+    return data_.unaryExpr([](double x) { return sigmoid(x) * (1.0 - sigmoid(x)); }).transpose().cwiseProduct(errors);
 }

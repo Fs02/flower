@@ -2,7 +2,6 @@
 #define FLOWER_NET_H
 
 #include <flower/layer.h>
-#include <flower/feature.h>
 #include <Eigen/Core>
 #include <vector>
 
@@ -13,8 +12,8 @@ namespace flower {
         Net();
         ~Net();
 
-        void train(const Eigen::MatrixXd& data, const Eigen::MatrixXd& label);
-        void eval();
+        double train(const Eigen::MatrixXd& data, const Eigen::MatrixXd& target);
+        double eval();
 
         void add(const char *name, const ILayerDef& definition);
 

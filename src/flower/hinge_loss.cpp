@@ -7,13 +7,13 @@ HingeLossDef::HingeLossDef(double regularization)
     : ILayerDef(), regularization_(regularization)
 {}
 
-ILayer *HingeLossDef::create(Net *net, const char* name)
+layer_ptr HingeLossDef::create(Net *net, const char* name) const
 {
-    return new HingeLoss(net, name, this);
+    return std::make_shared<HingeLoss>(net, name, *this);
 }
 
-HingeLoss::HingeLoss(Net *net, const char* name, HingeLossDef *definition)
-    : ILayer(net, name, definition), regularization_(definition->regularization())
+HingeLoss::HingeLoss(Net *net, const char* name, const HingeLossDef &definition)
+    : ILayer(net, name, definition, 0, 0), regularization_(definition.regularization())
 {}
 
 void HingeLoss::forward(Feature &bottom, Feature &top)
@@ -28,4 +28,15 @@ void HingeLoss::forward(Feature &bottom, Feature &top)
 void HingeLoss::backward(Feature &top, Feature &bottom)
 {
 
+}
+
+
+const Eigen::MatrixXd &HingeLoss::forward(const Eigen::MatrixXd &bottom_feat)
+{
+    return bottom_feat;
+}
+
+const Eigen::MatrixXd &HingeLoss::backward(const Eigen::MatrixXd &top_diff)
+{
+    return top_diff;
 }

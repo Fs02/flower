@@ -14,7 +14,7 @@ namespace flower
         inline const char *type() const { return "SvmLoss"; }
         inline bool regularization() const { return regularization_; }
 
-        ILayer *create(Net *net, const char* name);
+        layer_ptr create(Net *net, const char* name) const;
 
     protected:
         double regularization_;
@@ -23,12 +23,15 @@ namespace flower
     class HingeLoss : public ILayer
     {
     public:
-        HingeLoss(Net *net, const char *name, HingeLossDef *definition);
+        HingeLoss(Net *net, const char *name, const HingeLossDef &definition);
 
         inline const char *type() const { return "SvmLoss"; }
 
         void forward(Feature &bottom, Feature &top);
         void backward(Feature &top, Feature &bottom);
+
+        const Eigen::MatrixXd &forward(const Eigen::MatrixXd &bottom_feat);
+        const Eigen::MatrixXd &backward(const Eigen::MatrixXd &top_diff);
 
     protected:
         double regularization_;

@@ -17,7 +17,7 @@ namespace flower
         inline unsigned int bottom_size() const { return bottom_size_; }
         inline unsigned int top_size() const { return top_size_; }
 
-        ILayer *create(Net *net, const char* name);
+        layer_ptr create(Net *net, const char* name) const;
 
     protected:
         unsigned int bottom_size_;
@@ -27,14 +27,22 @@ namespace flower
     class FullyConnected : public ILayer
     {
     public:
-        FullyConnected(Net* net, const char *name, FullyConnectedDef *definition);
+        FullyConnected(Net* net, const char *name, const FullyConnectedDef &definition);
 
         inline const char *type() const { return "FullyConnected"; }
 
         void forward(Feature &bottom, Feature &top);
         void backward(Feature &top, Feature &bottom);
 
+        const Eigen::MatrixXd &forward(const Eigen::MatrixXd &bottom_feat);
+        const Eigen::MatrixXd &backward(const Eigen::MatrixXd &top_diff);
+
     protected:
+        Eigen::MatrixXd weight_feat;
+        Eigen::MatrixXd weight_diff;
+        Eigen::MatrixXd bias_feat;
+        Eigen::MatrixXd bias_diff;
+
         Feature weights_;
         Feature bias_;
     };

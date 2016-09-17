@@ -1,4 +1,5 @@
 #include <flower/layer/sigmoid.h>
+#include <flower/feature.h>
 #include <iostream>
 
 using namespace flower;
@@ -9,14 +10,15 @@ SigmoidDef::SigmoidDef(unsigned int size)
     : ILayerDef(), size_(size)
 {}
 
-ILayer *SigmoidDef::create(Net *net, const char *name)
+layer_ptr SigmoidDef::create(Net *net, const char *name) const
 {
-    return new Sigmoid(net, name, this);
+    return std::make_shared<Sigmoid>(net, name, *this);
+//    return new Sigmoid(net, name, this);
 }
 
 
-Sigmoid::Sigmoid(Net* net, const char *name, SigmoidDef *definition)
-    : ILayer(net, name, definition)
+Sigmoid::Sigmoid(Net* net, const char *name, const SigmoidDef &definition)
+    : ILayer(net, name, definition, definition.size(), definition.size())
 {}
 
 void Sigmoid::forward(Feature &bottom, Feature &top)
@@ -31,4 +33,16 @@ void Sigmoid::backward(Feature &top, Feature &bottom)
     // d = (sigmoid(bottom.data) * (1.0 - sigmoid(bottom.data))) * top.diff
     auto d = bottom.data().unaryExpr([](double x) { return sigmoid(x) * (1.0 - sigmoid(x)); }).cwiseProduct(top.diff());
     bottom.set_diff(bottom.diff() + d);
+}
+
+const Eigen::MatrixXd &Sigmoid::forward(const Eigen::MatrixXd &bottom_feat)
+{
+    feat_ = bottom_feat.unaryExpr(&sigmoid);
+    return feat_;
+}
+
+const Eigen::MatrixXd &Sigmoid::backward(const Eigen::MatrixXd &top_diff)
+{
+    diff_ = diff_ + feat_.unaryExpr([](double x) { return sigmoid(x) * (1.0 - sigmoid(x)); }).cwiseProduct(top_diff);
+    return diff_;
 }

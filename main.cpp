@@ -22,20 +22,26 @@ int main()
     flower::Feature sig = flower::Feature(data);
     flower::Feature loss = flower::Feature(data);
 
-    flower::SigmoidDef sdef(3);
-    flower::Sigmoid s(&net, "", &sdef);
-
     flower::FullyConnectedDef fdef(4, 4);
-    flower::FullyConnected f(&net, "f1", &fdef);
+    flower::FullyConnected f(&net, "f1", fdef);
 
-    flower::HingeLossDef ldef(1.0);
-    flower::HingeLoss l(&net, "loss", &ldef);
+    flower::SigmoidDef sdef(4);
+    flower::Sigmoid s(&net, "", sdef);
 
-    net.add<flower::Sigmoid>("Sigmoid1", &sdef);
+//    flower::HingeLossDef ldef(1.0);
+//    flower::HingeLoss l(&net, "loss", &ldef);
+
+    net.add("FullyConnected1", fdef);
+    net.add("Sigmoid1", sdef);
+    net.add("FullyConnected2", fdef);
+    net.add("Sigmoid2", sdef);
+    net.add("FullyConnected3", fdef);
+
+    net.train(data, data);
 
 //    f.forward(input, full);
-    s.forward(input, sig);
-    l.forward(sig, loss);
+//    s.forward(input, sig);
+//    l.forward(sig, loss);
 
     cout << "Forward"
          << "\n Input: \n"
@@ -49,14 +55,14 @@ int main()
     Eigen::MatrixXd score(3, 1);
     score << -2.85, 0.86, 0.28;
 
-    flower::SoftmaxLossDef sldef = flower::SoftmaxLossDef();
-    flower::SoftmaxLoss sl(&net, "sl", &sldef);
+//    flower::SoftmaxLossDef sldef = flower::SoftmaxLossDef();
+//    flower::SoftmaxLoss sl(&net, "sl", &sldef);
 
 
     flower::Feature sf = flower::Feature(score);
     flower::Feature of = flower::Feature(score);
 
-    sl.forward(sf, of);
+//    sl.forward(sf, of);
 
     return 0;
 }

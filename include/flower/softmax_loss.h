@@ -14,18 +14,21 @@ namespace flower
 
         inline const char *type() const { return "SoftmaxLoss"; }
 
-        ILayer *create(Net *net, const char* name);
+        layer_ptr create(Net *net, const char* name) const;
     };
 
     class SoftmaxLoss : public ILayer
     {
     public:
-        SoftmaxLoss(Net *net, const char *name, SoftmaxLossDef *definition);
+        SoftmaxLoss(Net *net, const char *name, const SoftmaxLossDef &definition);
 
         inline const char *type() const { return "SoftmaxLoss"; }
 
         void forward(Feature &bottom, Feature &top);
         void backward(Feature &top, Feature &bottom);
+
+        const Eigen::MatrixXd &forward(const Eigen::MatrixXd &bottom_feat);
+        const Eigen::MatrixXd &backward(const Eigen::MatrixXd &top_diff);
     };
 }
 

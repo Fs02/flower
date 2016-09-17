@@ -18,7 +18,7 @@ layer_ptr SigmoidDef::create(Net *net, const char *name) const
 
 
 Sigmoid::Sigmoid(Net* net, const char *name, const SigmoidDef &definition)
-    : ILayer(net, name, definition, definition.size(), definition.size())
+    : ILayer(net, name, definition, 1, definition.size())
 {}
 
 void Sigmoid::forward(Feature &bottom, Feature &top)
@@ -35,14 +35,14 @@ void Sigmoid::backward(Feature &top, Feature &bottom)
     bottom.set_diff(bottom.diff() + d);
 }
 
-const Eigen::MatrixXd &Sigmoid::forward(const Eigen::MatrixXd &bottom_feat)
+Eigen::MatrixXd Sigmoid::forward(const Eigen::MatrixXd &bottom_feat)
 {
-    feat_ = bottom_feat.unaryExpr(&sigmoid);
-    return feat_;
+    feat_ = bottom_feat;
+    return bottom_feat.unaryExpr(&sigmoid);
 }
 
-const Eigen::MatrixXd &Sigmoid::backward(const Eigen::MatrixXd &top_diff)
+Eigen::MatrixXd Sigmoid::backward(const Eigen::MatrixXd &top_diff)
 {
-    diff_ = diff_ + feat_.unaryExpr([](double x) { return sigmoid(x) * (1.0 - sigmoid(x)); }).cwiseProduct(top_diff);
+    diff_ = feat_.unaryExpr([](double x) { return sigmoid(x) * (1.0 - sigmoid(x)); }).transpose().cwiseProduct(top_diff);
     return diff_;
 }

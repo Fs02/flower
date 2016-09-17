@@ -32,12 +32,12 @@ void SoftmaxLoss::backward(Feature &top, Feature &bottom)
 
 }
 
-const Eigen::MatrixXd &SoftmaxLoss::forward(const Eigen::MatrixXd &bottom_feat)
+Eigen::MatrixXd SoftmaxLoss::forward(const Eigen::MatrixXd &bottom_feat)
 {
     return bottom_feat;
 }
 
-const Eigen::MatrixXd &SoftmaxLoss::backward(const Eigen::MatrixXd &top_diff)
+Eigen::MatrixXd SoftmaxLoss::backward(const Eigen::MatrixXd &top_diff)
 {
     return top_diff;
 }

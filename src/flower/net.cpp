@@ -4,6 +4,10 @@ using namespace flower;
 
 #include <iostream>
 
+double square(double x) {
+    return x * x;
+}
+
 Net::Net()
     : layers_()
 {}
@@ -15,27 +19,41 @@ Net::~Net()
 
 void Net::train(const Eigen::MatrixXd& data, const Eigen::MatrixXd& label)
 {
-    std::cout << "\ntrain--\n";
+//    std::cout << "\nforw--\n";
 
-    auto feat = data;
+    Eigen::MatrixXd feat = data;
     // forward propagate
     for(const auto &layer : layers_)
     {
         std::cout << "\n" << layer.first;
         feat = layer.second->forward(feat);
+        std::cout << "\n" << feat
+                  << "\n" << feat.rows() << " x " << feat.cols();
     }
 
-    std::cout << "\nfeat--\n"
-              << feat
-              << "\nfeat--";
+    std::cout << "\nback\n";
 
-    auto loss = label - feat;
+    // mse
+    std::cout << "ERROR :"
+              << (label - feat).unaryExpr(&square).sum() * 0.5
+              << std::endl;
+
+    Eigen::MatrixXd loss = -(label - feat).transpose();
+    std::cout << "\n"
+              << loss
+              << "\n" << loss.rows() << " x " << loss.cols();
 
     for(auto i = layers_.rbegin(); i != layers_.rend(); ++i)
     {
         std::cout << "\n" << (*i).first;
-        (*i).second->backward(loss);
+        loss = (*i).second->backward(loss);
+        std::cout << "\n" << loss
+                  << "\n" << loss.rows() << " x " << loss.cols();
     }
+
+    std::cout << "\nloss\n"
+              << loss
+              << "\nloss\n";
 }
 
 void Net::eval()

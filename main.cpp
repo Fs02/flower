@@ -14,19 +14,22 @@ int main()
 {
     flower::Net net = flower::Net();
 
-    Eigen::MatrixXd data(4, 1);
-    data << 10, 1, 2, 4;
+    Eigen::MatrixXd data(1, 2);
+    data << 0.05, 0.1;
+
+    Eigen::MatrixXd label(1, 2);
+    label << 0.01, 0.99;
 
     flower::Feature input = flower::Feature(data);
     flower::Feature full = flower::Feature(data);
     flower::Feature sig = flower::Feature(data);
     flower::Feature loss = flower::Feature(data);
 
-    flower::FullyConnectedDef fdef(4, 4);
-    flower::FullyConnected f(&net, "f1", fdef);
-
-    flower::SigmoidDef sdef(4);
+    flower::SigmoidDef sdef(2);
     flower::Sigmoid s(&net, "", sdef);
+
+    flower::FullyConnectedDef fdef(2, 2);
+//    flower::FullyConnected f(&net, "f1", fdef);
 
 //    flower::HingeLossDef ldef(1.0);
 //    flower::HingeLoss l(&net, "loss", &ldef);
@@ -35,22 +38,26 @@ int main()
     net.add("Sigmoid1", sdef);
     net.add("FullyConnected2", fdef);
     net.add("Sigmoid2", sdef);
-    net.add("FullyConnected3", fdef);
+//    net.add("FullyConnected3", fdef);
 
-    net.train(data, data);
+    for (int i = 0; i < 2; ++i)
+    {
+        std::cout << "epoch : " << i << endl;
+        net.train(data, label);
+    }
 
 //    f.forward(input, full);
 //    s.forward(input, sig);
 //    l.forward(sig, loss);
 
-    cout << "Forward"
-         << "\n Input: \n"
-         << input.data()
-         << "\n Full: \n"
-         << full.data()
-         << "\n Sig: \n"
-         << sig.data()
-         << endl;
+//    cout << "Forward"
+//         << "\n Input: \n"
+//         << input.data()
+//         << "\n Full: \n"
+//         << full.data()
+//         << "\n Sig: \n"
+//         << sig.data()
+//         << endl;
 
     Eigen::MatrixXd score(3, 1);
     score << -2.85, 0.86, 0.28;

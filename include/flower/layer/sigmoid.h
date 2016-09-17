@@ -31,8 +31,8 @@ namespace flower
         void forward(Feature &bottom, Feature &top);
         void backward(Feature &top, Feature &bottom);
 
-        const Eigen::MatrixXd &forward(const Eigen::MatrixXd &bottom_feat);
-        const Eigen::MatrixXd &backward(const Eigen::MatrixXd &top_diff);
+        Eigen::MatrixXd forward(const Eigen::MatrixXd &bottom_feat);
+        Eigen::MatrixXd backward(const Eigen::MatrixXd &top_diff);
     };
 }
 

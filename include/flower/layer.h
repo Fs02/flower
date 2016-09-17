@@ -32,8 +32,8 @@ namespace flower {
         virtual inline const char *type() const = 0;
         virtual inline const char *name() const { return name_; }
 
-        virtual const Eigen::MatrixXd &forward(const Eigen::MatrixXd &bottom_feat) = 0;
-        virtual const Eigen::MatrixXd &backward(const Eigen::MatrixXd &top_diff) = 0;
+        virtual Eigen::MatrixXd forward(const Eigen::MatrixXd &bottom_feat) = 0;
+        virtual Eigen::MatrixXd backward(const Eigen::MatrixXd &top_diff) = 0;
 
     protected:
         const char *name_;

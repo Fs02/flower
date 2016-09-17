@@ -31,12 +31,12 @@ void HingeLoss::backward(Feature &top, Feature &bottom)
 }
 
 
-const Eigen::MatrixXd &HingeLoss::forward(const Eigen::MatrixXd &bottom_feat)
+Eigen::MatrixXd HingeLoss::forward(const Eigen::MatrixXd &bottom_feat)
 {
     return bottom_feat;
 }
 
-const Eigen::MatrixXd &HingeLoss::backward(const Eigen::MatrixXd &top_diff)
+Eigen::MatrixXd HingeLoss::backward(const Eigen::MatrixXd &top_diff)
 {
     return top_diff;
 }

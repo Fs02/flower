@@ -11,8 +11,6 @@ layer_ptr FullyConnectedDef::create(Net *net, const char *name) const
     return std::make_shared<FullyConnected>(net, name, *this);
 }
 
-int FullyConnected::count = 0;
-
 FullyConnected::FullyConnected(Net* net, const char *name, const FullyConnectedDef &definition)
     : ILayer(net, name, definition), data_(0, 0),
       weights_(Eigen::MatrixXd::Random(definition.bottom_size(), definition.top_size())),

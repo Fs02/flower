@@ -32,8 +32,6 @@ namespace flower
         Eigen::MatrixXd forward(const Eigen::MatrixXd &data);
         Eigen::MatrixXd backward(const Eigen::MatrixXd &errors);
 
-        static int count;
-
     protected:
         Eigen::MatrixXd data_;
         Eigen::MatrixXd weights_;

@@ -3,6 +3,7 @@
 #include <flower/layer/tanh.h>
 #include <flower/layer/sigmoid.h>
 #include <flower/layer/relu.h>
+#include <flower/layer/elu.h>
 #include <flower/layer/fully_connected.h>
 #include <Eigen/Core>
 
@@ -18,16 +19,19 @@ int main()
     Eigen::MatrixXd target(1, 2);
     target << 0.01, 0.99;
 
+    flower::EluDef edef(2);
     flower::ReluDef rdef(2);
     flower::SigmoidDef sdef(2);
     flower::TanhDef tdef(2);
     flower::FullyConnectedDef fdef(2, 2);
 
     net.add("FullyConnected1", fdef);
-    net.add("Relu", rdef);
+    net.add("Elu", edef);
     net.add("FullyConnected2", fdef);
-    net.add("Sigmoid", sdef);
+    net.add("Relu", rdef);
     net.add("FullyConnected3", fdef);
+    net.add("Sigmoid", sdef);
+    net.add("FullyConnected4", fdef);
     net.add("Tanh", tdef);
 
     for (int i = 0; i < 1000; ++i)

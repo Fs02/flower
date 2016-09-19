@@ -2,8 +2,8 @@
 
 using namespace flower;
 
-FullyConnectedDef::FullyConnectedDef(unsigned int bottom_size, unsigned int top_size)
-    : ILayerDef(), bottom_size_(bottom_size), top_size_(top_size)
+FullyConnectedDef::FullyConnectedDef(unsigned int input_size, unsigned int output_size)
+    : ILayerDef(), input_size_(input_size), output_size_(output_size)
 {}
 
 layer_ptr FullyConnectedDef::create(Net *net, const char *name) const
@@ -13,8 +13,8 @@ layer_ptr FullyConnectedDef::create(Net *net, const char *name) const
 
 FullyConnected::FullyConnected(Net* net, const char *name, const FullyConnectedDef &definition)
     : ILayer(net, name, definition), data_(0, 0),
-      weights_(Eigen::MatrixXd::Random(definition.bottom_size(), definition.top_size())),
-      bias_(Eigen::MatrixXd::Constant(1, definition.top_size(), 0.0))
+      weights_(Eigen::MatrixXd::Random(definition.input_size(), definition.output_size())),
+      bias_(Eigen::MatrixXd::Constant(1, definition.output_size(), 0.0))
 {}
 
 Eigen::MatrixXd FullyConnected::forward(const Eigen::MatrixXd &data)

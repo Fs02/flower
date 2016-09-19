@@ -8,18 +8,18 @@ namespace flower
     class FullyConnectedDef : public ILayerDef
     {
     public:
-        FullyConnectedDef(unsigned int bottom_size, unsigned int top_size);
+        FullyConnectedDef(unsigned int input_size, unsigned int output_size);
 
         inline const char *type() const { return "FullyConnected"; }
 
-        inline unsigned int bottom_size() const { return bottom_size_; }
-        inline unsigned int top_size() const { return top_size_; }
+        inline unsigned int input_size() const { return input_size_; }
+        inline unsigned int output_size() const { return output_size_; }
 
     protected:
         layer_ptr create(Net *net, const char* name) const;
 
-        unsigned int bottom_size_;
-        unsigned int top_size_;
+        unsigned int input_size_;
+        unsigned int output_size_;
     };
 
     class FullyConnected : public ILayer

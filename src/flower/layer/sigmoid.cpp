@@ -3,6 +3,7 @@
 using namespace flower;
 
 inline double sigmoid(double x) { return 1.0 / (1.0 + exp(-x)); }
+inline double d_sigmoid(double x) { return sigmoid(x) * (1.0 - sigmoid(x)); }
 
 SigmoidDef::SigmoidDef(unsigned int size)
     : ILayerDef(), size_(size)
@@ -26,5 +27,5 @@ Eigen::MatrixXd Sigmoid::forward(const Eigen::MatrixXd &data)
 
 Eigen::MatrixXd Sigmoid::backward(const Eigen::MatrixXd &errors)
 {
-    return data_.unaryExpr([](double x) { return sigmoid(x) * (1.0 - sigmoid(x)); }).transpose().cwiseProduct(errors);
+    return data_.unaryExpr(&d_sigmoid).transpose().cwiseProduct(errors);
 }

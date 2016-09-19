@@ -2,6 +2,8 @@
 
 using namespace flower;
 
+inline double d_tanh(double x) { return 1.0 - pow(tanh(x), 2.0); }
+
 TanhDef::TanhDef(unsigned int size)
     : ILayerDef(), size_(size)
 {}
@@ -24,5 +26,5 @@ Eigen::MatrixXd Tanh::forward(const Eigen::MatrixXd &data)
 
 Eigen::MatrixXd Tanh::backward(const Eigen::MatrixXd &errors)
 {
-    return data_.unaryExpr([](double x) { return 1.0 - pow(tanh(x), 2.0); }).transpose().cwiseProduct(errors);
+    return data_.unaryExpr(&d_tanh).transpose().cwiseProduct(errors);
 }

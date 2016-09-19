@@ -14,7 +14,6 @@ namespace flower
 
         inline double alpha() const { return alpha_; }
 
-        unsigned int size_;
         double alpha_;
 
     protected:

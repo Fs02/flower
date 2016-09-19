@@ -7,4 +7,5 @@ ILayerDef::ILayerDef()
 {}
 
 ILayer::ILayer(Net* net, const char *name, const ILayerDef &definition)
-    : net_(net), name_(name){}
+    : net_(net), name_(name)
+{}

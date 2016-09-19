@@ -2,6 +2,7 @@
 #define FLOWER_NET_H
 
 #include <flower/layer.h>
+#include <flower/optimizer.h>
 #include <Eigen/Core>
 #include <vector>
 

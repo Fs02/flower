@@ -1,5 +1,6 @@
 #include <iostream>
 #include <flower/net.h>
+#include <flower/layer/tanh.h>
 #include <flower/layer/sigmoid.h>
 #include <flower/layer/fully_connected.h>
 #include <Eigen/Core>
@@ -17,12 +18,13 @@ int main()
     target << 0.01, 0.99;
 
     flower::SigmoidDef sdef(2);
+    flower::TanhDef tdef(2);
     flower::FullyConnectedDef fdef(2, 2);
 
     net.add("FullyConnected1", fdef);
-    net.add("Sigmoid1", sdef);
+    net.add("Sigmoid", sdef);
     net.add("FullyConnected2", fdef);
-    net.add("Sigmoid2", sdef);
+    net.add("Tanh", tdef);
 
     for (int i = 0; i < 1000; ++i)
     {

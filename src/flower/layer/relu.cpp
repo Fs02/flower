@@ -3,8 +3,8 @@
 
 using namespace flower;
 
-inline double max(double x) { return x >= 0 ? x : 0; }
-inline double d_max(double x) { return x < 0 ? 0 : 1; }
+inline double relu(double x) { return x >= 0 ? x : 0; }
+inline double d_relu(double x) { return x < 0 ? 0 : 1; }
 
 ReluDef::ReluDef()
     : ILayerDef()
@@ -22,10 +22,10 @@ Relu::Relu(Net* net, const char *name, const ReluDef &definition)
 Eigen::MatrixXd Relu::forward(const Eigen::MatrixXd &data)
 {
     data_ = data;
-    return data.unaryExpr(&max);
+    return data.unaryExpr(&relu);
 }
 
 Eigen::MatrixXd Relu::backward(const Eigen::MatrixXd &errors)
 {
-    return data_.unaryExpr(&d_max).transpose().cwiseProduct(errors);
+    return data_.unaryExpr(&d_relu).transpose().cwiseProduct(errors);
 }

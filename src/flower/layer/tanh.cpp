@@ -4,8 +4,8 @@ using namespace flower;
 
 inline double d_tanh(double x) { return 1.0 - pow(tanh(x), 2.0); }
 
-TanhDef::TanhDef(unsigned int size)
-    : ILayerDef(), size_(size)
+TanhDef::TanhDef()
+    : ILayerDef()
 {}
 
 layer_ptr TanhDef::create(Net *net, const char *name) const

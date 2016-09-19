@@ -8,11 +8,10 @@ namespace flower
     class EluDef : public ILayerDef
     {
     public:
-        EluDef(unsigned int size, double alpha = 1.0);
+        EluDef(double alpha = 1.0);
 
         inline const char *type() const { return "Elu"; }
 
-        inline unsigned int size() const { return size_; }
         inline double alpha() const { return alpha_; }
 
         unsigned int size_;

@@ -8,13 +8,9 @@ namespace flower
     class TanhDef : public ILayerDef
     {
     public:
-        TanhDef(unsigned int size);
+        TanhDef();
 
         inline const char *type() const { return "Tanh"; }
-
-        inline unsigned int size() const { return size_; }
-
-        unsigned int size_;
 
     protected:
         layer_ptr create(Net *net, const char* name) const;

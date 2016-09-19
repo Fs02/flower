@@ -8,11 +8,9 @@ namespace flower
     class SigmoidDef : public ILayerDef
     {
     public:
-        SigmoidDef(unsigned int size);
+        SigmoidDef();
 
         inline const char *type() const { return "Sigmoid"; }
-
-        inline unsigned int size() const { return size_; }
 
         unsigned int size_;
 

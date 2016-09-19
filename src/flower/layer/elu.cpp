@@ -37,8 +37,8 @@ struct EluDerivativeOp {
 
 inline double d_elu(double x) { return x < 0 ? 0 : 1; }
 
-EluDef::EluDef(unsigned int size, double alpha)
-    : ILayerDef(), size_(size), alpha_(alpha)
+EluDef::EluDef(double alpha)
+    : ILayerDef(), alpha_(alpha)
 {}
 
 layer_ptr EluDef::create(Net *net, const char *name) const

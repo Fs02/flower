@@ -6,8 +6,8 @@ using namespace flower;
 inline double max(double x) { return x >= 0 ? x : 0; }
 inline double d_max(double x) { return x < 0 ? 0 : 1; }
 
-ReluDef::ReluDef(unsigned int size)
-    : ILayerDef(), size_(size)
+ReluDef::ReluDef()
+    : ILayerDef()
 {}
 
 layer_ptr ReluDef::create(Net *net, const char *name) const

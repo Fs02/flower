@@ -19,10 +19,10 @@ int main()
     Eigen::MatrixXd target(1, 2);
     target << 0.01, 0.99;
 
-    flower::EluDef edef(2);
-    flower::ReluDef rdef(2);
-    flower::SigmoidDef sdef(2);
-    flower::TanhDef tdef(2);
+    flower::EluDef edef;
+    flower::ReluDef rdef;
+    flower::SigmoidDef sdef;
+    flower::TanhDef tdef;
     flower::FullyConnectedDef fdef(2, 2);
 
     net.add("FullyConnected1", fdef);

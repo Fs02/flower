@@ -5,8 +5,8 @@ using namespace flower;
 inline double sigmoid(double x) { return 1.0 / (1.0 + exp(-x)); }
 inline double d_sigmoid(double x) { return sigmoid(x) * (1.0 - sigmoid(x)); }
 
-SigmoidDef::SigmoidDef(unsigned int size)
-    : ILayerDef(), size_(size)
+SigmoidDef::SigmoidDef()
+    : ILayerDef()
 {}
 
 layer_ptr SigmoidDef::create(Net *net, const char *name) const

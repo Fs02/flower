@@ -8,13 +8,9 @@ namespace flower
     class ReluDef : public ILayerDef
     {
     public:
-        ReluDef(unsigned int size);
+        ReluDef();
 
         inline const char *type() const { return "Relu"; }
-
-        inline unsigned int size() const { return size_; }
-
-        unsigned int size_;
 
     protected:
         layer_ptr create(Net *net, const char* name) const;

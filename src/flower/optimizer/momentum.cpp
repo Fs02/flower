@@ -11,7 +11,7 @@ optimizer_ptr MomentumDef::create(Net *net) const
     return std::make_shared<Momentum>(net, *this);
 }
 
-Momentum::Momentum(Net* net, const MomentumDef &definition)
+Momentum::Momentum(Net *net, const MomentumDef &definition)
     : IOptimizer(net, definition), learning_rate_(definition.learning_rate()), mu_(definition.mu()), velocity_(0, 0)
 {}
 

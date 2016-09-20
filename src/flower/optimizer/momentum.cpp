@@ -2,8 +2,8 @@
 
 using namespace flower;
 
-MomentumDef::MomentumDef(double learning_rate, double mu)
-    : learning_rate_(learning_rate), mu_(mu)
+MomentumDef::MomentumDef(double lr, double mu)
+    : lr_(lr), mu_(mu)
 {}
 
 optimizer_ptr MomentumDef::create(Net *net) const
@@ -12,7 +12,7 @@ optimizer_ptr MomentumDef::create(Net *net) const
 }
 
 Momentum::Momentum(Net *net, const MomentumDef &definition)
-    : IOptimizer(net, definition), learning_rate_(definition.learning_rate()), mu_(definition.mu()), velocity_(0, 0)
+    : IOptimizer(net, definition), lr_(definition.lr()), mu_(definition.mu()), velocity_(0, 0)
 {}
 
 Eigen::MatrixXd Momentum::optimize(const Eigen::MatrixXd &weight, const Eigen::MatrixXd &dw)
@@ -20,6 +20,6 @@ Eigen::MatrixXd Momentum::optimize(const Eigen::MatrixXd &weight, const Eigen::M
     if (velocity_.rows() * velocity_.cols() == 0)
         velocity_ = Eigen::MatrixXd(dw.rows(), dw.cols());
 
-    velocity_ = (mu_ * velocity_) - (learning_rate_ * dw);
+    velocity_ = (mu_ * velocity_) - (lr_ * dw);
     return weight + velocity_.transpose();
 }

@@ -8,17 +8,17 @@ namespace flower
     class MomentumDef : public IOptimizerDef
     {
     public:
-        MomentumDef(double learning_rate, double mu);
+        MomentumDef(double lr = 0.01, double mu = 0.01);
 
         inline const char *type() const { return "Momentum"; }
 
-        inline double learning_rate() const { return learning_rate_; }
+        inline double lr() const { return lr_; }
         inline double mu() const { return mu_; }
 
     protected:
         optimizer_ptr create(Net *net) const;
 
-        double learning_rate_;
+        double lr_;
         double mu_;
     };
 
@@ -32,7 +32,7 @@ namespace flower
         Eigen::MatrixXd optimize(const Eigen::MatrixXd &weight, const Eigen::MatrixXd &dw);
 
     protected:
-        double learning_rate_;
+        double lr_;
         double mu_;
         Eigen::MatrixXd  velocity_;
     };

@@ -8,17 +8,17 @@ namespace flower
     class StochasticGradientDescentDef : public IOptimizerDef
     {
     public:
-        StochasticGradientDescentDef(double learning_rate);
+        StochasticGradientDescentDef(double lr = 0.01);
 
         inline const char *type() const { return "StochasticGradientDescent"; }
 
-        inline double learning_rate() const { return learning_rate_; }
+        inline double lr() const { return lr_; }
 
     protected:
         optimizer_ptr create(Net *net) const;
         static optimizer_ptr instance_;
 
-        double learning_rate_;
+        double lr_;
     };
 
     class StochasticGradientDescent : public IOptimizer
@@ -31,7 +31,7 @@ namespace flower
         Eigen::MatrixXd optimize(const Eigen::MatrixXd &weight, const Eigen::MatrixXd &dw);
 
     protected:
-        double learning_rate_;
+        double lr_;
     };
 }
 

@@ -4,8 +4,8 @@ using namespace flower;
 
 optimizer_ptr StochasticGradientDescentDef::instance_;
 
-StochasticGradientDescentDef::StochasticGradientDescentDef(double learning_rate)
-    : learning_rate_(learning_rate)
+StochasticGradientDescentDef::StochasticGradientDescentDef(double lr)
+    : lr_(lr)
 {}
 
 optimizer_ptr StochasticGradientDescentDef::create(Net *net) const
@@ -17,12 +17,12 @@ optimizer_ptr StochasticGradientDescentDef::create(Net *net) const
 }
 
 StochasticGradientDescent::StochasticGradientDescent(Net *net, const StochasticGradientDescentDef &definition)
-    : IOptimizer(net, definition), learning_rate_(definition.learning_rate())
+    : IOptimizer(net, definition), lr_(definition.lr())
 {}
 
 Eigen::MatrixXd StochasticGradientDescent::optimize(const Eigen::MatrixXd &weight, const Eigen::MatrixXd &dw)
 {
-    return weight - (learning_rate_ * dw).transpose();
+    return weight - (lr_ * dw).transpose();
 }
 
 

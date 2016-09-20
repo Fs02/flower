@@ -46,7 +46,7 @@ layer_ptr EluDef::create(Net *net, const char *name) const
     return std::make_shared<Elu>(net, name, *this);
 }
 
-Elu::Elu(Net* net, const char *name, const EluDef &definition)
+Elu::Elu(Net *net, const char *name, const EluDef &definition)
     : ILayer(net, name, definition), data_(0, 0), alpha_(definition.alpha())
 {}
 

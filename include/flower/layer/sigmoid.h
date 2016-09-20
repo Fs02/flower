@@ -21,7 +21,7 @@ namespace flower
     class Sigmoid : public ILayer
     {
     public:
-        explicit Sigmoid(Net* net, const char *name, const SigmoidDef &definition);
+        explicit Sigmoid(Net *net, const char *name, const SigmoidDef &definition);
 
         inline const char *type() const { return "Sigmoid"; }
 

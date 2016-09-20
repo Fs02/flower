@@ -14,7 +14,7 @@ layer_ptr TanhDef::create(Net *net, const char *name) const
 }
 
 
-Tanh::Tanh(Net* net, const char *name, const TanhDef &definition)
+Tanh::Tanh(Net *net, const char *name, const TanhDef &definition)
     : ILayer(net, name, definition), data_(0, 0)
 {}
 

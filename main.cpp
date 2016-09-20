@@ -5,6 +5,7 @@
 #include <flower/layer/relu.h>
 #include <flower/layer/elu.h>
 #include <flower/layer/fully_connected.h>
+#include <flower/optimizer/stochastic_gradient_descent.h>
 #include <Eigen/Core>
 
 using namespace std;
@@ -33,6 +34,8 @@ int main()
     net.add("Sigmoid", sdef);
     net.add("FullyConnected4", fdef);
     net.add("Tanh", tdef);
+
+    net.configure(flower::StochasticGradientDescentDef(0.5));
 
     for (int i = 0; i < 1000; ++i)
     {

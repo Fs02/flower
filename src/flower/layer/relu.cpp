@@ -15,7 +15,7 @@ layer_ptr ReluDef::create(Net *net, const char *name) const
     return std::make_shared<Relu>(net, name, *this);
 }
 
-Relu::Relu(Net* net, const char *name, const ReluDef &definition)
+Relu::Relu(Net *net, const char *name, const ReluDef &definition)
     : ILayer(net, name, definition), data_(0, 0)
 {}
 

@@ -23,7 +23,7 @@ namespace flower
     class Elu : public ILayer
     {
     public:
-        explicit Elu(Net* net, const char *name, const EluDef &definition);
+        explicit Elu(Net *net, const char *name, const EluDef &definition);
 
         inline const char *type() const { return "Elu"; }
 

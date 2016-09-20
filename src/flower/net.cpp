@@ -15,7 +15,16 @@ Net::~Net()
     layers_.clear();
 }
 
-double Net::train(const Eigen::MatrixXd& data, const Eigen::MatrixXd& target)
+void Net::configure(const IOptimizerDef &optimizer_def)
+{
+    for(const auto &layer : layers_)
+    {
+        layer.second->configure(optimizer_def);
+    }
+}
+
+
+double Net::train(const Eigen::MatrixXd &data, const Eigen::MatrixXd &target)
 {
     // forward propagate
     Eigen::MatrixXd predict = data;

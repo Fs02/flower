@@ -15,7 +15,7 @@ layer_ptr SigmoidDef::create(Net *net, const char *name) const
 }
 
 
-Sigmoid::Sigmoid(Net* net, const char *name, const SigmoidDef &definition)
+Sigmoid::Sigmoid(Net *net, const char *name, const SigmoidDef &definition)
     : ILayer(net, name, definition), data_(0, 0)
 {}
 

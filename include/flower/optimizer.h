@@ -12,13 +12,11 @@ namespace flower {
 
     class IOptimizerDef
     {
-        friend class Net;
     public:
         IOptimizerDef();
 
         virtual inline const char *type() const = 0;
 
-    protected:
         virtual optimizer_ptr create(Net *net) const = 0;
     };
 

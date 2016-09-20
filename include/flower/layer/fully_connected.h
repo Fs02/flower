@@ -2,6 +2,7 @@
 #define FLOWER_FULLY_CONNECTED_H
 
 #include <flower/layer.h>
+#include <flower/optimizer.h>
 
 namespace flower
 {
@@ -25,9 +26,11 @@ namespace flower
     class FullyConnected : public ILayer
     {
     public:
-        FullyConnected(Net* net, const char *name, const FullyConnectedDef &definition);
+        FullyConnected(Net *net, const char *name, const FullyConnectedDef &definition);
 
         inline const char *type() const { return "FullyConnected"; }
+
+        void configure(const IOptimizerDef &optimizer_def);
 
         Eigen::MatrixXd forward(const Eigen::MatrixXd &data);
         Eigen::MatrixXd backward(const Eigen::MatrixXd &errors);
@@ -36,6 +39,8 @@ namespace flower
         Eigen::MatrixXd data_;
         Eigen::MatrixXd weights_;
         Eigen::MatrixXd bias_;
+
+        optimizer_ptr optimizer_;
     };
 }
 

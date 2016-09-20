@@ -19,7 +19,7 @@ namespace flower
     class Tanh : public ILayer
     {
     public:
-        explicit Tanh(Net* net, const char *name, const TanhDef &definition);
+        explicit Tanh(Net *net, const char *name, const TanhDef &definition);
 
         inline const char *type() const { return "Tanh"; }
 

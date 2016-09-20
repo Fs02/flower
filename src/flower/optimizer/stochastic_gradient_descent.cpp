@@ -22,7 +22,7 @@ StochasticGradientDescent::StochasticGradientDescent(Net* net, const StochasticG
 
 Eigen::MatrixXd StochasticGradientDescent::optimize(const Eigen::MatrixXd &weight, const Eigen::MatrixXd &dw)
 {
-    return weight - (learning_rate_ * dw);
+    return weight - (learning_rate_ * dw).transpose();
 }
 
 

@@ -19,7 +19,7 @@ namespace flower
     class Relu : public ILayer
     {
     public:
-        explicit Relu(Net* net, const char *name, const ReluDef &definition);
+        explicit Relu(Net *net, const char *name, const ReluDef &definition);
 
         inline const char *type() const { return "Relu"; }
 

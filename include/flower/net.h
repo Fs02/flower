@@ -13,10 +13,12 @@ namespace flower {
         Net();
         ~Net();
 
-        double train(const Eigen::MatrixXd& data, const Eigen::MatrixXd& target);
+        void configure(const IOptimizerDef &optimizer_def);
+
+        double train(const Eigen::MatrixXd &data, const Eigen::MatrixXd &target);
         double eval();
 
-        void add(const char *name, const ILayerDef& definition);
+        void add(const char *name, const ILayerDef &definition);
 
     private:
         std::vector<std::pair<const char*, layer_ptr>> layers_;

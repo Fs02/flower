@@ -8,18 +8,20 @@ namespace flower
     class RmsPropDef : public IOptimizerDef
     {
     public:
-        RmsPropDef(double learning_rate, double decay_rate);
+        RmsPropDef(double lr = 0.001, double decay = 0.0, double eps = 1e-08);
 
         inline const char *type() const { return "RmsProp"; }
 
-        inline double learning_rate() const { return learning_rate_; }
-        inline double decay_rate() const { return decay_rate_; }
+        inline double lr() const { return lr_; }
+        inline double decay() const { return decay_; }
+        inline double eps() const { return eps_; }
 
     protected:
         optimizer_ptr create(Net *net) const;
 
-        double learning_rate_;
-        double decay_rate_;
+        double lr_;
+        double decay_;
+        double eps_;
     };
 
     class RmsProp : public IOptimizer
@@ -32,8 +34,9 @@ namespace flower
         Eigen::MatrixXd optimize(const Eigen::MatrixXd &weight, const Eigen::MatrixXd &dw);
 
     protected:
-        double learning_rate_;
-        double decay_rate_;
+        double lr_;
+        double decay_;
+        double eps_;
         Eigen::ArrayXXd  gt_;
     };
 }

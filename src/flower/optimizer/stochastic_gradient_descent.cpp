@@ -16,7 +16,7 @@ optimizer_ptr StochasticGradientDescentDef::create(Net *net) const
     return instance_;
 }
 
-StochasticGradientDescent::StochasticGradientDescent(Net* net, const StochasticGradientDescentDef &definition)
+StochasticGradientDescent::StochasticGradientDescent(Net *net, const StochasticGradientDescentDef &definition)
     : IOptimizer(net, definition), learning_rate_(definition.learning_rate())
 {}
 

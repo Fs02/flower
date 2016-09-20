@@ -24,7 +24,7 @@ namespace flower
     class StochasticGradientDescent : public IOptimizer
     {
     public:
-        explicit StochasticGradientDescent(Net* net, const StochasticGradientDescentDef &definition);
+        explicit StochasticGradientDescent(Net *net, const StochasticGradientDescentDef &definition);
 
         inline const char *type() const { return "StochasticGradientDescent"; }
 

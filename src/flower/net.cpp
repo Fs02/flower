@@ -33,7 +33,7 @@ double Net::train(const Eigen::MatrixXd &data, const Eigen::MatrixXd &target)
         predict = layer.second->forward(predict);
     }
 
-    auto total_error = (target - predict).unaryExpr(&square).sum() * 0.5;
+    auto total_error = (target - predict).unaryExpr(&square).sum() / target.cols();
 
     // back propagate
     Eigen::MatrixXd errors = -(target - predict).transpose();

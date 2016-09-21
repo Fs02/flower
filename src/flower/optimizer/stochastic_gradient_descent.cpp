@@ -20,9 +20,9 @@ StochasticGradientDescent::StochasticGradientDescent(Net *net, const StochasticG
     : IOptimizer(net, definition), lr_(definition.lr())
 {}
 
-Eigen::MatrixXd StochasticGradientDescent::optimize(const Eigen::MatrixXd &weight, const Eigen::MatrixXd &dw)
+Eigen::MatrixXd StochasticGradientDescent::optimize(const Eigen::MatrixXd &weight, const Eigen::MatrixXd &derivative)
 {
-    return weight - (lr_ * dw).transpose();
+    return weight - (lr_ * derivative);
 }
 
 

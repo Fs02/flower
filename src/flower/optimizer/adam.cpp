@@ -18,22 +18,22 @@ Adam::Adam(Net *net, const AdamDef &definition)
       eps_(definition.eps()), m_(0, 0), v_(0, 0)
 {}
 
-Eigen::MatrixXd Adam::optimize(const Eigen::MatrixXd &weight, const Eigen::MatrixXd &dw)
+Eigen::MatrixXd Adam::optimize(const Eigen::MatrixXd &weight, const Eigen::MatrixXd &derivative)
 {
     if (m_.rows() * m_.cols() == 0)
     {
-        m_= Eigen::ArrayXXd(dw.rows(), dw.cols());
-        v_= Eigen::ArrayXXd(dw.rows(), dw.cols());
+        m_= Eigen::ArrayXXd(derivative.rows(), derivative.cols());
+        v_= Eigen::ArrayXXd(derivative.rows(), derivative.cols());
     }
 
     // update first moment
-    m_ = beta1_ * m_ + (1.0 - beta1_) * dw.array();
+    m_ = beta1_ * m_ + (1.0 - beta1_) * derivative.array();
     // update second moment
-    v_ = beta2_ * v_ + (1.0 - beta2_) * dw.array().pow(2.0);
+    v_ = beta2_ * v_ + (1.0 - beta2_) * derivative.array().pow(2.0);
 
     // bias correction
     m_ = m_ / (1.0 - pow(beta1_, net_->epoch()));
     v_ = v_ / (1.0 - pow(beta2_, net_->epoch()));
 
-    return weight - (lr_ * m_ / (v_.sqrt() + eps_)).matrix().transpose();
+    return weight - (lr_ * m_ / (v_.sqrt() + eps_)).matrix();
 }

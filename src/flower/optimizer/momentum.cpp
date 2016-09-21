@@ -15,11 +15,11 @@ Momentum::Momentum(Net *net, const MomentumDef &definition)
     : IOptimizer(net, definition), lr_(definition.lr()), mu_(definition.mu()), velocity_(0, 0)
 {}
 
-Eigen::MatrixXd Momentum::optimize(const Eigen::MatrixXd &weight, const Eigen::MatrixXd &dw)
+Eigen::MatrixXd Momentum::optimize(const Eigen::MatrixXd &weight, const Eigen::MatrixXd &derivative)
 {
     if (velocity_.rows() * velocity_.cols() == 0)
-        velocity_ = Eigen::MatrixXd(dw.rows(), dw.cols());
+        velocity_ = Eigen::MatrixXd(derivative.rows(), derivative.cols());
 
-    velocity_ = (mu_ * velocity_) - (lr_ * dw);
-    return weight + velocity_.transpose();
+    velocity_ = (mu_ * velocity_) - (lr_ * derivative);
+    return weight + velocity_;
 }

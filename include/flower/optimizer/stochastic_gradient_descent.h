@@ -28,7 +28,7 @@ namespace flower
 
         inline const char *type() const { return "StochasticGradientDescent"; }
 
-        Eigen::MatrixXd optimize(const Eigen::MatrixXd &weight, const Eigen::MatrixXd &dw);
+        Eigen::MatrixXd optimize(const Eigen::MatrixXd &weight, const Eigen::MatrixXd &derivative);
 
     protected:
         double lr_;

@@ -36,7 +36,7 @@ Eigen::MatrixXd FullyConnected::forward(const Eigen::MatrixXd &data, bool train)
 
 Eigen::MatrixXd FullyConnected::backward(const Eigen::MatrixXd &errors)
 {
-    weights_ = optimizer_->optimize(weights_, errors * data_);
+    weights_ = optimizer_->optimize(weights_, (errors * data_).transpose());
 
     Eigen::MatrixXd weight_nobias = weights_;
     weight_nobias.conservativeResize(weight_nobias.rows() - 1, weight_nobias.cols());

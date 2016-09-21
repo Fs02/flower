@@ -30,7 +30,7 @@ namespace flower {
 
         virtual inline const char *type() const = 0;
 
-        virtual Eigen::MatrixXd optimize(const Eigen::MatrixXd &weight, const Eigen::MatrixXd &dw) = 0;
+        virtual Eigen::MatrixXd optimize(const Eigen::MatrixXd &weight, const Eigen::MatrixXd &derivative) = 0;
 
     protected:
         Net* net_;

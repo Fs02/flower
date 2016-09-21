@@ -20,6 +20,7 @@ namespace flower {
 
         void add(const char *name, const ILayerDef &definition);
 
+        const std::vector<std::pair<const char*, layer_ptr>> &layers() const;
         inline int epoch() const { return epoch_; }
 
     private:

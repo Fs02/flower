@@ -63,3 +63,8 @@ void Net::add(const char *name, const ILayerDef &definition)
 {
     layers_.push_back(std::make_pair(name, definition.create(this, name)));
 }
+
+const std::vector<std::pair<const char*, layer_ptr>> &Net::layers() const
+{
+    return layers_;
+}

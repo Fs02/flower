@@ -10,7 +10,7 @@ namespace flower
     public:
         DropoutDef(double probability = 0.5);
 
-        inline const char *type() const { return "Droput"; }
+        inline const char *type() const { return "Dropout"; }
 
         inline double probability() const { return probability_; }
 
@@ -25,7 +25,7 @@ namespace flower
     public:
         explicit Dropout(Net *net, const char *name, const DropoutDef &definition);
 
-        inline const char *type() const { return "Droput"; }
+        inline const char *type() const { return "Dropout"; }
 
         Eigen::MatrixXd forward(const Eigen::MatrixXd &data, bool train = false);
         Eigen::MatrixXd backward(const Eigen::MatrixXd &errors);

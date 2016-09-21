@@ -25,7 +25,7 @@ namespace flower
 
         inline const char *type() const { return "Sigmoid"; }
 
-        Eigen::MatrixXd forward(const Eigen::MatrixXd &data);
+        Eigen::MatrixXd forward(const Eigen::MatrixXd &data, bool train = false);
         Eigen::MatrixXd backward(const Eigen::MatrixXd &errors);
 
     protected:

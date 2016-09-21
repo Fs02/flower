@@ -7,7 +7,7 @@ double square(double x) {
 }
 
 Net::Net()
-    : layers_()
+    : layers_(), epoch_(0)
 {}
 
 Net::~Net()
@@ -26,11 +26,14 @@ void Net::configure(const IOptimizerDef &optimizer_def)
 
 double Net::train(const Eigen::MatrixXd &data, const Eigen::MatrixXd &target)
 {
+    // increase epoch
+    ++epoch_;
+
     // forward propagate
     Eigen::MatrixXd predict = data;
     for(const auto &layer : layers_)
     {
-        predict = layer.second->forward(predict);
+        predict = layer.second->forward(predict, true);
     }
 
     auto total_error = (target - predict).unaryExpr(&square).sum() / target.cols();
@@ -45,9 +48,15 @@ double Net::train(const Eigen::MatrixXd &data, const Eigen::MatrixXd &target)
     return total_error;
 }
 
-double Net::eval()
+Eigen::MatrixXd Net::infer(const Eigen::MatrixXd &data) const
 {
-    return 0.0;
+    // forward propagate
+    Eigen::MatrixXd predict = data;
+    for(const auto &layer : layers_)
+    {
+        predict = layer.second->forward(predict);
+    }
+    return predict;
 }
 
 void Net::add(const char *name, const ILayerDef &definition)

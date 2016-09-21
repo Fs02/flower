@@ -19,9 +19,11 @@ Relu::Relu(Net *net, const char *name, const ReluDef &definition)
     : ILayer(net, name, definition), data_(0, 0)
 {}
 
-Eigen::MatrixXd Relu::forward(const Eigen::MatrixXd &data)
+Eigen::MatrixXd Relu::forward(const Eigen::MatrixXd &data, bool train)
 {
-    data_ = data;
+    if (train)
+        data_ = data;
+
     return data.unaryExpr(&relu);
 }
 

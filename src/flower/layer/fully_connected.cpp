@@ -22,9 +22,11 @@ void FullyConnected::configure(const IOptimizerDef &optimizer_def)
     optimizer_ = optimizer_def.create(net_);
 }
 
-Eigen::MatrixXd FullyConnected::forward(const Eigen::MatrixXd &data)
+Eigen::MatrixXd FullyConnected::forward(const Eigen::MatrixXd &data, bool train)
 {
-    data_ = data;
+    if (train)
+        data_ = data;
+
     return (data * weights_) + bias_;
 }
 

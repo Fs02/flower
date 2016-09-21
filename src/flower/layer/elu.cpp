@@ -48,9 +48,11 @@ Elu::Elu(Net *net, const char *name, const EluDef &definition)
     : ILayer(net, name, definition), data_(0, 0), alpha_(definition.alpha())
 {}
 
-Eigen::MatrixXd Elu::forward(const Eigen::MatrixXd &data)
+Eigen::MatrixXd Elu::forward(const Eigen::MatrixXd &data, bool train)
 {
-    data_ = data;
+    if (train)
+        data_ = data;
+
     return data.unaryExpr(EluOp<double>(alpha_));
 }
 

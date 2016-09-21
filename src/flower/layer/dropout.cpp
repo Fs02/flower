@@ -16,12 +16,19 @@ Dropout::Dropout(Net *net, const char *name, const DropoutDef &definition)
     : ILayer(net, name, definition), mask_(0, 0), probability_(definition.probability())
 {}
 
-Eigen::MatrixXd Dropout::forward(const Eigen::MatrixXd &data)
+Eigen::MatrixXd Dropout::forward(const Eigen::MatrixXd &data, bool train)
 {
-    mask_ = (Eigen::ArrayXXd::Random(data.rows(), data.cols()) > probability_).cast<double>();
+    if (train)
+    {
+        mask_ = (Eigen::ArrayXXd::Random(data.rows(), data.cols()) > probability_).cast<double>()  / probability_;
 
-    // dropout with inverted approach
-    return data.cwiseProduct(mask_.matrix()) / probability_;
+        // dropout with inverted approach
+        return data.cwiseProduct(mask_.matrix());
+    }
+    else
+    {
+        return data;
+    }
 }
 
 Eigen::MatrixXd Dropout::backward(const Eigen::MatrixXd &errors)

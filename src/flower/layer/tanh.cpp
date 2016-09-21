@@ -18,9 +18,11 @@ Tanh::Tanh(Net *net, const char *name, const TanhDef &definition)
     : ILayer(net, name, definition), data_(0, 0)
 {}
 
-Eigen::MatrixXd Tanh::forward(const Eigen::MatrixXd &data)
+Eigen::MatrixXd Tanh::forward(const Eigen::MatrixXd &data, bool train)
 {
-    data_ = data;
+    if (train)
+        data_ = data;
+
     return data.unaryExpr(&tanh);
 }
 

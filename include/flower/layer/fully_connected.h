@@ -32,7 +32,7 @@ namespace flower
 
         void configure(const IOptimizerDef &optimizer_def);
 
-        Eigen::MatrixXd forward(const Eigen::MatrixXd &data);
+        Eigen::MatrixXd forward(const Eigen::MatrixXd &data, bool train = false);
         Eigen::MatrixXd backward(const Eigen::MatrixXd &errors);
 
     protected:

@@ -35,8 +35,6 @@ struct EluDerivativeOp {
   Scalar alpha_;
 };
 
-inline double d_elu(double x) { return x < 0 ? 0 : 1; }
-
 EluDef::EluDef(double alpha)
     : ILayerDef(), alpha_(alpha)
 {}

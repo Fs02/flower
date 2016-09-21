@@ -25,21 +25,12 @@ int main()
     target << 0.01, 0.99, 1.0,
               0.9, 0.3, 0.2;
 
-    flower::EluDef edef;
-    flower::ReluDef rdef;
-    flower::SigmoidDef sdef;
-    flower::TanhDef tdef;
-    flower::FullyConnectedDef fdef(3, 3);
-
-    net.add("FullyConnected1", fdef);
-    net.add("Elu", edef);
-    net.add("FullyConnected2", fdef);
-    net.add("Relu", rdef);
-    net.add("FullyConnected3", fdef);
-    net.add("Sigmoid", sdef);
-//    net.add("Dropout", flower::DropoutDef());
-    net.add("FullyConnected4", fdef);
-    net.add("Tanh", tdef);
+    net.add("FullyConnected1", flower::FullyConnectedDef(3, 3));
+    net.add("Elu", flower::EluDef());
+    net.add("FullyConnected2", flower::FullyConnectedDef(3, 3));
+    net.add("Relu", flower::ReluDef());
+    net.add("FullyConnected3", flower::FullyConnectedDef(3, 3));
+    net.add("Sigmoid", flower::SigmoidDef());
 
     flower::SupervisedLearning trainer(&net, flower::RmsPropDef());
 

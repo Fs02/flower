@@ -38,7 +38,6 @@ namespace flower
     protected:
         Eigen::MatrixXd data_;
         Eigen::MatrixXd weights_;
-        Eigen::MatrixXd bias_;
 
         optimizer_ptr optimizer_;
     };

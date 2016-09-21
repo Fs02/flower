@@ -15,11 +15,14 @@ int main()
 {
     flower::Net net = flower::Net();
 
-    Eigen::MatrixXd data(1, 3);
-    data << 0.05, 0.1, -0.5;
+    // 2 data x 3 features
+    Eigen::MatrixXd data(2, 3);
+    data << 0.05, 0.1, -0.5,
+            0.1, -0.3, 0.4;
 
-    Eigen::MatrixXd target(1, 3);
-    target << 0.01, 0.99, 1.0;
+    Eigen::MatrixXd target(2, 3);
+    target << 0.01, 0.99, 1.0,
+              0.9, 0.3, 0.2;
 
     flower::EluDef edef;
     flower::ReluDef rdef;

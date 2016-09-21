@@ -7,15 +7,15 @@
 #include <vector>
 
 namespace flower {
+    class SupervisedLearning;
+
     class Net
     {
+        friend class SupervisedLearning;
     public:
         Net();
         ~Net();
 
-        void configure(const IOptimizerDef &optimizer_def);
-
-        double train(const Eigen::MatrixXd &data, const Eigen::MatrixXd &target);
         Eigen::MatrixXd infer(const Eigen::MatrixXd &data) const;
 
         void add(const char *name, const ILayerDef &definition);

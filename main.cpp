@@ -7,6 +7,7 @@
 #include <flower/layer/fully_connected.h>
 #include <flower/layer/dropout.h>
 #include <flower/optimizer/rms_prop.h>
+#include <flower/supervised_learning.h>
 #include <Eigen/Core>
 
 using namespace std;
@@ -36,18 +37,18 @@ int main()
     net.add("Relu", rdef);
     net.add("FullyConnected3", fdef);
     net.add("Sigmoid", sdef);
-    net.add("Dropout", flower::DropoutDef());
+//    net.add("Dropout", flower::DropoutDef());
     net.add("FullyConnected4", fdef);
     net.add("Tanh", tdef);
 
-    net.configure(flower::RmsPropDef());
+    flower::SupervisedLearning trainer(&net, flower::RmsPropDef());
 
-    for (int i = 0; i < 1000; ++i)
+    for (int i = 0; i < 100; ++i)
     {
         std::cout << "epoch : "
                   << i
                   << " error: "
-                  << net.train(data, target)
+                  << trainer.feed(data, target)
                   << std::endl;
     }
 

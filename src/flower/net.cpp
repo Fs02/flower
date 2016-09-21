@@ -15,39 +15,6 @@ Net::~Net()
     layers_.clear();
 }
 
-void Net::configure(const IOptimizerDef &optimizer_def)
-{
-    for(const auto &layer : layers_)
-    {
-        layer.second->configure(optimizer_def);
-    }
-}
-
-
-double Net::train(const Eigen::MatrixXd &data, const Eigen::MatrixXd &target)
-{
-    // increase epoch
-    ++epoch_;
-
-    // forward propagate
-    Eigen::MatrixXd predict = data;
-    for(const auto &layer : layers_)
-    {
-        predict = layer.second->forward(predict, true);
-    }
-
-    auto total_error = (target - predict).unaryExpr(&square).sum() / target.cols();
-
-    // back propagate
-    Eigen::MatrixXd errors = -(target - predict).transpose();
-    for(auto i = layers_.rbegin(); i != layers_.rend(); ++i)
-    {
-        errors = (*i).second->backward(errors);
-    }
-
-    return total_error;
-}
-
 Eigen::MatrixXd Net::infer(const Eigen::MatrixXd &data) const
 {
     // forward propagate

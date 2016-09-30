@@ -1,14 +1,14 @@
-#ifndef FLOWER_STOCHASTIC_GRADIENT_DESCENT_H
-#define FLOWER_STOCHASTIC_GRADIENT_DESCENT_H
+#ifndef FLOWER_VANILLA_H
+#define FLOWER_VANILLA_H
 
 #include <flower/optimizer.h>
 
 namespace flower
 {
-    class StochasticGradientDescentDef : public IOptimizerDef
+    class VanillaDef : public IOptimizerDef
     {
     public:
-        StochasticGradientDescentDef(double lr = 0.01);
+        VanillaDef(double lr = 0.01);
 
         inline const char *type() const { return "StochasticGradientDescent"; }
 
@@ -21,10 +21,10 @@ namespace flower
         double lr_;
     };
 
-    class StochasticGradientDescent : public IOptimizer
+    class Vanilla : public IOptimizer
     {
     public:
-        explicit StochasticGradientDescent(Net *net, const StochasticGradientDescentDef &definition);
+        explicit Vanilla(Net *net, const VanillaDef &definition);
 
         inline const char *type() const { return "StochasticGradientDescent"; }
 

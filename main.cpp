@@ -6,7 +6,7 @@
 #include <flower/layer/elu.h>
 #include <flower/layer/fully_connected.h>
 #include <flower/layer/dropout.h>
-#include <flower/optimizer/rms_prop.h>
+#include <flower/optimizer/vanilla.h>
 #include <flower/gradient_descent.h>
 #include <Eigen/Core>
 
@@ -32,7 +32,7 @@ int main()
     net.add("FullyConnected3", flower::FullyConnectedDef(3, 3));
     net.add("Sigmoid", flower::SigmoidDef());
 
-    flower::GradientDescent trainer(&net, flower::RmsPropDef());
+    flower::GradientDescent trainer(&net, flower::VanillaDef());
 
     for (int i = 0; i < 100; ++i)
     {

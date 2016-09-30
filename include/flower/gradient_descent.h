@@ -1,5 +1,5 @@
-#ifndef FLOWER_SUPERVISED_LEARNING_H
-#define FLOWER_SUPERVISED_LEARNING_H
+#ifndef FLOWER_GRADIENT_DESCENT_H
+#define FLOWER_GRADIENT_DESCENT_H
 
 #include <Eigen/Core>
 #include <vector>
@@ -8,11 +8,11 @@ namespace flower {
     class Net;
     class IOptimizerDef;
 
-    class SupervisedLearning
+    class GradientDescent
     {
     public:
-        SupervisedLearning(Net *net, const IOptimizerDef& optimizer_def);
-        ~SupervisedLearning();
+        GradientDescent(Net *net, const IOptimizerDef& optimizer_def);
+        ~GradientDescent();
 
         double feed(const Eigen::MatrixXd &data, const Eigen::MatrixXd &target);
 

@@ -1,9 +1,9 @@
-#include <flower/supervised_learning.h>
+#include <flower/gradient_descent.h>
 #include <flower/net.h>
 
 using namespace flower;
 
-SupervisedLearning::SupervisedLearning(Net *net, const IOptimizerDef &optimizer_def)
+GradientDescent::GradientDescent(Net *net, const IOptimizerDef &optimizer_def)
     : net_(net)
 {
     // configure all layer
@@ -13,10 +13,10 @@ SupervisedLearning::SupervisedLearning(Net *net, const IOptimizerDef &optimizer_
     }
 }
 
-SupervisedLearning::~SupervisedLearning()
+GradientDescent::~GradientDescent()
 {}
 
-double SupervisedLearning::feed(const Eigen::MatrixXd &data, const Eigen::MatrixXd &target)
+double GradientDescent::feed(const Eigen::MatrixXd &data, const Eigen::MatrixXd &target)
 {
     // increase epoch
     net_->epoch_++;

@@ -7,11 +7,9 @@
 #include <vector>
 
 namespace flower {
-    class SupervisedLearning;
-
     class Net
     {
-        friend class SupervisedLearning;
+        friend class GradientDescent;
     public:
         Net();
         ~Net();

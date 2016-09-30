@@ -7,7 +7,7 @@
 #include <flower/layer/fully_connected.h>
 #include <flower/layer/dropout.h>
 #include <flower/optimizer/rms_prop.h>
-#include <flower/supervised_learning.h>
+#include <flower/gradient_descent.h>
 #include <Eigen/Core>
 
 using namespace std;
@@ -32,7 +32,7 @@ int main()
     net.add("FullyConnected3", flower::FullyConnectedDef(3, 3));
     net.add("Sigmoid", flower::SigmoidDef());
 
-    flower::SupervisedLearning trainer(&net, flower::RmsPropDef());
+    flower::GradientDescent trainer(&net, flower::RmsPropDef());
 
     for (int i = 0; i < 100; ++i)
     {

@@ -11,6 +11,7 @@ namespace flower {
     class GradientDescent
     {
     public:
+        GradientDescent(Net *net, double learning_rate);
         GradientDescent(Net *net, const IOptimizerDef& optimizer_def);
         ~GradientDescent();
 

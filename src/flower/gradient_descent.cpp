@@ -1,7 +1,12 @@
 #include <flower/gradient_descent.h>
+#include <flower/optimizer/vanilla.h>
 #include <flower/net.h>
 
 using namespace flower;
+
+GradientDescent::GradientDescent(Net *net, double learning_rate)
+    : GradientDescent(net, VanillaDef(learning_rate))
+{}
 
 GradientDescent::GradientDescent(Net *net, const IOptimizerDef &optimizer_def)
     : net_(net)

@@ -32,7 +32,7 @@ int main()
     net.add("FullyConnected3", flower::FullyConnectedDef(3, 3));
     net.add("Sigmoid", flower::SigmoidDef());
 
-    flower::GradientDescent trainer(&net, flower::VanillaDef());
+    flower::GradientDescent trainer(&net, 0.01f);
 
     for (int i = 0; i < 100; ++i)
     {

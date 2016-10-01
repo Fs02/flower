@@ -13,6 +13,7 @@ An attempt to make modular neural network API
 - [x] Dropout
 - [ ] Softmax
 - [ ] Convolution
+- [ ] Pooling
 - [ ] Batch Normalization
 
 #### Optimizer

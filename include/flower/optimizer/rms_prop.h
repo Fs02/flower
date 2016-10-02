@@ -5,10 +5,10 @@
 
 namespace flower
 {
-    class RmsPropDef : public IOptimizerDef
+    class RmsProp : public IOptimizerDef
     {
     public:
-        RmsPropDef(double lr = 0.001, double decay = 0.0, double eps = 1e-08);
+        RmsProp(double lr = 0.001, double decay = 0.0, double eps = 1e-08);
 
         inline const char *type() const { return "RmsProp"; }
 
@@ -24,14 +24,12 @@ namespace flower
         double eps_;
     };
 
-    class RmsProp : public IOptimizer
+    class RmsPropOptimizer : public IOptimizer
     {
     public:
-        explicit RmsProp(Net *net, const RmsPropDef &definition);
+        explicit RmsPropOptimizer(Net *net, const RmsProp &definition);
 
         inline const char *type() const { return "RmsProp"; }
-
-        Eigen::MatrixXd optimize(const Eigen::MatrixXd &weight, const Eigen::MatrixXd &derivative);
 
         Eigen::Tensor<double, 2> optimize(const Eigen::Tensor<double, 2> &weight, const Eigen::Tensor<double, 2> &derivative);
 
@@ -39,9 +37,7 @@ namespace flower
         double lr_;
         double decay_;
         double eps_;
-        Eigen::ArrayXXd  gt_;
-
-        Eigen::Tensor<double, 2> t_gt_;
+        Eigen::Tensor<double, 2> gt_;
     };
 }
 

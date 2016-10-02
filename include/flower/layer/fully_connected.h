@@ -6,10 +6,10 @@
 
 namespace flower
 {
-    class FullyConnectedDef : public ILayerDef
+    class FullyConnected : public ILayerDef
     {
     public:
-        FullyConnectedDef(unsigned int input_size, unsigned int output_size);
+        FullyConnected(unsigned int input_size, unsigned int output_size);
 
         inline const char *type() const { return "FullyConnected"; }
 
@@ -23,29 +23,23 @@ namespace flower
         unsigned int output_size_;
     };
 
-    class FullyConnected : public ILayer
+    class FullyConnectedLayer : public ILayer
     {
     public:
-        FullyConnected(Net *net, const char *name, const FullyConnectedDef &definition);
+        FullyConnectedLayer(Net *net, const char *name, const FullyConnected &definition);
 
         inline const char *type() const { return "FullyConnected"; }
 
         void configure(const IOptimizerDef &optimizer_def);
 
-        Eigen::MatrixXd forward(const Eigen::MatrixXd &data, bool train = false);
-        Eigen::MatrixXd backward(const Eigen::MatrixXd &errors);
-
         Eigen::Tensor<double, 2> forward(const Eigen::Tensor<double, 2> &data, bool train = false);
         Eigen::Tensor<double, 2> backward(const Eigen::Tensor<double, 2> &errors);
 
     protected:
-        Eigen::MatrixXd data_;
-        Eigen::MatrixXd weights_;
+        Eigen::Tensor<double, 2> data_;
+        Eigen::Tensor<double, 2> weights_;
 
         optimizer_ptr optimizer_;
-
-        Eigen::Tensor<double, 2> input_;
-        Eigen::Tensor<double, 2> parameters_;
     };
 }
 

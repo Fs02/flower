@@ -5,10 +5,10 @@
 
 namespace flower
 {
-    class ReluDef : public ILayerDef
+    class Relu : public ILayerDef
     {
     public:
-        ReluDef();
+        Relu();
 
         inline const char *type() const { return "Relu"; }
 
@@ -16,23 +16,18 @@ namespace flower
         layer_ptr create(Net *net, const char* name) const;
     };
 
-    class Relu : public ILayer
+    class ReluLayer : public ILayer
     {
     public:
-        explicit Relu(Net *net, const char *name, const ReluDef &definition);
+        explicit ReluLayer(Net *net, const char *name, const Relu &definition);
 
         inline const char *type() const { return "Relu"; }
-
-        Eigen::MatrixXd forward(const Eigen::MatrixXd &data, bool train = false);
-        Eigen::MatrixXd backward(const Eigen::MatrixXd &errors);
 
         Eigen::Tensor<double, 2> forward(const Eigen::Tensor<double, 2> &data, bool train = false);
         Eigen::Tensor<double, 2> backward(const Eigen::Tensor<double, 2> &errors);
 
     protected:
-        Eigen::MatrixXd data_;
-
-        Eigen::Tensor<double, 2> input_;
+        Eigen::Tensor<double, 2> data_;
     };
 }
 

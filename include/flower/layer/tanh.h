@@ -5,10 +5,10 @@
 
 namespace flower
 {
-    class TanhDef : public ILayerDef
+    class Tanh : public ILayerDef
     {
     public:
-        TanhDef();
+        Tanh();
 
         inline const char *type() const { return "Tanh"; }
 
@@ -16,23 +16,18 @@ namespace flower
         layer_ptr create(Net *net, const char* name) const;
     };
 
-    class Tanh : public ILayer
+    class TanhLayer : public ILayer
     {
     public:
-        explicit Tanh(Net *net, const char *name, const TanhDef &definition);
+        explicit TanhLayer(Net *net, const char *name, const Tanh &definition);
 
         inline const char *type() const { return "Tanh"; }
-
-        Eigen::MatrixXd forward(const Eigen::MatrixXd &data, bool train = false);
-        Eigen::MatrixXd backward(const Eigen::MatrixXd &errors);
 
         Eigen::Tensor<double, 2> forward(const Eigen::Tensor<double, 2> &data, bool train = false);
         Eigen::Tensor<double, 2> backward(const Eigen::Tensor<double, 2> &errors);
 
     protected:
-        Eigen::MatrixXd data_;
-
-        Eigen::Tensor<double, 2> input_;
+        Eigen::Tensor<double, 2> data_;
     };
 }
 

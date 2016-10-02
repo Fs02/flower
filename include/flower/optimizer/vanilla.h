@@ -5,12 +5,12 @@
 
 namespace flower
 {
-    class VanillaDef : public IOptimizerDef
+    class Vanilla : public IOptimizerDef
     {
     public:
-        VanillaDef(double lr = 0.01);
+        Vanilla(double lr = 0.01);
 
-        inline const char *type() const { return "StochasticGradientDescent"; }
+        inline const char *type() const { return "Vanilla"; }
 
         inline double lr() const { return lr_; }
 
@@ -21,14 +21,12 @@ namespace flower
         double lr_;
     };
 
-    class Vanilla : public IOptimizer
+    class VanillaOptimizer : public IOptimizer
     {
     public:
-        explicit Vanilla(Net *net, const VanillaDef &definition);
+        explicit VanillaOptimizer(Net *net, const Vanilla &definition);
 
-        inline const char *type() const { return "StochasticGradientDescent"; }
-
-        Eigen::MatrixXd optimize(const Eigen::MatrixXd &weight, const Eigen::MatrixXd &derivative);
+        inline const char *type() const { return "Vanilla"; }
 
         Eigen::Tensor<double, 2> optimize(const Eigen::Tensor<double, 2> &weight, const Eigen::Tensor<double, 2> &derivative);
 

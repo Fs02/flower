@@ -15,10 +15,10 @@ Net::~Net()
     layers_.clear();
 }
 
-Eigen::MatrixXd Net::infer(const Eigen::MatrixXd &data) const
+Eigen::Tensor<double, 2> Net::infer(const Eigen::Tensor<double, 2> &data) const
 {
     // forward propagate
-    Eigen::MatrixXd predict = data;
+    Eigen::Tensor<double, 2> predict = data;
     for(const auto &layer : layers_)
     {
         predict = layer.second->forward(predict);

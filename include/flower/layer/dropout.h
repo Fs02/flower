@@ -5,10 +5,10 @@
 
 namespace flower
 {
-    class DropoutDef : public ILayerDef
+    class Dropout : public ILayerDef
     {
     public:
-        DropoutDef(double probability = 0.5);
+        Dropout(double probability = 0.5);
 
         inline const char *type() const { return "Dropout"; }
 
@@ -20,25 +20,19 @@ namespace flower
         layer_ptr create(Net *net, const char* name) const;
     };
 
-    class Dropout : public ILayer
+    class DropoutLayer : public ILayer
     {
     public:
-        explicit Dropout(Net *net, const char *name, const DropoutDef &definition);
+        explicit DropoutLayer(Net *net, const char *name, const Dropout &definition);
 
         inline const char *type() const { return "Dropout"; }
-
-        Eigen::MatrixXd forward(const Eigen::MatrixXd &data, bool train = false);
-        Eigen::MatrixXd backward(const Eigen::MatrixXd &errors);
 
         Eigen::Tensor<double, 2> forward(const Eigen::Tensor<double, 2> &data, bool train = false);
         Eigen::Tensor<double, 2> backward(const Eigen::Tensor<double, 2> &errors);
 
     protected:
-        Eigen::ArrayXXd mask_;
+        Eigen::Tensor<double, 2> mask_;
         double probability_;
-
-        Eigen::Tensor<double, 2> t_mask_;
-
     };
 }
 

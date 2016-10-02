@@ -3,7 +3,6 @@
 
 #include <flower/layer.h>
 #include <flower/optimizer.h>
-#include <Eigen/Core>
 #include <vector>
 
 namespace flower {
@@ -14,7 +13,7 @@ namespace flower {
         Net();
         ~Net();
 
-        Eigen::MatrixXd infer(const Eigen::MatrixXd &data) const;
+        Eigen::Tensor<double, 2> infer(const Eigen::Tensor<double, 2> &data) const;
 
         void add(const char *name, const ILayerDef &definition);
 

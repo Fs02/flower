@@ -5,10 +5,10 @@
 
 namespace flower
 {
-    class MomentumDef : public IOptimizerDef
+    class Momentum : public IOptimizerDef
     {
     public:
-        MomentumDef(double lr = 0.01, double mu = 0.01);
+        Momentum(double lr = 0.01, double mu = 0.01);
 
         inline const char *type() const { return "Momentum"; }
 
@@ -22,22 +22,18 @@ namespace flower
         double mu_;
     };
 
-    class Momentum : public IOptimizer
+    class MomentumOptimizer : public IOptimizer
     {
     public:
-        explicit Momentum(Net *net, const MomentumDef &definition);
+        explicit MomentumOptimizer(Net *net, const Momentum &definition);
 
         inline const char *type() const { return "Momentum"; }
-
-        Eigen::MatrixXd optimize(const Eigen::MatrixXd &weight, const Eigen::MatrixXd &derivative);
 
         Eigen::Tensor<double, 2> optimize(const Eigen::Tensor<double, 2> &weight, const Eigen::Tensor<double, 2> &derivative);
 
     protected:
         double lr_;
         double mu_;
-        Eigen::MatrixXd  velocity_;
-
         Eigen::Tensor<double, 2> vel_;
     };
 }

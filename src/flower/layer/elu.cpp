@@ -35,20 +35,20 @@ struct EluDerivativeOp {
   Scalar alpha_;
 };
 
-EluDef::EluDef(double alpha)
+Elu::Elu(double alpha)
     : ILayerDef(), alpha_(alpha)
 {}
 
-layer_ptr EluDef::create(Net *net, const char *name) const
+layer_ptr Elu::create(Net *net, const char *name) const
 {
-    return std::make_shared<Elu>(net, name, *this);
+    return std::make_shared<EluLayer>(net, name, *this);
 }
 
-Elu::Elu(Net *net, const char *name, const EluDef &definition)
-    : ILayer(net, name, definition), data_(0, 0), input_(0, 0), alpha_(definition.alpha())
+EluLayer::EluLayer(Net *net, const char *name, const Elu &definition)
+    : ILayer(net, name, definition), data_(0, 0), alpha_(definition.alpha())
 {}
 
-Eigen::MatrixXd Elu::forward(const Eigen::MatrixXd &data, bool train)
+Eigen::Tensor<double, 2> EluLayer::forward(const Eigen::Tensor<double, 2> &data, bool train)
 {
     if (train)
         data_ = data;
@@ -56,23 +56,9 @@ Eigen::MatrixXd Elu::forward(const Eigen::MatrixXd &data, bool train)
     return data.unaryExpr(EluOp<double>(alpha_));
 }
 
-Eigen::MatrixXd Elu::backward(const Eigen::MatrixXd &errors)
-{
-    return data_.unaryExpr(EluDerivativeOp<double>(alpha_)).transpose().cwiseProduct(errors);
-}
-
-
-Eigen::Tensor<double, 2> Elu::forward(const Eigen::Tensor<double, 2> &data, bool train)
-{
-    if (train)
-        input_ = data;
-
-    return data.unaryExpr(EluOp<double>(alpha_));
-}
-
-Eigen::Tensor<double, 2> Elu::backward(const Eigen::Tensor<double, 2> &errors)
+Eigen::Tensor<double, 2> EluLayer::backward(const Eigen::Tensor<double, 2> &errors)
 {
     Eigen::array<int, 2> transpose({1, 0});
 
-    return input_.shuffle(transpose).unaryExpr(EluDerivativeOp<double>(alpha_)) * errors;
+    return data_.shuffle(transpose).unaryExpr(EluDerivativeOp<double>(alpha_)) * errors;
 }

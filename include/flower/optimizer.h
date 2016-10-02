@@ -1,7 +1,6 @@
 #ifndef FLOWER_OPTIMIZER_H
 #define FLOWER_OPTIMIZER_H
 
-#include <Eigen/Core>
 #include <Eigen/CXX11/Tensor>
 #include <memory>
 
@@ -30,8 +29,6 @@ namespace flower {
         explicit IOptimizer(Net* net, const IOptimizerDef &definition);
 
         virtual inline const char *type() const = 0;
-
-        virtual Eigen::MatrixXd optimize(const Eigen::MatrixXd &weight, const Eigen::MatrixXd &derivative) = 0;
 
         virtual Eigen::Tensor<double, 2> optimize(const Eigen::Tensor<double, 2> &weight, const Eigen::Tensor<double, 2> &derivative) = 0;
 

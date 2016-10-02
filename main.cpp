@@ -7,8 +7,7 @@
 #include <flower/layer/fully_connected.h>
 #include <flower/layer/dropout.h>
 #include <flower/gradient_descent.h>
-#include <flower/optimizer/adam.h>
-#include <Eigen/Core>
+#include <flower/optimizer/momentum.h>
 #include <Eigen/CXX11/Tensor>
 
 using namespace std;
@@ -17,32 +16,14 @@ int main()
 {
     flower::Net net = flower::Net();
 
-    // 2 data x 3 features
-    Eigen::MatrixXd data(2, 3);
-    data << 0.05, 0.1, -0.5,
-            0.1, -0.3, 0.4;
+    net.add("FullyConnected1", flower::FullyConnected(3, 3));
+    net.add("Elu", flower::Elu());
+    net.add("FullyConnected2", flower::FullyConnected(3, 3));
+    net.add("Relu", flower::Relu());
+    net.add("FullyConnected3", flower::FullyConnected(3, 3));
+    net.add("Sigmoid", flower::Sigmoid());
 
-    Eigen::MatrixXd target(2, 3);
-    target << 0.01, 0.99, 1.0,
-              0.9, 0.3, 0.2;
-
-    net.add("FullyConnected1", flower::FullyConnectedDef(3, 3));
-    net.add("Elu", flower::EluDef());
-    net.add("FullyConnected2", flower::FullyConnectedDef(3, 3));
-    net.add("Relu", flower::ReluDef());
-    net.add("FullyConnected3", flower::FullyConnectedDef(3, 3));
-    net.add("Sigmoid", flower::SigmoidDef());
-
-    flower::GradientDescent trainer(&net, flower::AdamDef());
-
-    for (int i = 0; i < 5; ++i)
-    {
-        std::cout << "epoch : "
-                  << i
-                  << " error: "
-                  << trainer.feed(data, target)
-                  << std::endl;
-    }
+    flower::GradientDescent trainer(&net, flower::Momentum());
 
     Eigen::Tensor<double, 2> t_data(2, 3);
     t_data.setValues({{0.05, 0.1, -0.5}, {0.1, -0.3, 0.4}});
@@ -52,7 +33,7 @@ int main()
 
     std::cout << "\n";
 
-    for (int i = 0; i < 5; ++i)
+    for (int i = 0; i < 50; ++i)
     {
         std::cout << "epoch : "
                   << i

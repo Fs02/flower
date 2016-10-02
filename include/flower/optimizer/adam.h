@@ -5,10 +5,10 @@
 
 namespace flower
 {
-    class AdamDef : public IOptimizerDef
+    class Adam : public IOptimizerDef
     {
     public:
-        AdamDef(double lr = 0.001, double beta1 = 0.9, double beta2 = 0.999, double eps = 1e-08);
+        Adam(double lr = 0.001, double beta1 = 0.9, double beta2 = 0.999, double eps = 1e-08);
 
         inline const char *type() const { return "Adam"; }
 
@@ -26,14 +26,12 @@ namespace flower
         double eps_;
     };
 
-    class Adam : public IOptimizer
+    class AdamOptimizer : public IOptimizer
     {
     public:
-        explicit Adam(Net *net, const AdamDef &definition);
+        explicit AdamOptimizer(Net *net, const Adam &definition);
 
         inline const char *type() const { return "Adam"; }
-
-        Eigen::MatrixXd optimize(const Eigen::MatrixXd &weight, const Eigen::MatrixXd &derivative);
 
         Eigen::Tensor<double, 2> optimize(const Eigen::Tensor<double, 2> &weight, const Eigen::Tensor<double, 2> &derivative);
 
@@ -42,11 +40,8 @@ namespace flower
         double beta1_;
         double beta2_;
         double eps_;
-        Eigen::ArrayXXd  m_;
-        Eigen::ArrayXXd  v_;
-
-        Eigen::Tensor<double, 2>  t_m_;
-        Eigen::Tensor<double, 2>  t_v_;
+        Eigen::Tensor<double, 2>  m_;
+        Eigen::Tensor<double, 2>  v_;
     };
 }
 

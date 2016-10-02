@@ -35,11 +35,17 @@ namespace flower
         Eigen::MatrixXd forward(const Eigen::MatrixXd &data, bool train = false);
         Eigen::MatrixXd backward(const Eigen::MatrixXd &errors);
 
+        Eigen::Tensor<double, 2> forward(const Eigen::Tensor<double, 2> &data, bool train = false);
+        Eigen::Tensor<double, 2> backward(const Eigen::Tensor<double, 2> &errors);
+
     protected:
         Eigen::MatrixXd data_;
         Eigen::MatrixXd weights_;
 
         optimizer_ptr optimizer_;
+
+        Eigen::Tensor<double, 2> input_;
+        Eigen::Tensor<double, 2> parameters_;
     };
 }
 

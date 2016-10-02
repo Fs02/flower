@@ -30,9 +30,14 @@ namespace flower
         Eigen::MatrixXd forward(const Eigen::MatrixXd &data, bool train = false);
         Eigen::MatrixXd backward(const Eigen::MatrixXd &errors);
 
+        Eigen::Tensor<double, 2> forward(const Eigen::Tensor<double, 2> &data, bool train = false);
+        Eigen::Tensor<double, 2> backward(const Eigen::Tensor<double, 2> &errors);
+
     protected:
         Eigen::MatrixXd data_;
         double alpha_;
+
+        Eigen::Tensor<double, 2> input_;
     };
 }
 

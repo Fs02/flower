@@ -35,3 +35,15 @@ Eigen::MatrixXd Dropout::backward(const Eigen::MatrixXd &errors)
 {
     return mask_.matrix().transpose().cwiseProduct(errors);
 }
+
+
+Eigen::Tensor<double, 2> Dropout::forward(const Eigen::Tensor<double, 2> &data, bool train)
+{
+    return data;
+}
+
+Eigen::Tensor<double, 2> Dropout::backward(const Eigen::Tensor<double, 2> &errors)
+{
+    return errors;
+}
+

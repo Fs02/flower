@@ -9,6 +9,7 @@
 #include <flower/optimizer/vanilla.h>
 #include <flower/gradient_descent.h>
 #include <Eigen/Core>
+#include <Eigen/CXX11/Tensor>
 
 using namespace std;
 
@@ -34,12 +35,27 @@ int main()
 
     flower::GradientDescent trainer(&net, 0.01f);
 
-    for (int i = 0; i < 100; ++i)
+    for (int i = 0; i < 1; ++i)
     {
         std::cout << "epoch : "
                   << i
                   << " error: "
                   << trainer.feed(data, target)
+                  << std::endl;
+    }
+
+    Eigen::Tensor<double, 2> t_data(2, 3);
+    t_data.setValues({{0.05, 0.1, -0.5}, {0.1, -0.3, 0.4}});
+
+    Eigen::Tensor<double, 2> t_target(2, 3);
+    t_target.setValues({{0.01, 0.99, 1.0}, {0.9, 0.3, 0.2}});
+
+    for (int i = 0; i < 1; ++i)
+    {
+        std::cout << "epoch : "
+                  << i
+                  << " error: "
+                  << trainer.feed(t_data, t_target)
                   << std::endl;
     }
 

@@ -45,7 +45,7 @@ layer_ptr EluDef::create(Net *net, const char *name) const
 }
 
 Elu::Elu(Net *net, const char *name, const EluDef &definition)
-    : ILayer(net, name, definition), data_(0, 0), alpha_(definition.alpha())
+    : ILayer(net, name, definition), data_(0, 0), input_(0, 0), alpha_(definition.alpha())
 {}
 
 Eigen::MatrixXd Elu::forward(const Eigen::MatrixXd &data, bool train)
@@ -59,4 +59,20 @@ Eigen::MatrixXd Elu::forward(const Eigen::MatrixXd &data, bool train)
 Eigen::MatrixXd Elu::backward(const Eigen::MatrixXd &errors)
 {
     return data_.unaryExpr(EluDerivativeOp<double>(alpha_)).transpose().cwiseProduct(errors);
+}
+
+
+Eigen::Tensor<double, 2> Elu::forward(const Eigen::Tensor<double, 2> &data, bool train)
+{
+    if (train)
+        input_ = data;
+
+    return data.unaryExpr(EluOp<double>(alpha_));
+}
+
+Eigen::Tensor<double, 2> Elu::backward(const Eigen::Tensor<double, 2> &errors)
+{
+    Eigen::array<int, 2> transpose({1, 0});
+
+    return input_.shuffle(transpose).unaryExpr(EluDerivativeOp<double>(alpha_)) * errors;
 }

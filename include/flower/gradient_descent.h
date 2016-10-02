@@ -2,6 +2,7 @@
 #define FLOWER_GRADIENT_DESCENT_H
 
 #include <Eigen/Core>
+#include <Eigen/CXX11/Tensor>
 #include <vector>
 
 namespace flower {
@@ -16,6 +17,8 @@ namespace flower {
         ~GradientDescent();
 
         double feed(const Eigen::MatrixXd &data, const Eigen::MatrixXd &target);
+
+        Eigen::Tensor<double, 0> feed(const Eigen::Tensor<double, 2> &data, const Eigen::Tensor<double, 2> &target);
 
     private:
         Net *net_;

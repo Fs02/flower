@@ -3,6 +3,7 @@
 
 #include <flower/optimizer.h>
 #include <Eigen/Core>
+#include <Eigen/CXX11/Tensor>
 #include <memory>
 
 namespace flower {
@@ -39,6 +40,9 @@ namespace flower {
 
         virtual Eigen::MatrixXd forward(const Eigen::MatrixXd &data, bool train = false) = 0;
         virtual Eigen::MatrixXd backward(const Eigen::MatrixXd &errors) = 0;
+
+        virtual Eigen::Tensor<double, 2> forward(const Eigen::Tensor<double, 2> &data, bool train = false) = 0;
+        virtual Eigen::Tensor<double, 2> backward(const Eigen::Tensor<double, 2> &errors) = 0;
 
     protected:
         const char *name_;

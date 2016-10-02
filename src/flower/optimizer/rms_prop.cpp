@@ -18,8 +18,18 @@ RmsProp::RmsProp(Net *net, const RmsPropDef &definition)
 Eigen::MatrixXd RmsProp::optimize(const Eigen::MatrixXd &weight, const Eigen::MatrixXd &derivative)
 {
     if (gt_.rows() * gt_.cols() == 0)
-        gt_= Eigen::ArrayXXd(derivative.rows(), derivative.cols());
+        gt_= Eigen::ArrayXXd::Zero(derivative.rows(), derivative.cols());
 
     gt_ = decay_ * gt_ + (1.0 - decay_) * derivative.array().pow(2.0);
     return weight - (lr_ * derivative.array() / (gt_.sqrt() + eps_)).matrix();
+}
+
+Eigen::Tensor<double, 2> RmsProp::optimize(const Eigen::Tensor<double, 2> &weight, const Eigen::Tensor<double, 2> &derivative)
+{
+    if (t_gt_.size() == 0)
+        t_gt_ = Eigen::Tensor<double, 2>(derivative.dimension(0), derivative.dimension(1)).setZero();
+
+    t_gt_ = decay_ * t_gt_ + (1.0 - decay_) * derivative.pow(2.0);
+
+    return weight - (lr_ * derivative / (t_gt_.sqrt() + eps_));
 }

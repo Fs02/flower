@@ -25,4 +25,7 @@ Eigen::MatrixXd Vanilla::optimize(const Eigen::MatrixXd &weight, const Eigen::Ma
     return weight - (lr_ * derivative);
 }
 
-
+Eigen::Tensor<double, 2> Vanilla::optimize(const Eigen::Tensor<double, 2> &weight, const Eigen::Tensor<double, 2> &derivative)
+{
+    return weight - (lr_ * derivative);
+}

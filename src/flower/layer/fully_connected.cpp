@@ -64,6 +64,8 @@ Eigen::Tensor<double, 2> FullyConnected::forward(const Eigen::Tensor<double, 2> 
 Eigen::Tensor<double, 2> FullyConnected::backward(const Eigen::Tensor<double, 2> &errors)
 {
     // TODO: update weight
+    Eigen::array<Eigen::IndexPair<int>, 1> transpose_product_dims = { Eigen::IndexPair<int>(0, 1) };
+    parameters_ = optimizer_->optimize(parameters_, input_.contract(errors, transpose_product_dims));
 
     // remove bias from weight
     Eigen::array<int, 2> offsets = {0, 0};

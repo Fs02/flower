@@ -6,7 +6,6 @@
 #include <flower/layer/elu.h>
 #include <flower/layer/fully_connected.h>
 #include <flower/layer/dropout.h>
-#include <flower/optimizer/vanilla.h>
 #include <flower/gradient_descent.h>
 #include <Eigen/Core>
 #include <Eigen/CXX11/Tensor>
@@ -33,9 +32,9 @@ int main()
     net.add("FullyConnected3", flower::FullyConnectedDef(3, 3));
     net.add("Sigmoid", flower::SigmoidDef());
 
-    flower::GradientDescent trainer(&net, 0.01f);
+    flower::GradientDescent trainer(&net, 0.01);
 
-    for (int i = 0; i < 1; ++i)
+    for (int i = 0; i < 5; ++i)
     {
         std::cout << "epoch : "
                   << i
@@ -50,7 +49,9 @@ int main()
     Eigen::Tensor<double, 2> t_target(2, 3);
     t_target.setValues({{0.01, 0.99, 1.0}, {0.9, 0.3, 0.2}});
 
-    for (int i = 0; i < 1; ++i)
+    std::cout << "\n";
+
+    for (int i = 0; i < 5; ++i)
     {
         std::cout << "epoch : "
                   << i

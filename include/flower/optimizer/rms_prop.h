@@ -33,11 +33,15 @@ namespace flower
 
         Eigen::MatrixXd optimize(const Eigen::MatrixXd &weight, const Eigen::MatrixXd &derivative);
 
+        Eigen::Tensor<double, 2> optimize(const Eigen::Tensor<double, 2> &weight, const Eigen::Tensor<double, 2> &derivative);
+
     protected:
         double lr_;
         double decay_;
         double eps_;
         Eigen::ArrayXXd  gt_;
+
+        Eigen::Tensor<double, 2> t_gt_;
     };
 }
 

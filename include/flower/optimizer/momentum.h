@@ -31,10 +31,14 @@ namespace flower
 
         Eigen::MatrixXd optimize(const Eigen::MatrixXd &weight, const Eigen::MatrixXd &derivative);
 
+        Eigen::Tensor<double, 2> optimize(const Eigen::Tensor<double, 2> &weight, const Eigen::Tensor<double, 2> &derivative);
+
     protected:
         double lr_;
         double mu_;
         Eigen::MatrixXd  velocity_;
+
+        Eigen::Tensor<double, 2> vel_;
     };
 }
 

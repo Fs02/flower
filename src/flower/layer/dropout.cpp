@@ -13,7 +13,7 @@ layer_ptr DropoutDef::create(Net *net, const char *name) const
 }
 
 Dropout::Dropout(Net *net, const char *name, const DropoutDef &definition)
-    : ILayer(net, name, definition), mask_(0, 0), probability_(definition.probability())
+    : ILayer(net, name, definition), mask_(0, 0), t_mask_(0, 0), probability_(definition.probability())
 {}
 
 Eigen::MatrixXd Dropout::forward(const Eigen::MatrixXd &data, bool train)
@@ -39,11 +39,21 @@ Eigen::MatrixXd Dropout::backward(const Eigen::MatrixXd &errors)
 
 Eigen::Tensor<double, 2> Dropout::forward(const Eigen::Tensor<double, 2> &data, bool train)
 {
+    if (train)
+    {
+        t_mask_ = (data.random() > probability_).cast<double>()  / probability_;
+
+        // dropout with inverted approach
+        return data * t_mask_;
+    }
+
     return data;
 }
 
 Eigen::Tensor<double, 2> Dropout::backward(const Eigen::Tensor<double, 2> &errors)
 {
-    return errors;
+    Eigen::array<int, 2> transpose({1, 0});
+
+    return t_mask_.shuffle(transpose) * errors;
 }
 

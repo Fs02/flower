@@ -36,6 +36,9 @@ namespace flower
     protected:
         Eigen::ArrayXXd mask_;
         double probability_;
+
+        Eigen::Tensor<double, 2> t_mask_;
+
     };
 }
 

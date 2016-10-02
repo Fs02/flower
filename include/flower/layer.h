@@ -21,7 +21,7 @@ namespace flower {
         virtual inline const char *type() const = 0;
 
     protected:
-        virtual layer_ptr create(Net *net, const char* name) const = 0;
+        virtual layer_ptr create(Net *net) const = 0;
     };
 
     class ILayer
@@ -30,10 +30,9 @@ namespace flower {
         ILayer() = delete;
         ILayer(const ILayer&) = delete;
 
-        explicit ILayer(Net* net, const char *name, const ILayerDef &definition);
+        explicit ILayer(Net* net, const ILayerDef &definition);
 
         virtual inline const char *type() const = 0;
-        virtual inline const char *name() const { return name_; }
 
         virtual void configure(const IOptimizerDef &optimizer_def);
 
@@ -41,7 +40,6 @@ namespace flower {
         virtual Eigen::Tensor<double, 2> backward(const Eigen::Tensor<double, 2> &errors) = 0;
 
     protected:
-        const char *name_;
         Net* net_;
     };
 }

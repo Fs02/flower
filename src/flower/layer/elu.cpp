@@ -39,13 +39,13 @@ Elu::Elu(double alpha)
     : ILayerDef(), alpha_(alpha)
 {}
 
-layer_ptr Elu::create(Net *net, const char *name) const
+layer_ptr Elu::create(Net *net) const
 {
-    return std::make_shared<EluLayer>(net, name, *this);
+    return std::make_shared<EluLayer>(net, *this);
 }
 
-EluLayer::EluLayer(Net *net, const char *name, const Elu &definition)
-    : ILayer(net, name, definition), data_(0, 0), alpha_(definition.alpha())
+EluLayer::EluLayer(Net *net, const Elu &definition)
+    : ILayer(net, definition), data_(0, 0), alpha_(definition.alpha())
 {}
 
 Eigen::Tensor<double, 2> EluLayer::forward(const Eigen::Tensor<double, 2> &data, bool train)

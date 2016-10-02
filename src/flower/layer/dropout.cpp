@@ -7,13 +7,13 @@ Dropout::Dropout(double probabilty)
     : ILayerDef(), probability_(probabilty)
 {}
 
-layer_ptr Dropout::create(Net *net, const char *name) const
+layer_ptr Dropout::create(Net *net) const
 {
-    return std::make_shared<DropoutLayer>(net, name, *this);
+    return std::make_shared<DropoutLayer>(net, *this);
 }
 
-DropoutLayer::DropoutLayer(Net *net, const char *name, const Dropout &definition)
-    : ILayer(net, name, definition), mask_(0, 0), probability_(definition.probability())
+DropoutLayer::DropoutLayer(Net *net, const Dropout &definition)
+    : ILayer(net, definition), mask_(0, 0), probability_(definition.probability())
 {}
 
 Eigen::Tensor<double, 2> DropoutLayer::forward(const Eigen::Tensor<double, 2> &data, bool train)

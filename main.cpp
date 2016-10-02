@@ -16,12 +16,12 @@ int main()
 {
     flower::Net net = flower::Net();
 
-    net.add("FullyConnected1", flower::FullyConnected(3, 3));
-    net.add("Elu", flower::Elu());
-    net.add("FullyConnected2", flower::FullyConnected(3, 3));
-    net.add("Relu", flower::Relu());
-    net.add("FullyConnected3", flower::FullyConnected(3, 3));
-    net.add("Sigmoid", flower::Sigmoid());
+    net.add(flower::FullyConnected(3, 3));
+    net.add(flower::Elu());
+    net.add(flower::FullyConnected(3, 3));
+    net.add(flower::Relu());
+    net.add(flower::FullyConnected(3, 3));
+    net.add(flower::Sigmoid());
 
     flower::GradientDescent trainer(&net, flower::Momentum());
 

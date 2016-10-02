@@ -13,13 +13,13 @@ namespace flower
         inline const char *type() const { return "Relu"; }
 
     protected:
-        layer_ptr create(Net *net, const char* name) const;
+        layer_ptr create(Net *net) const;
     };
 
     class ReluLayer : public ILayer
     {
     public:
-        explicit ReluLayer(Net *net, const char *name, const Relu &definition);
+        explicit ReluLayer(Net *net, const Relu &definition);
 
         inline const char *type() const { return "Relu"; }
 

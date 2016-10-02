@@ -6,8 +6,8 @@ using namespace flower;
 ILayerDef::ILayerDef()
 {}
 
-ILayer::ILayer(Net* net, const char *name, const ILayerDef &definition)
-    : net_(net), name_(name)
+ILayer::ILayer(Net* net, const ILayerDef &definition)
+    : net_(net)
 {}
 
 void ILayer::configure(const IOptimizerDef &optimizer_def)

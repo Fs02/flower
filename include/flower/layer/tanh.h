@@ -13,13 +13,13 @@ namespace flower
         inline const char *type() const { return "Tanh"; }
 
     protected:
-        layer_ptr create(Net *net, const char* name) const;
+        layer_ptr create(Net *net) const;
     };
 
     class TanhLayer : public ILayer
     {
     public:
-        explicit TanhLayer(Net *net, const char *name, const Tanh &definition);
+        explicit TanhLayer(Net *net, const Tanh &definition);
 
         inline const char *type() const { return "Tanh"; }
 

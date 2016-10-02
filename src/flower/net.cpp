@@ -21,17 +21,17 @@ Eigen::Tensor<double, 2> Net::infer(const Eigen::Tensor<double, 2> &data) const
     Eigen::Tensor<double, 2> predict = data;
     for(const auto &layer : layers_)
     {
-        predict = layer.second->forward(predict);
+        predict = layer->forward(predict);
     }
     return predict;
 }
 
-void Net::add(const char *name, const ILayerDef &definition)
+void Net::add(const ILayerDef &definition)
 {
-    layers_.push_back(std::make_pair(name, definition.create(this, name)));
+    layers_.push_back(definition.create(this));
 }
 
-const std::vector<std::pair<const char*, layer_ptr>> &Net::layers() const
+const std::vector<layer_ptr> &Net::layers() const
 {
     return layers_;
 }

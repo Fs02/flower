@@ -14,7 +14,7 @@ GradientDescent::GradientDescent(Net *net, const IOptimizerDef &optimizer_def)
     // configure all layer
     for(const auto &layer : net_->layers())
     {
-        layer.second->configure(optimizer_def);
+        layer->configure(optimizer_def);
     }
 }
 
@@ -30,7 +30,7 @@ Eigen::Tensor<double, 0> GradientDescent::feed(const Eigen::Tensor<double, 2> &d
     Eigen::Tensor<double, 2> predict = data;
     for(const auto &layer : net_->layers())
     {
-        predict = layer.second->forward(predict, true);
+        predict = layer->forward(predict, true);
     }
 
     // TODO
@@ -42,7 +42,7 @@ Eigen::Tensor<double, 0> GradientDescent::feed(const Eigen::Tensor<double, 2> &d
 
     for(auto i = net_->layers().rbegin(); i != net_->layers().rend(); ++i)
     {
-        errors = (*i).second->backward(errors);
+        errors = (*i)->backward(errors);
     }
 
     return total_error;

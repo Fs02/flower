@@ -28,14 +28,14 @@ Tanh::Tanh()
     : ILayerDef()
 {}
 
-layer_ptr Tanh::create(Net *net, const char *name) const
+layer_ptr Tanh::create(Net *net) const
 {
-    return std::make_shared<TanhLayer>(net, name, *this);
+    return std::make_shared<TanhLayer>(net, *this);
 }
 
 
-TanhLayer::TanhLayer(Net *net, const char *name, const Tanh &definition)
-    : ILayer(net, name, definition), data_(0, 0)
+TanhLayer::TanhLayer(Net *net, const Tanh &definition)
+    : ILayer(net, definition), data_(0, 0)
 {}
 
 Eigen::Tensor<double, 2> TanhLayer::forward(const Eigen::Tensor<double, 2> &data, bool train)

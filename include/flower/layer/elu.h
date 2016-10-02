@@ -17,13 +17,13 @@ namespace flower
         double alpha_;
 
     protected:
-        layer_ptr create(Net *net, const char* name) const;
+        layer_ptr create(Net *net) const;
     };
 
     class EluLayer : public ILayer
     {
     public:
-        explicit EluLayer(Net *net, const char *name, const Elu &definition);
+        explicit EluLayer(Net *net, const Elu &definition);
 
         inline const char *type() const { return "Elu"; }
 

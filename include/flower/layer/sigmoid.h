@@ -15,13 +15,13 @@ namespace flower
         unsigned int size_;
 
     protected:
-        layer_ptr create(Net *net, const char* name) const;
+        layer_ptr create(Net *net) const;
     };
 
     class SigmoidLayer : public ILayer
     {
     public:
-        explicit SigmoidLayer(Net *net, const char *name, const Sigmoid &definition);
+        explicit SigmoidLayer(Net *net, const Sigmoid &definition);
 
         inline const char *type() const { return "Sigmoid"; }
 

@@ -17,7 +17,7 @@ namespace flower
         inline unsigned int output_size() const { return output_size_; }
 
     protected:
-        layer_ptr create(Net *net, const char* name) const;
+        layer_ptr create(Net *net) const;
 
         unsigned int input_size_;
         unsigned int output_size_;
@@ -26,7 +26,7 @@ namespace flower
     class FullyConnectedLayer : public ILayer
     {
     public:
-        FullyConnectedLayer(Net *net, const char *name, const FullyConnected &definition);
+        FullyConnectedLayer(Net *net, const FullyConnected &definition);
 
         inline const char *type() const { return "FullyConnected"; }
 

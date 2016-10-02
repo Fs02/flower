@@ -29,13 +29,13 @@ Relu::Relu()
     : ILayerDef()
 {}
 
-layer_ptr Relu::create(Net *net, const char *name) const
+layer_ptr Relu::create(Net *net) const
 {
-    return std::make_shared<ReluLayer>(net, name, *this);
+    return std::make_shared<ReluLayer>(net, *this);
 }
 
-ReluLayer::ReluLayer(Net *net, const char *name, const Relu &definition)
-    : ILayer(net, name, definition), data_(0, 0)
+ReluLayer::ReluLayer(Net *net, const Relu &definition)
+    : ILayer(net, definition), data_(0, 0)
 {}
 
 Eigen::Tensor<double, 2> ReluLayer::forward(const Eigen::Tensor<double, 2> &data, bool train)

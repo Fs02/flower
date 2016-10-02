@@ -30,14 +30,14 @@ Sigmoid::Sigmoid()
     : ILayerDef()
 {}
 
-layer_ptr Sigmoid::create(Net *net, const char *name) const
+layer_ptr Sigmoid::create(Net *net) const
 {
-    return std::make_shared<SigmoidLayer>(net, name, *this);
+    return std::make_shared<SigmoidLayer>(net, *this);
 }
 
 
-SigmoidLayer::SigmoidLayer(Net *net, const char *name, const Sigmoid &definition)
-    : ILayer(net, name, definition), data_(0, 0)
+SigmoidLayer::SigmoidLayer(Net *net, const Sigmoid &definition)
+    : ILayer(net, definition), data_(0, 0)
 {}
 
 Eigen::Tensor<double, 2> SigmoidLayer::forward(const Eigen::Tensor<double, 2> &data, bool train)

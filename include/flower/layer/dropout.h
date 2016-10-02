@@ -17,13 +17,13 @@ namespace flower
         double probability_;
 
     protected:
-        layer_ptr create(Net *net, const char* name) const;
+        layer_ptr create(Net *net) const;
     };
 
     class DropoutLayer : public ILayer
     {
     public:
-        explicit DropoutLayer(Net *net, const char *name, const Dropout &definition);
+        explicit DropoutLayer(Net *net, const Dropout &definition);
 
         inline const char *type() const { return "Dropout"; }
 

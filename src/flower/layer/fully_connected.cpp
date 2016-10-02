@@ -7,13 +7,13 @@ FullyConnected::FullyConnected(unsigned int input_size, unsigned int output_size
     : ILayerDef(), input_size_(input_size), output_size_(output_size)
 {}
 
-layer_ptr FullyConnected::create(Net *net, const char *name) const
+layer_ptr FullyConnected::create(Net *net) const
 {
-    return std::make_shared<FullyConnectedLayer>(net, name, *this);
+    return std::make_shared<FullyConnectedLayer>(net, *this);
 }
 
-FullyConnectedLayer::FullyConnectedLayer(Net *net, const char *name, const FullyConnected &definition)
-    : ILayer(net, name, definition), data_(0, 0),
+FullyConnectedLayer::FullyConnectedLayer(Net *net, const FullyConnected &definition)
+    : ILayer(net, definition), data_(0, 0),
       weights_(definition.input_size() + 1, definition.output_size()) // with bias
 {
     weights_.setRandom();

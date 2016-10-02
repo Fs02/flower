@@ -42,8 +42,8 @@ Eigen::Tensor<double, 2> Adam::optimize(const Eigen::Tensor<double, 2> &weight, 
 {
     if (t_m_.size() == 0)
     {
-        t_m_ = Eigen::Tensor<double, 2>(derivative.dimension(0), derivative.dimension(1)).setZero();
-        t_v_ = Eigen::Tensor<double, 2>(derivative.dimension(0), derivative.dimension(1)).setZero();
+        t_m_ = derivative.constant(0.0);
+        t_v_ = derivative.constant(0.0);
     }
 
     // update first moment

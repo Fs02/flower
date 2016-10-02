@@ -26,8 +26,9 @@ Eigen::MatrixXd RmsProp::optimize(const Eigen::MatrixXd &weight, const Eigen::Ma
 
 Eigen::Tensor<double, 2> RmsProp::optimize(const Eigen::Tensor<double, 2> &weight, const Eigen::Tensor<double, 2> &derivative)
 {
+    // initialize gt with derivative dimensions and zero value
     if (t_gt_.size() == 0)
-        t_gt_ = Eigen::Tensor<double, 2>(derivative.dimension(0), derivative.dimension(1)).setZero();
+        t_gt_ = derivative.constant(0.0);
 
     t_gt_ = decay_ * t_gt_ + (1.0 - decay_) * derivative.pow(2.0);
 

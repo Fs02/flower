@@ -7,6 +7,7 @@
 #include <flower/layer/fully_connected.h>
 #include <flower/layer/dropout.h>
 #include <flower/gradient_descent.h>
+#include <flower/optimizer/adam.h>
 #include <Eigen/Core>
 #include <Eigen/CXX11/Tensor>
 
@@ -32,7 +33,7 @@ int main()
     net.add("FullyConnected3", flower::FullyConnectedDef(3, 3));
     net.add("Sigmoid", flower::SigmoidDef());
 
-    flower::GradientDescent trainer(&net, 0.01);
+    flower::GradientDescent trainer(&net, flower::AdamDef());
 
     for (int i = 0; i < 5; ++i)
     {

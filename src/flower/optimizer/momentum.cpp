@@ -27,8 +27,9 @@ Eigen::MatrixXd Momentum::optimize(const Eigen::MatrixXd &weight, const Eigen::M
 
 Eigen::Tensor<double, 2> Momentum::optimize(const Eigen::Tensor<double, 2> &weight, const Eigen::Tensor<double, 2> &derivative)
 {
+    // initialize val with derivative dimensions and zero value
     if (vel_.size() == 0)
-        vel_ = Eigen::Tensor<double, 2>(derivative.dimension(0), derivative.dimension(1)).setZero();
+        vel_ = derivative.constant(0.0);
 
     vel_ = (mu_ * vel_) - (lr_ * derivative);
 

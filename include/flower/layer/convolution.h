@@ -40,7 +40,7 @@ namespace flower
         Eigen::Tensor<double, 4> forward(const Eigen::Tensor<double, 4> &data, bool train = false);
         Eigen::Tensor<double, 4> backward(const Eigen::Tensor<double, 4> &errors);
 
-        static void convolve(const Eigen::Tensor<double, 4>& input, const Eigen::Tensor<double, 3>& filter, double bias, Eigen::Tensor<double, 3>& output, int stride);
+        static void convolve(const Eigen::Tensor<double, 4>& input, Eigen::Tensor<double, 3>& output, const Eigen::Tensor<double, 3>& filter, double bias, int stride);
 
     protected:
         std::vector<Eigen::Tensor<double, 3>> filters_;

@@ -34,7 +34,7 @@ int main()
 
     std::cout << "\n";
 
-    for (int i = 0; i < 50; ++i)
+    for (int i = 0; i < 1; ++i)
     {
         std::cout << "epoch : "
                   << i
@@ -128,9 +128,12 @@ int main()
 
     Eigen::Tensor<double, 3> output(2, 3, 3);
 
-    flower::ConvolutionLayer::convolve(input, filter, 1.0, output, 2);
+    flower::ConvolutionLayer::convolve(input, output, filter, 1.0, 2);
 
-    std::cout << output;
+    std::cout << output << std::endl;
+
+    flower::ConvolutionLayer conv(&net, flower::Convolution({3, 3, 3}, 2, 2, 0));
+    std::cout << conv.forward(input).size();
 
     return 0;
 }

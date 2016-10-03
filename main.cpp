@@ -9,6 +9,7 @@
 #include <flower/gradient_descent.h>
 #include <flower/optimizer/momentum.h>
 #include <Eigen/CXX11/Tensor>
+#include <flower/layer/convolution.h>
 
 using namespace std;
 
@@ -41,6 +42,62 @@ int main()
                   << trainer.feed(t_data, t_target)
                   << std::endl;
     }
+
+    Eigen::Tensor<double, 3> input(3, 7, 7);
+    input.setValues({
+                        {
+                            {0, 0, 0, 0, 0, 0, 0},
+                            {0, 0, 2, 0, 1, 1, 0},
+                            {0, 0, 0, 0, 1, 1, 0},
+                            {0, 0, 1, 2, 2, 1, 0},
+                            {0, 2, 1, 1, 1, 2, 0},
+                            {0, 0, 1, 1, 1, 2, 0},
+                            {0, 0, 0, 0, 0, 0, 0}
+                        },
+                        {
+                            {0, 0, 0, 0, 0, 0, 0},
+                            {0, 1, 1, 0, 1, 2, 0},
+                            {0, 1, 0, 1, 2, 2, 0},
+                            {0, 2, 0, 1, 2, 0, 0},
+                            {0, 1, 0, 2, 1, 1, 0},
+                            {0, 0, 2, 1, 1, 2, 0},
+                            {0, 0, 0, 0, 0, 0, 0}
+                        },
+                        {
+                            {0, 0, 0, 0, 0, 0, 0},
+                            {0, 0, 2, 1, 0, 2, 0},
+                            {0, 2, 0, 0, 2, 2, 0},
+                            {0, 1, 1, 2, 2, 1, 0},
+                            {0, 2, 1, 2, 2, 1, 0},
+                            {0, 0, 2, 2, 2, 0, 0},
+                            {0, 0, 0, 0, 0, 0, 0}
+                        }
+                    });
+
+    Eigen::Tensor<double, 3> filter(3, 3, 3);
+    filter.setValues({
+                         {
+                             {-1, 0, 0},
+                             {-1,-1, 0},
+                             { 0, 0, 1}
+                         },
+                         {
+                             { 0, 0,-1},
+                             { 1,-1, 1},
+                             { 0, 0, 1}
+                         },
+                         {
+                             {-1, 1,-1},
+                             { 0,-1, 0},
+                             { 1,-1,-1}
+                         }
+                     });
+
+    Eigen::Tensor<double, 2> output(5, 5);
+
+    flower::Convolution::convolve(input, filter, 1.0, output, 1);
+
+    std::cout << output;
 
     return 0;
 }

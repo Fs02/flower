@@ -6,7 +6,8 @@
 
 namespace flower
 {
-    class FullyConnected : public ILayerDef
+    template<typename Scalar>
+    class FullyConnected : public ILayer<Scalar>
     {
     public:
         FullyConnected(unsigned int input_size, unsigned int output_size);
@@ -17,30 +18,31 @@ namespace flower
         inline unsigned int output_size() const { return output_size_; }
 
     protected:
-        layer_ptr create(Net *net) const;
+        LayerPtr<Scalar> create(Net<Scalar> *net) const;
 
         unsigned int input_size_;
         unsigned int output_size_;
     };
 
-    class FullyConnectedLayer : public ILayer
+    template<typename Scalar>
+    class FullyConnectedOp : public ILayerOp<Scalar>
     {
     public:
-        FullyConnectedLayer(Net *net, const FullyConnected &definition);
+        FullyConnectedOp(Net<Scalar> *net, const FullyConnected<Scalar> &definition);
 
-        inline const char *type() const { return "FullyConnected"; }
+        void configure(const IOptimizer<Scalar> &optimizer);
 
-        void configure(const IOptimizerDef &optimizer_def);
-
-        Eigen::Tensor<double, 2> forward(const Eigen::Tensor<double, 2> &data, bool train = false);
-        Eigen::Tensor<double, 2> backward(const Eigen::Tensor<double, 2> &errors);
+        TensorData<Scalar> forward(const TensorData<Scalar> &bottom, bool train = false);
+        TensorData<Scalar> backward(const TensorData<Scalar> &top);
 
     protected:
-        Eigen::Tensor<double, 2> data_;
-        Eigen::Tensor<double, 2> weights_;
+        Tensor<double, 2> data_;
+        Tensor<double, 2> weights_;
 
-        optimizer_ptr optimizer_;
+        OptimizerPtr<Scalar> optimizer_;
     };
+
+    #include <flower/fully_connected.inl>
 }
 
 #endif

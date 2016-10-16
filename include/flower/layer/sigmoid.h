@@ -27,7 +27,7 @@ namespace flower
         TensorData<Scalar> backward(const TensorData<Scalar> &top);
 
     protected:
-        TensorData<Scalar> data_;
+        Tensor<Scalar, 1> data_;
     };
 
     #include<flower/sigmoid.inl>

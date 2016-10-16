@@ -43,7 +43,7 @@ template<typename Scalar>
 TensorData<Scalar> TanhOp<Scalar>::forward(const TensorData<Scalar> &bottom, bool train = false)
 {
     if (train)
-        data_ = bottom;
+        data_ = bottom.map<1>(bottom.size());
 
     return bottom.map<1>(bottom.size()).unaryExpr(internal::TanForwardhOp<Scalar>());
 }
@@ -51,5 +51,5 @@ TensorData<Scalar> TanhOp<Scalar>::forward(const TensorData<Scalar> &bottom, boo
 template<typename Scalar>
 TensorData<Scalar> TanhOp<Scalar>::backward(const TensorData<Scalar> &top)
 {
-    return data_.map<1>(data_.size()).unaryExpr(internal::TanhBackwardOp<Scalar>()) * top.map<1>(top.size());
+    return data_.unaryExpr(internal::TanhBackwardOp<Scalar>()) * top.map<1>(top.size());
 }

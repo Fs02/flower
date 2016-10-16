@@ -53,7 +53,7 @@ template<typename Scalar>
 TensorData<Scalar> EluOp<Scalar>::forward(const TensorData<Scalar> &bottom, bool train = false)
 {
     if (train)
-        data_ = bottom;
+        data_ = bottom.map<1>(bottom.size());
 
     return bottom.map<1>(bottom.size()).unaryExpr(internal::EluForwardhOp<Scalar>(definition.alpha()));
 }
@@ -61,5 +61,5 @@ TensorData<Scalar> EluOp<Scalar>::forward(const TensorData<Scalar> &bottom, bool
 template<typename Scalar>
 TensorData<Scalar> EluOp<Scalar>::backward(const TensorData<Scalar> &top)
 {
-    return data_.map<1>(data_.size()).unaryExpr(internal::EluBackwardOp<Scalar>(definition.alpha())) * top.map<1>(top.size());
+    return data_.unaryExpr(internal::EluBackwardOp<Scalar>(definition.alpha())) * top.map<1>(top.size());
 }

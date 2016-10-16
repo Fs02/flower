@@ -43,7 +43,7 @@ template<typename Scalar>
 TensorData<Scalar> ReluOp<Scalar>::forward(const TensorData<Scalar> &bottom, bool train = false)
 {
     if (train)
-        data_ = bottom;
+        data_ = bottom.map<1>(bottom.size());
 
     return bottom.map<1>(bottom.size()).unaryExpr(internal::ReluForwardhOp<Scalar>());
 }
@@ -51,5 +51,5 @@ TensorData<Scalar> ReluOp<Scalar>::forward(const TensorData<Scalar> &bottom, boo
 template<typename Scalar>
 TensorData<Scalar> ReluOp<Scalar>::backward(const TensorData<Scalar> &top)
 {
-    return data_.map<1>(data_.size()).unaryExpr(internal::ReluBackwardOp<Scalar>()) * top.map<1>(top.size());
+    return data_.unaryExpr(internal::ReluBackwardOp<Scalar>()) * top.map<1>(top.size());
 }

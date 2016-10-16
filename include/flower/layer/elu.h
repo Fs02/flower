@@ -31,7 +31,7 @@ namespace flower
         TensorData<Scalar> backward(const TensorData<Scalar> &top);
 
     protected:
-        Eigen::Tensor<double, 2> data_;
+        Eigen::Tensor<Scalar, 1> data_;
     };
 
     #include <flower/elu.inl>

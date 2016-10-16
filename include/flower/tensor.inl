@@ -4,7 +4,7 @@ TensorData<Scalar>::TensorData(unsigned int size)
 {}
 
 template<typename Scalar>
-TensorData(const TensorData<Scalar> &other)
+TensorData<Scalar>::TensorData(const TensorData<Scalar> &other)
     : data_{new Scalar(*other.data_)}, size_(other.size)
 {}
 

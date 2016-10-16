@@ -45,7 +45,7 @@ template<typename Scalar>
 TensorData<Scalar> SigmoidOp<Scalar>::forward(const TensorData<Scalar> &bottom, bool train = false)
 {
     if (train)
-        data_ = bottom;
+        data_ = bottom.map<1>(bottom.size());
 
     return bottom.map<1>(bottom.size()).unaryExpr(internal::SigmoidForwardhOp<Scalar>());
 }
@@ -53,5 +53,5 @@ TensorData<Scalar> SigmoidOp<Scalar>::forward(const TensorData<Scalar> &bottom, 
 template<typename Scalar>
 TensorData<Scalar> SigmoidOp<Scalar>::backward(const TensorData<Scalar> &top)
 {
-    return data_.map<1>(data_.size()).unaryExpr(internal::SigmoidBackwardOp<Scalar>()) * top.map<1>(top.size());
+    return data_.unaryExpr(internal::SigmoidBackwardOp<Scalar>()) * top.map<1>(top.size());
 }

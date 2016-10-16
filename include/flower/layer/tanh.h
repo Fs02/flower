@@ -5,7 +5,8 @@
 
 namespace flower
 {
-    class Tanh : public ILayerDef
+    template<typename Scalar>
+    class Tanh : public ILayer<Scalar>
     {
     public:
         Tanh();
@@ -13,22 +14,23 @@ namespace flower
         inline const char *type() const { return "Tanh"; }
 
     protected:
-        layer_ptr create(Net *net) const;
+        LayerPtr<Scalar> create(Net<Scalar> *net) const;
     };
 
-    class TanhLayer : public ILayer
+    template<typename Scalar>
+    class TanhOp : public ILayerOp<Scalar>
     {
     public:
-        explicit TanhLayer(Net *net, const Tanh &definition);
+        explicit TanhOp(Net<Scalar> *net, const Tanh<Scalar> &definition);
 
-        inline const char *type() const { return "Tanh"; }
-
-        Eigen::Tensor<double, 2> forward(const Eigen::Tensor<double, 2> &data, bool train = false);
-        Eigen::Tensor<double, 2> backward(const Eigen::Tensor<double, 2> &errors);
+        TensorData<Scalar> forward(const TensorData<Scalar> &bottom, bool train = false);
+        TensorData<Scalar> backward(const TensorData<Scalar> &top);
 
     protected:
-        Eigen::Tensor<double, 2> data_;
+        TensorData<Scalar> data_;
     };
+
+    #include <flower/layer/tanh.inl>
 }
 
 #endif

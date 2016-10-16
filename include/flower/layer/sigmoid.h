@@ -5,32 +5,32 @@
 
 namespace flower
 {
-    class Sigmoid : public ILayerDef
+    template<typename Scalar>
+    class Sigmoid : public ILayer<Scalar>
     {
     public:
         Sigmoid();
 
         inline const char *type() const { return "Sigmoid"; }
 
-        unsigned int size_;
-
     protected:
-        layer_ptr create(Net *net) const;
+        LayerPtr<Scalar> create(Net<Scalar> *net) const;
     };
 
-    class SigmoidLayer : public ILayer
+    template<typename Scalar>
+    class SigmoidOp : public ILayerOp<Scalar>
     {
     public:
-        explicit SigmoidLayer(Net *net, const Sigmoid &definition);
+        explicit SigmoidOp(Net<Scalar> *net, const Sigmoid<Scalar> &definition);
 
-        inline const char *type() const { return "Sigmoid"; }
-
-        Eigen::Tensor<double, 2> forward(const Eigen::Tensor<double, 2> &data, bool train = false);
-        Eigen::Tensor<double, 2> backward(const Eigen::Tensor<double, 2> &errors);
+        TensorData<Scalar> forward(const TensorData<Scalar> &bottom, bool train = false);
+        TensorData<Scalar> backward(const TensorData<Scalar> &top);
 
     protected:
-        Eigen::Tensor<double, 2> data_;
+        TensorData<Scalar> data_;
     };
+
+    #include<flower/sigmoid.inl>
 }
 
 #endif

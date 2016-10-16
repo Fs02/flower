@@ -1,47 +1,54 @@
 #ifndef FLOWER_LAYER_H
 #define FLOWER_LAYER_H
 
+#include <flower/tensor.h>
 #include <flower/optimizer.h>
-#include <Eigen/CXX11/Tensor>
 #include <memory>
 
 namespace flower {
-    class Net;
-    class ILayer;
-    class IOptimizerDef;
+    template<typename Scalar> class Net;
+    template<typename Scalar> class IOptimizer;
+    template<typename Scalar> class ILayer;
 
-    typedef std::shared_ptr<ILayer> layer_ptr;
+    template<typename Scalar>
+    using LayerPtr = std::shared_ptr<ILayerOp<Scalar>>;
 
-    class ILayerDef
+    template<typename Scalar>
+    class ILayer
     {
-        friend class Net;
+        friend class Net<Scalar>;
     public:
-        ILayerDef();
+        ILayer();
 
         virtual inline const char *type() const = 0;
 
     protected:
-        virtual layer_ptr create(Net *net) const = 0;
+        virtual LayerPtr<Scalar> create(Net<Scalar> *net) const = 0;
     };
 
-    class ILayer
+    template<typename Scalar>
+    class ILayerOp
     {
     public:
-        ILayer() = delete;
-        ILayer(const ILayer&) = delete;
+        ILayerOp() = delete;
+        ILayerOp(const ILayerOp&) = delete;
 
-        explicit ILayer(Net* net, const ILayerDef &definition);
+        explicit ILayerOp(Net<Scalar>* net, const ILayer<Scalar> &definition);
 
-        virtual inline const char *type() const = 0;
+        inline const char *type() const;
+        inline const ILayer<Scalar>& definition();
 
         virtual void configure(const IOptimizerDef &optimizer_def);
 
-        virtual Eigen::Tensor<double, 2> forward(const Eigen::Tensor<double, 2> &data, bool train = false) = 0;
-        virtual Eigen::Tensor<double, 2> backward(const Eigen::Tensor<double, 2> &errors) = 0;
+        virtual TensorData<Scalar> forward(const TensorData<Scalar> &bottom, bool train = false) = 0;
+        virtual TensorData<Scalar> backward(const TensorData<Scalar> &top) = 0;
 
     protected:
-        Net* net_;
+        Net<Scalar>* net_;
+        ILayer<typename Scalar> definition_;
     };
+
+    #include <flower/layer.inl>
 }
 
 #endif

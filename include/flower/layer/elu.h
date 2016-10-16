@@ -5,7 +5,8 @@
 
 namespace flower
 {
-    class Elu : public ILayerDef
+    template<typename Scalar>
+    class Elu : public ILayer<Scalar>
     {
     public:
         Elu(double alpha = 1.0);
@@ -17,23 +18,23 @@ namespace flower
         double alpha_;
 
     protected:
-        layer_ptr create(Net *net) const;
+        LayerPtr<Scalar> create(Net<Scalar> *net) const;
     };
 
-    class EluLayer : public ILayer
+    template<typename Scalar>
+    class EluOp : public ILayerOp<Scalar>
     {
     public:
-        explicit EluLayer(Net *net, const Elu &definition);
+        explicit EluOp(Net<Scalar> *net, const Elu<Scalar> &definition);
 
-        inline const char *type() const { return "Elu"; }
-
-        Eigen::Tensor<double, 2> forward(const Eigen::Tensor<double, 2> &data, bool train = false);
-        Eigen::Tensor<double, 2> backward(const Eigen::Tensor<double, 2> &errors);
+        TensorData<Scalar> forward(const TensorData<Scalar> &bottom, bool train = false);
+        TensorData<Scalar> backward(const TensorData<Scalar> &top);
 
     protected:
         Eigen::Tensor<double, 2> data_;
-        double alpha_;
     };
+
+    #include <flower/elu.inl>
 }
 
 #endif

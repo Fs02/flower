@@ -5,7 +5,8 @@
 
 namespace flower
 {
-    class Vanilla : public IOptimizerDef
+    template<typename Scalar>
+    class Vanilla : public IOptimizer<Scalar>
     {
     public:
         Vanilla(double lr = 0.01);
@@ -15,24 +16,31 @@ namespace flower
         inline double lr() const { return lr_; }
 
     protected:
-        optimizer_ptr create(Net *net) const;
-        static optimizer_ptr instance_;
+        OptimizerPtr<Scalar> create(Net<Scalar> *net) const;
+        static OptimizerPtr<Scalar> instance_;
 
         double lr_;
     };
 
-    class VanillaOptimizer : public IOptimizer
+    template<typename Scalar>
+    class VanillaOp : public IOptimizerOp<Scalar>
     {
     public:
-        explicit VanillaOptimizer(Net *net, const Vanilla &definition);
+        explicit VanillaOp(Net<Scalar> *net, const Vanilla<Scalar> &definition);
 
         inline const char *type() const { return "Vanilla"; }
 
-        Eigen::Tensor<double, 2> optimize(const Eigen::Tensor<double, 2> &weight, const Eigen::Tensor<double, 2> &derivative);
+        Tensor<Scalar, 2> optimize(const Tensor<Scalar, 2> &weight, const Tensor<Scalar, 2> &derivative);
+        Tensor<Scalar, 4> optimize(const Tensor<Scalar, 4> &weight, const Tensor<Scalar, 4> &derivative);
+
+        template<int rank>
+        Tensor<Scalar, rank> compute(const Tensor<Scalar, rank> &weight, const Tensor<Scalar, rank> &derivative);
 
     protected:
         double lr_;
     };
+
+    #include <flower/optimizer/vanilla.inl>
 }
 
 #endif

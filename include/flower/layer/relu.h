@@ -23,14 +23,17 @@ namespace flower
     public:
         explicit ReluOp(Net<Scalar> *net, const Relu<Scalar> &definition);
 
-        TensorData<Scalar> forward(const TensorData<Scalar> &bottom, bool train = false);
-        TensorData<Scalar> backward(const TensorData<Scalar> &top);
+        inline const char *type() const { return "Relu"; }
+
+        TensorData<Scalar> forward(TensorData<Scalar> &bottom, bool train = false);
+        TensorData<Scalar> backward(TensorData<Scalar> &top);
 
     protected:
         Tensor<Scalar, 1> data_;
+        Relu<Scalar> relu_;
     };
 
-    #include <flower/relu.inl>
+    #include <flower/layer/relu.inl>
 }
 
 #endif

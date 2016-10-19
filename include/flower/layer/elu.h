@@ -27,14 +27,17 @@ namespace flower
     public:
         explicit EluOp(Net<Scalar> *net, const Elu<Scalar> &definition);
 
-        TensorData<Scalar> forward(const TensorData<Scalar> &bottom, bool train = false);
-        TensorData<Scalar> backward(const TensorData<Scalar> &top);
+        inline const char *type() const { return "Elu"; }
+
+        TensorData<Scalar> forward(TensorData<Scalar> &bottom, bool train = false);
+        TensorData<Scalar> backward(TensorData<Scalar> &top);
 
     protected:
-        Eigen::Tensor<Scalar, 1> data_;
+        Tensor<Scalar, 1> data_;
+        Elu<Scalar> definition_;
     };
 
-    #include <flower/elu.inl>
+    #include <flower/layer/elu.inl>
 }
 
 #endif

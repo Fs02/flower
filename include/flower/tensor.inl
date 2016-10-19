@@ -1,16 +1,19 @@
 template<typename Scalar>
-TensorData<Scalar>::TensorData(unsigned int size)
-    : data_{new Scalar[size]}, size_(size)
-{}
+TensorData<Scalar>::TensorData(unsigned int size, Scalar *data)
+    : data_(nullptr), size_(size)
+{
+    data_ = new Scalar[size];
+    std::copy(data, data + size, data_);
+}
 
 template<typename Scalar>
-TensorData<Scalar>::TensorData(const TensorData<Scalar> &other)
-    : data_{new Scalar(*other.data_)}, size_(other.size)
-{}
-
+TensorData<Scalar>::~TensorData()
+{
+    delete [] data_;
+}
 
 template<typename Scalar>
-std::unique_ptr<Scalar[]> &TensorData<Scalar>::data()
+Scalar *TensorData<Scalar>::data()
 {
     return data_;
 }
@@ -18,13 +21,21 @@ std::unique_ptr<Scalar[]> &TensorData<Scalar>::data()
 template<typename Scalar>
 unsigned int TensorData<Scalar>::size() const
 {
-    return data;
+    return size_;
 }
 
 template<typename Scalar>
 template<int rank, typename... Indexs>
 TensorMap<Tensor<Scalar, rank>> TensorData<Scalar>::map(Indexs... dimensions)
 {
-    Scalar *storage = data_.get();
-    return TensorMap<Tensor<Scalar, rank>>(storage, dimensions...);
+    return TensorMap<Tensor<Scalar, rank>>(data_, dimensions...);
+}
+
+template<typename Scalar>
+template<int rank, typename... Indexs>
+Tensor<Scalar, rank> TensorData<Scalar>::tensor(Indexs... dimensions) const
+{
+    Tensor<Scalar, rank> t(dimensions...);
+    std::copy(data_, data_ + size_, t.data());
+    return t;
 }

@@ -23,14 +23,17 @@ namespace flower
     public:
         explicit SigmoidOp(Net<Scalar> *net, const Sigmoid<Scalar> &definition);
 
-        TensorData<Scalar> forward(const TensorData<Scalar> &bottom, bool train = false);
-        TensorData<Scalar> backward(const TensorData<Scalar> &top);
+        inline const char *type() const { return "Sigmoid"; }
+
+        TensorData<Scalar> forward(TensorData<Scalar> &bottom, bool train = false);
+        TensorData<Scalar> backward(TensorData<Scalar> &top);
 
     protected:
         Tensor<Scalar, 1> data_;
+        Sigmoid<Scalar> definition_;
     };
 
-    #include<flower/sigmoid.inl>
+    #include <flower/layer/sigmoid.inl>
 }
 
 #endif

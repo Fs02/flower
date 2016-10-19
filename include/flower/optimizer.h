@@ -7,6 +7,7 @@
 namespace flower {
     template<typename Scalar> class Net;
     template<typename Scalar> class IOptimizer;
+    template<typename Scalar> class IOptimizerOp;
 
     template<typename Scalar>
     using OptimizerPtr = std::shared_ptr<IOptimizerOp<Scalar>>;
@@ -33,8 +34,8 @@ namespace flower {
 
         virtual inline const char *type() const = 0;
 
-        template<int rank>
-        virtual Tensor<Scalar, rank> optimize(const Tensor<Scalar, rank> &weight, const Tensor<Scalar, rank> &derivative) = 0;
+        virtual Tensor<Scalar, 2> optimize(const Tensor<Scalar, 2> &weight, const Tensor<Scalar, 2> &derivative) = 0;
+        virtual Tensor<Scalar, 4> optimize(const Tensor<Scalar, 4> &weight, const Tensor<Scalar, 4> &derivative) = 0;
 
     protected:
         Net<Scalar>* net_;

@@ -28,28 +28,33 @@ Relu<Scalar>::Relu()
 {}
 
 template<typename Scalar>
-LayerPtr<Scalar> Relu::create(Net<Scalar> *net) const
+LayerPtr<Scalar> Relu<Scalar>::create(Net<Scalar> *net) const
 {
     return std::make_shared<ReluOp<Scalar>>(net, *this);
 }
 
-
 template<typename Scalar>
 ReluOp<Scalar>::ReluOp(Net<Scalar> *net, const Relu<Scalar> &definition)
-    : ILayerOp<Scalar>(net, definition), data_(0, 0)
+    : ILayerOp<Scalar>(net, definition), data_(0)
 {}
 
 template<typename Scalar>
-TensorData<Scalar> ReluOp<Scalar>::forward(const TensorData<Scalar> &bottom, bool train = false)
+TensorData<Scalar> ReluOp<Scalar>::forward(TensorData<Scalar> &bottom, bool train)
 {
-    if (train)
-        data_ = bottom.map<1>(bottom.size());
+    auto bottom_tensor = bottom.template map<1>(bottom.size());
 
-    return bottom.map<1>(bottom.size()).unaryExpr(internal::ReluForwardhOp<Scalar>());
+    if (train)
+        data_ = bottom_tensor;
+
+    Tensor<Scalar, 1> result = bottom_tensor.unaryExpr(internal::ReluForwardhOp<Scalar>());
+    return TensorData<Scalar>(result.size(), result.data());
 }
 
 template<typename Scalar>
-TensorData<Scalar> ReluOp<Scalar>::backward(const TensorData<Scalar> &top)
+TensorData<Scalar> ReluOp<Scalar>::backward(TensorData<Scalar> &top)
 {
-    return data_.unaryExpr(internal::ReluBackwardOp<Scalar>()) * top.map<1>(top.size());
+    auto top_tensor = top.template map<1>(top.size());
+
+    Tensor<Scalar, 1> result = data_.unaryExpr(internal::ReluBackwardOp<Scalar>()) * top_tensor;
+    return TensorData<Scalar>(result.size(), result.data());
 }

@@ -23,11 +23,14 @@ namespace flower
     public:
         explicit TanhOp(Net<Scalar> *net, const Tanh<Scalar> &definition);
 
-        TensorData<Scalar> forward(const TensorData<Scalar> &bottom, bool train = false);
-        TensorData<Scalar> backward(const TensorData<Scalar> &top);
+        inline const char *type() const { return "Tanh"; }
+
+        TensorData<Scalar> forward(TensorData<Scalar> &bottom, bool train = false);
+        TensorData<Scalar> backward(TensorData<Scalar> &top);
 
     protected:
         Tensor<Scalar, 1> data_;
+        Tanh<Scalar> definition_;
     };
 
     #include <flower/layer/tanh.inl>

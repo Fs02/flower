@@ -1,34 +1,27 @@
 #include <iostream>
+#include <flower/tensor.h>
 #include <flower/net.h>
 #include <flower/layer/tanh.h>
 #include <flower/layer/sigmoid.h>
 #include <flower/layer/relu.h>
 #include <flower/layer/elu.h>
 #include <flower/layer/fully_connected.h>
-#include <flower/layer/dropout.h>
 #include <flower/gradient_descent.h>
-#include <flower/optimizer/momentum.h>
-#include <flower/tensor.h>
-#include <flower/layer/convolution.h>
-#include <flower/layer/pooling.h>
-
+#include <flower/optimizer/vanilla.h>
 using namespace std;
 
 int main()
 {
-    const int order = 3;
-    flower::Tensor<double, order> test;
+    auto net = flower::Net<double>();
 
-    flower::Net net = flower::Net(10);
+    net.add_layer(flower::FullyConnected<double>(3, 3));
+    net.add_layer(flower::Elu<double>());
+    net.add_layer(flower::FullyConnected<double>(3, 3));
+    net.add_layer(flower::Relu<double>());
+    net.add_layer(flower::FullyConnected<double>(3, 3));
+    net.add_layer(flower::Sigmoid<double>());
 
-    net.add(flower::FullyConnected(3, 3));
-    net.add(flower::Elu());
-    net.add(flower::FullyConnected(3, 3));
-    net.add(flower::Relu());
-    net.add(flower::FullyConnected(3, 3));
-    net.add(flower::Sigmoid());
-
-    flower::GradientDescent trainer(&net, flower::Momentum());
+    flower::GradientDescent<double> trainer(&net, flower::Vanilla<double>());
 
     flower::Tensor<double, 2> t_data(2, 3);
     t_data.setValues({{0.05, 0.1, -0.5}, {0.1, -0.3, 0.4}});
@@ -47,7 +40,7 @@ int main()
                   << std::endl;
     }
 
-
+    /*
     flower::Tensor<double, 4> input(2, 3, 7, 7);
     input.setConstant(1.0);
     input.setValues({
@@ -143,14 +136,22 @@ int main()
     flower::array<int, 2> size({2, 2});
     flower::PoolingLayer::pool(flower::Pooling::Mode::Max, input, o, size, 1);
     std::cout << o;
+    */
 
-    flower::TensorData<double> testdata(10);
+    double a[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    flower::TensorData<double> testdata(10, a);
     double *storage = new double[10];  // 2 x 4 x 2 x 8 = 128
-    double *p = testdata.data().get();
+    double *p = testdata.data();
     Eigen::TensorMap<Eigen::Tensor<double, 2>> t(storage, 2, 5);
     delete [] storage;
     std::cout << t;
-    std::cout << std::endl << testdata.map<2>(5, 2);
+    std::cout << std::endl << testdata.map<1>(testdata.size());
+
+    flower::Tensor<double, 2> t2 = testdata.map<2>(2, 5);
+    flower::array<std::pair<int, int>, 2> bias({std::make_pair(0, 0), std::make_pair(0, 1)});
+    flower::Tensor<double, 2> t3 = t2.pad(bias, 1);
+
+    std::cout << std::endl << t3;
 
     return 0;
 }

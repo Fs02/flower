@@ -28,7 +28,7 @@ Tanh<Scalar>::Tanh()
 {}
 
 template<typename Scalar>
-LayerPtr<Scalar> Tanh::create(Net<Scalar> *net) const
+LayerPtr<Scalar> Tanh<Scalar>::create(Net<Scalar> *net) const
 {
     return std::make_shared<TanhOp<Scalar>>(net, *this);
 }
@@ -36,20 +36,26 @@ LayerPtr<Scalar> Tanh::create(Net<Scalar> *net) const
 
 template<typename Scalar>
 TanhOp<Scalar>::TanhOp(Net<Scalar> *net, const Tanh<Scalar> &definition)
-    : ILayerOp<Scalar>(net, definition), data_(0, 0)
+    : ILayerOp<Scalar>(net, definition), data_(0)
 {}
 
 template<typename Scalar>
-TensorData<Scalar> TanhOp<Scalar>::forward(const TensorData<Scalar> &bottom, bool train = false)
+TensorData<Scalar> TanhOp<Scalar>::forward(TensorData<Scalar> &bottom, bool train)
 {
-    if (train)
-        data_ = bottom.map<1>(bottom.size());
+    auto bottom_tensor = bottom.template tensor<1>(bottom.size());
 
-    return bottom.map<1>(bottom.size()).unaryExpr(internal::TanForwardhOp<Scalar>());
+    if (train)
+        data_ = bottom_tensor;
+
+    Tensor<Scalar, 1> result = bottom_tensor.unaryExpr(internal::TanForwardhOp<Scalar>());
+    return TensorData<Scalar>(result.size(), result.data());
 }
 
 template<typename Scalar>
-TensorData<Scalar> TanhOp<Scalar>::backward(const TensorData<Scalar> &top)
+TensorData<Scalar> TanhOp<Scalar>::backward(TensorData<Scalar> &top)
 {
-    return data_.unaryExpr(internal::TanhBackwardOp<Scalar>()) * top.map<1>(top.size());
+    auto top_tensor = top.template map<1>(top.size());
+
+    Tensor<Scalar, 1> result = data_.unaryExpr(internal::TanhBackwardOp<Scalar>()) * top_tensor;
+    return TensorData<Scalar>(result.size(), result.data());
 }

@@ -33,12 +33,12 @@ namespace internal {
 }
 
 template<typename Scalar>
-Elu<Scalar>::Elu()
-    : ILayer<Scalar>()
+Elu<Scalar>::Elu(double alpha)
+    : ILayer<Scalar>(), alpha_(alpha)
 {}
 
 template<typename Scalar>
-LayerPtr<Scalar> Elu::create(Net<Scalar> *net) const
+LayerPtr<Scalar> Elu<Scalar>::create(Net<Scalar> *net) const
 {
     return std::make_shared<EluOp<Scalar>>(net, *this);
 }
@@ -46,20 +46,26 @@ LayerPtr<Scalar> Elu::create(Net<Scalar> *net) const
 
 template<typename Scalar>
 EluOp<Scalar>::EluOp(Net<Scalar> *net, const Elu<Scalar> &definition)
-    : ILayerOp<Scalar>(net, definition), data_(0, 0)
+    : ILayerOp<Scalar>(net, definition), data_(0)
 {}
 
 template<typename Scalar>
-TensorData<Scalar> EluOp<Scalar>::forward(const TensorData<Scalar> &bottom, bool train = false)
+TensorData<Scalar> EluOp<Scalar>::forward(TensorData<Scalar> &bottom, bool train)
 {
-    if (train)
-        data_ = bottom.map<1>(bottom.size());
+    auto bottom_tensor = bottom.template map<1>(bottom.size());
 
-    return bottom.map<1>(bottom.size()).unaryExpr(internal::EluForwardhOp<Scalar>(definition.alpha()));
+    if (train)
+        data_ = bottom_tensor;
+
+    Tensor<Scalar, 1> result = bottom_tensor.unaryExpr(internal::EluForwardhOp<Scalar>(definition_.alpha()));
+    return TensorData<Scalar>(result.size(), result.data());
 }
 
 template<typename Scalar>
-TensorData<Scalar> EluOp<Scalar>::backward(const TensorData<Scalar> &top)
+TensorData<Scalar> EluOp<Scalar>::backward(TensorData<Scalar> &top)
 {
-    return data_.unaryExpr(internal::EluBackwardOp<Scalar>(definition.alpha())) * top.map<1>(top.size());
+    auto top_tensor = top.template map<1>(top.size());
+
+    Tensor<Scalar, 1> result = data_.unaryExpr(internal::EluBackwardOp<Scalar>(definition_.alpha())) * top_tensor;
+    return TensorData<Scalar>(result.size(), result.data());
 }

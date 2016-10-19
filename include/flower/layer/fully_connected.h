@@ -30,19 +30,22 @@ namespace flower
     public:
         FullyConnectedOp(Net<Scalar> *net, const FullyConnected<Scalar> &definition);
 
+        inline const char *type() const { return "FullyConnected"; }
+
         void configure(const IOptimizer<Scalar> &optimizer);
 
-        TensorData<Scalar> forward(const TensorData<Scalar> &bottom, bool train = false);
-        TensorData<Scalar> backward(const TensorData<Scalar> &top);
+        TensorData<Scalar> forward(TensorData<Scalar> &bottom, bool train = false);
+        TensorData<Scalar> backward(TensorData<Scalar> &top);
 
     protected:
-        Tensor<double, 2> data_;
-        Tensor<double, 2> weights_;
+        Tensor<Scalar, 2> data_;
+        Tensor<Scalar, 2> weights_;
 
         OptimizerPtr<Scalar> optimizer_;
+        FullyConnected<Scalar> definition_;
     };
 
-    #include <flower/fully_connected.inl>
+    #include <flower/layer/fully_connected.inl>
 }
 
 #endif

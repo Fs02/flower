@@ -12,12 +12,11 @@ namespace flower {
     class GradientDescent
     {
     public:
-        GradientDescent(Net<Scalar> *net, double learning_rate);
         GradientDescent(Net<Scalar> *net, const IOptimizer<Scalar>& optimizer);
         ~GradientDescent();
 
         template<int in_rank, int out_rank>
-        Tensor<Scalar, 0> feed(const Tensor<Scalar, in_rank> &data, const Tensor<Scalar, out_rank> &target);
+        Tensor<Scalar, 0> feed(Tensor<Scalar, in_rank> &data, Tensor<Scalar, out_rank> &target);
 
     private:
         Net<Scalar> *net_;

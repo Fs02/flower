@@ -9,6 +9,7 @@ namespace flower {
     template<typename Scalar> class Net;
     template<typename Scalar> class IOptimizer;
     template<typename Scalar> class ILayer;
+    template<typename Scalar> class ILayerOp;
 
     template<typename Scalar>
     using LayerPtr = std::shared_ptr<ILayerOp<Scalar>>;
@@ -35,17 +36,15 @@ namespace flower {
 
         explicit ILayerOp(Net<Scalar>* net, const ILayer<Scalar> &definition);
 
-        inline const char *type() const;
-        inline const ILayer<Scalar>& definition();
+        virtual inline const char *type() const = 0;
 
-        virtual void configure(const IOptimizerDef &optimizer_def);
+        virtual void configure(const IOptimizer<Scalar> &optimizer);
 
-        virtual TensorData<Scalar> forward(const TensorData<Scalar> &bottom, bool train = false) = 0;
-        virtual TensorData<Scalar> backward(const TensorData<Scalar> &top) = 0;
+        virtual TensorData<Scalar> forward(TensorData<Scalar> &bottom, bool train = false) = 0;
+        virtual TensorData<Scalar> backward(TensorData<Scalar> &top) = 0;
 
     protected:
         Net<Scalar>* net_;
-        ILayer<typename Scalar> definition_;
     };
 
     #include <flower/layer.inl>

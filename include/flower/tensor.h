@@ -3,6 +3,7 @@
 
 #include <Eigen/CXX11/Tensor>
 #include <memory>
+#include <iterator>
 
 namespace flower
 {
@@ -12,17 +13,20 @@ namespace flower
     class TensorData
     {
     public:
-        explicit TensorData(unsigned int size);
-        TensorData(const TensorData<Scalar> &other);
+        explicit TensorData(unsigned int size, Scalar *data);
+        ~TensorData();
 
-        inline std::unique_ptr<Scalar[]> &data();
+        inline Scalar *data();
         inline unsigned int size() const;
 
         template<int rank, typename... Indexs>
         TensorMap<Tensor<Scalar, rank>> map(Indexs... dimensions);
 
+        template<int rank, typename... Indexs>
+        Tensor<Scalar, rank> tensor(Indexs... dimensions) const;
+
     private:
-        std::unique_ptr<Scalar[]> data_;
+        Scalar *data_;
         unsigned int size_;
     };
 

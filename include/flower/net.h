@@ -2,14 +2,14 @@
 #define FLOWER_NET_H
 
 #include <flower/layer.h>
-#include <flower/optimizer.h>
+#include <flower/gradient_descent.h>
 #include <vector>
 
 namespace flower {
     template<typename Scalar>
     class Net
     {
-        friend class GradientDescent;
+        friend class GradientDescent<Scalar>;
     public:
         Net();
         ~Net();

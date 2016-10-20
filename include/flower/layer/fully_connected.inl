@@ -60,3 +60,9 @@ TensorData<Scalar> FullyConnectedOp<Scalar>::backward(TensorData<Scalar> &top)
 
     return TensorData<Scalar>(result.data(), result.size());
 }
+
+template<typename Scalar>
+Tensor<Scalar, 2> &FullyConnectedOp<Scalar>::weights()
+{
+    return weights_;
+}

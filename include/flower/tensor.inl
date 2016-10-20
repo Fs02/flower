@@ -2,7 +2,7 @@ template<typename Scalar>
 TensorData<Scalar>::TensorData(Scalar *data, std::size_t size)
     : data_(new Scalar[size]), size_(size)
 {
-    std::copy( data, data + size, data_);
+    std::copy(data, data + size, data_);
 }
 
 template<typename Scalar>

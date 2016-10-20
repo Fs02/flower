@@ -14,20 +14,26 @@ int main()
 {
     auto net = flower::Net<double>();
 
-    net.add_layer(flower::FullyConnected<double>(3, 3));
-    net.add_layer(flower::Elu<double>());
-    net.add_layer(flower::FullyConnected<double>(3, 3));
-    net.add_layer(flower::Relu<double>());
-    net.add_layer(flower::FullyConnected<double>(3, 3));
+    net.add_layer(flower::FullyConnected<double>(2, 2));
+    net.add_layer(flower::Sigmoid<double>());
+    net.add_layer(flower::FullyConnected<double>(2, 2));
     net.add_layer(flower::Sigmoid<double>());
 
     flower::GradientDescent<double> trainer(&net, flower::Vanilla<double>());
 
-    flower::Tensor<double, 2> t_data(2, 3);
-    t_data.setValues({{0.05, 0.1, -0.5}, {0.1, -0.3, 0.4}});
+    // input
+    flower::Tensor<double, 2> t_data(1, 2);
+    t_data.setValues({{0.05, 0.1}});
 
-    flower::Tensor<double, 2> t_target(2, 3);
-    t_target.setValues({{0.01, 0.99, 1.0}, {0.9, 0.3, 0.2}});
+    // output
+    flower::Tensor<double, 2> t_target(1, 2);
+    t_target.setValues({{0.01, 0.99}});
+
+    // initial weights
+    std::dynamic_pointer_cast<flower::FullyConnectedOp<double>>(net.layers()[0])->weights()
+            .setValues({{0.15, 0.25}, {0.20, 0.30}, {0.35, 0.35}});
+    std::dynamic_pointer_cast<flower::FullyConnectedOp<double>>(net.layers()[2])->weights()
+            .setValues({{0.40, 0.50}, {0.45, 0.55}, {0.60, 0.60}});
 
     std::cout << "\n";
 
@@ -138,6 +144,7 @@ int main()
     std::cout << o;
     */
 
+    /*
     double a[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     flower::TensorData<double> testdata(a, 10);
     double *storage = new double[10];  // 2 x 4 x 2 x 8 = 128
@@ -152,6 +159,7 @@ int main()
     flower::Tensor<double, 2> t3 = t2.pad(bias, 1);
 
     std::cout << std::endl << t3;
+    */
 
     return 0;
 }

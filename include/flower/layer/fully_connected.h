@@ -37,6 +37,8 @@ namespace flower
         TensorData<Scalar> forward(TensorData<Scalar> &bottom, bool train = false);
         TensorData<Scalar> backward(TensorData<Scalar> &top);
 
+        Tensor<Scalar, 2> &weights();
+
     protected:
         Tensor<Scalar, 2> data_;
         Tensor<Scalar, 2> weights_;

@@ -30,7 +30,7 @@ namespace flower {
         IOptimizerOp() = delete;
         IOptimizerOp(const IOptimizerOp<Scalar>&) = delete;
 
-        explicit IOptimizerOp(Net<Scalar>* net, const IOptimizer<Scalar> &definition);
+        explicit IOptimizerOp(Net<Scalar> *net, const IOptimizer<Scalar> &definition);
 
         virtual inline const char *type() const = 0;
 

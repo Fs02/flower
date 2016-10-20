@@ -34,7 +34,7 @@ namespace flower {
         ILayerOp() = delete;
         ILayerOp(const ILayerOp&) = delete;
 
-        explicit ILayerOp(Net<Scalar>* net, const ILayer<Scalar> &definition);
+        explicit ILayerOp(Net<Scalar> *net, const ILayer<Scalar> &definition);
 
         virtual inline const char *type() const = 0;
 
@@ -44,7 +44,7 @@ namespace flower {
         virtual TensorData<Scalar> backward(TensorData<Scalar> &top) = 0;
 
     protected:
-        Net<Scalar>* net_;
+        Net<Scalar> *net_;
     };
 
     #include <flower/layer.inl>

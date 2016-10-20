@@ -20,7 +20,7 @@ FullyConnectedOp<Scalar>::FullyConnectedOp(Net<Scalar> *net, const FullyConnecte
 template<typename Scalar>
 void FullyConnectedOp<Scalar>::configure(const IOptimizer<Scalar> &optimizer)
 {
-//    optimizer_ = optimizer.create(net_);
+    optimizer_ = optimizer.create(this->net_);
 }
 
 template<typename Scalar>
@@ -46,8 +46,7 @@ TensorData<Scalar> FullyConnectedOp<Scalar>::backward(TensorData<Scalar> &top)
     auto top_tensor = top.template map<2>(top.size()/definition_.output_size(), definition_.output_size()).shuffle(transpose);
 
     array<IndexPair<int>, 1> transpose_product_dims = { IndexPair<int>(0, 1) };
-//    weights_ = optimizer_->optimize(weights_, data_.contract(top_tensor, transpose_product_dims)); TODO
-    weights_ = weights_ - (0.5 * data_.contract(top_tensor, transpose_product_dims));
+    weights_ = optimizer_->optimize(weights_, data_.contract(top_tensor, transpose_product_dims));
 
     // remove bias from weight
     array<int, 2> offsets = {0, 0};

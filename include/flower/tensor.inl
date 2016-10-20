@@ -1,9 +1,15 @@
 template<typename Scalar>
-TensorData<Scalar>::TensorData(unsigned int size, Scalar *data)
-    : data_(nullptr), size_(size)
+TensorData<Scalar>::TensorData(Scalar *data, std::size_t size)
+    : data_(new Scalar[size]), size_(size)
 {
-    data_ = new Scalar[size];
-    std::copy(data, data + size, data_);
+    std::copy( data, data + size, data_);
+}
+
+template<typename Scalar>
+TensorData<Scalar>::TensorData(const TensorData& other)
+    : data_(new Scalar[other.size_]), size_(other.size_)
+{
+    std::copy(other.data_, other.data_ + other.size_, data_);
 }
 
 template<typename Scalar>
@@ -13,13 +19,24 @@ TensorData<Scalar>::~TensorData()
 }
 
 template<typename Scalar>
+TensorData<Scalar> &TensorData<Scalar>::operator=(const TensorData<Scalar>& other)
+{
+    TensorData<Scalar> tmp(other);
+
+    std::swap(size_, tmp.size_);
+    std::swap(data_, tmp.data_);
+
+    return *this;
+}
+
+template<typename Scalar>
 Scalar *TensorData<Scalar>::data()
 {
     return data_;
 }
 
 template<typename Scalar>
-unsigned int TensorData<Scalar>::size() const
+std::size_t TensorData<Scalar>::size() const
 {
     return size_;
 }

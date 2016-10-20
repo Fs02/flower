@@ -139,7 +139,7 @@ int main()
     */
 
     double a[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-    flower::TensorData<double> testdata(10, a);
+    flower::TensorData<double> testdata(a, 10);
     double *storage = new double[10];  // 2 x 4 x 2 x 8 = 128
     double *p = testdata.data();
     Eigen::TensorMap<Eigen::Tensor<double, 2>> t(storage, 2, 5);

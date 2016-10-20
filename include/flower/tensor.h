@@ -13,11 +13,14 @@ namespace flower
     class TensorData
     {
     public:
-        explicit TensorData(unsigned int size, Scalar *data);
+        explicit TensorData(Scalar *data, std::size_t size);
+        TensorData(const TensorData& other);
         ~TensorData();
 
+        TensorData<Scalar> &operator=(const TensorData<Scalar>& other);
+
         inline Scalar *data();
-        inline unsigned int size() const;
+        inline std::size_t size() const;
 
         template<int rank, typename... Indexs>
         TensorMap<Tensor<Scalar, rank>> map(Indexs... dimensions);
@@ -27,7 +30,7 @@ namespace flower
 
     private:
         Scalar *data_;
-        unsigned int size_;
+        std::size_t size_;
     };
 
     #include <flower/tensor.inl>

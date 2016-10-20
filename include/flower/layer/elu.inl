@@ -58,7 +58,7 @@ TensorData<Scalar> EluOp<Scalar>::forward(TensorData<Scalar> &bottom, bool train
         data_ = bottom_tensor;
 
     Tensor<Scalar, 1> result = bottom_tensor.unaryExpr(internal::EluForwardhOp<Scalar>(definition_.alpha()));
-    return TensorData<Scalar>(result.size(), result.data());
+    return TensorData<Scalar>(result.data(), result.size());
 }
 
 template<typename Scalar>
@@ -67,5 +67,5 @@ TensorData<Scalar> EluOp<Scalar>::backward(TensorData<Scalar> &top)
     auto top_tensor = top.template map<1>(top.size());
 
     Tensor<Scalar, 1> result = data_.unaryExpr(internal::EluBackwardOp<Scalar>(definition_.alpha())) * top_tensor;
-    return TensorData<Scalar>(result.size(), result.data());
+    return TensorData<Scalar>(result.data(), result.size());
 }

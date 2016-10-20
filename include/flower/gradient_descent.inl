@@ -21,7 +21,7 @@ Tensor<Scalar, 0> GradientDescent<Scalar>::feed(Tensor<Scalar, in_rank> &data, T
     net_->epoch_++;
 
     // forward propagate
-    TensorData<Scalar> predict(data.size(), data.data());
+    TensorData<Scalar> predict(data.data(), data.size());
     for(const auto &layer : net_->layers())
     {
         predict = layer->forward(predict, true);
@@ -35,9 +35,7 @@ Tensor<Scalar, 0> GradientDescent<Scalar>::feed(Tensor<Scalar, in_rank> &data, T
     // back propagate
     array<int, 2> transpose({1, 0});
     Tensor<Scalar, out_rank> errors = -(target - predict_tensor).shuffle(transpose);
-//    std::cout << errors.data() << std::endl;
-    TensorData<Scalar> errors_data(errors.size(), errors.data());
-//    std::cout << errors_data.data() << std::endl;
+    TensorData<Scalar> errors_data(errors.data(), errors.size());
 
     for(auto i = net_->layers().rbegin(); i != net_->layers().rend(); ++i)
     {

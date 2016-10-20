@@ -30,19 +30,20 @@ TensorData<Scalar> FullyConnectedOp<Scalar>::forward(TensorData<Scalar> &bottom,
 
     // append bias and store input
     array<std::pair<int, int>, 2> bias({std::make_pair(0, 0), std::make_pair(0, 1)});
-    data_ = bottom_tensor; //.pad(bias, 1); TODO
+    data_ = bottom_tensor.pad(bias, 1);
 
     // compute input * weight matrix product
     array<IndexPair<int>, 1> product_dims = { IndexPair<int>(1, 0) };
     Tensor<Scalar, 2> result = bottom_tensor.pad(bias, 1).contract(weights_, product_dims);
 
-    return TensorData<Scalar>(result.size(), result.data());
+    return TensorData<Scalar>(result.data(), result.size());
 }
 
 template<typename Scalar>
 TensorData<Scalar> FullyConnectedOp<Scalar>::backward(TensorData<Scalar> &top)
 {
-    auto top_tensor = top.template map<2>(top.size()/definition_.output_size(), definition_.output_size());
+    array<int, 2> transpose({1, 0});
+    auto top_tensor = top.template map<2>(top.size()/definition_.output_size(), definition_.output_size()).shuffle(transpose);
 
     array<IndexPair<int>, 1> transpose_product_dims = { IndexPair<int>(0, 1) };
 //    weights_ = optimizer_->optimize(weights_, data_.contract(top_tensor, transpose_product_dims));
@@ -57,5 +58,5 @@ TensorData<Scalar> FullyConnectedOp<Scalar>::backward(TensorData<Scalar> &top)
     array<IndexPair<int>, 1> product_dims = { IndexPair<int>(1, 0) };
     Tensor<Scalar, 2> result = weights_nobias.contract(top_tensor, product_dims);
 
-    return TensorData<Scalar>(result.size(), result.data());
+    return TensorData<Scalar>(result.data(), result.size());
 }

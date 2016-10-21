@@ -14,10 +14,12 @@ namespace flower
     {
     public:
         explicit TensorData(Scalar *data, std::size_t size);
-        TensorData(const TensorData& other);
+        TensorData(const TensorData &other);
+        TensorData(TensorData &&other);
         ~TensorData();
 
-        TensorData<Scalar> &operator=(const TensorData<Scalar>& other);
+        TensorData<Scalar> &operator=(const TensorData<Scalar> &other);
+        TensorData<Scalar> &operator=(TensorData<Scalar> &&other);
 
         inline Scalar *data();
         inline std::size_t size() const;

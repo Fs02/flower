@@ -13,6 +13,18 @@ TensorData<Scalar>::TensorData(const TensorData& other)
 }
 
 template<typename Scalar>
+TensorData<Scalar>::TensorData(TensorData &&other)
+    : data_(nullptr), size_(0)
+{
+    data_ = other.data_;
+    size_ = other.size_;
+
+    other.data_ = nullptr;
+    other.size_ = 0;
+}
+
+
+template<typename Scalar>
 TensorData<Scalar>::~TensorData()
 {
     delete [] data_;
@@ -28,6 +40,22 @@ TensorData<Scalar> &TensorData<Scalar>::operator=(const TensorData<Scalar>& othe
 
     return *this;
 }
+
+template<typename Scalar>
+TensorData<Scalar> &TensorData<Scalar>::operator=(TensorData<Scalar> &&other)
+{
+    if (this != &other) {
+        delete data_;
+
+        data_ = other.data_;
+        size_ = other.size_;
+
+        other.data_ = nullptr;
+        other.size_ = 0;
+    }
+    return *this;
+}
+
 
 template<typename Scalar>
 Scalar *TensorData<Scalar>::data()

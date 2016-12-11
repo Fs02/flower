@@ -36,26 +36,22 @@ LayerPtr<Scalar> Tanh<Scalar>::create(Net<Scalar> *net) const
 
 template<typename Scalar>
 TanhOp<Scalar>::TanhOp(Net<Scalar> *net, const Tanh<Scalar> &definition)
-    : ILayerOp<Scalar>(net, definition), data_(0)
+    : ILayerOp<Scalar>(net, definition), data_(0, 0)
 {}
 
 template<typename Scalar>
-TensorData<Scalar> TanhOp<Scalar>::forward(TensorData<Scalar> &bottom, bool train)
+Tensor<Scalar, 2, RowMajor> TanhOp<Scalar>::forward(const Tensor<Scalar, 2, RowMajor> &bottom, bool train)
 {
-    auto bottom_tensor = bottom.template tensor<1>(bottom.size());
-
     if (train)
-        data_ = bottom_tensor;
+        data_ = bottom;
 
-    Tensor<Scalar, 1> result = bottom_tensor.unaryExpr(internal::TanForwardhOp<Scalar>());
-    return TensorData<Scalar>(result.size(), result.data());
+    return bottom_tensor.unaryExpr(internal::TanForwardhOp<Scalar>());
 }
 
 template<typename Scalar>
-TensorData<Scalar> TanhOp<Scalar>::backward(TensorData<Scalar> &top)
+Tensor<Scalar, 2, RowMajor> TanhOp<Scalar>::backward(const Tensor<Scalar, 2, RowMajor> &top)
 {
-    auto top_tensor = top.template map<1>(top.size());
+    Eigen::array<int, 2> transpose({1, 0});
 
-    Tensor<Scalar, 1> result = data_.unaryExpr(internal::TanhBackwardOp<Scalar>()) * top_tensor;
-    return TensorData<Scalar>(result.size(), result.data());
+    return data_.shuffle(transpose).unaryExpr(internal::TanhBackwardOp<Scalar>()) * top;
 }

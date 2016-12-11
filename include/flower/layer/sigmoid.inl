@@ -35,29 +35,24 @@ LayerPtr<Scalar> Sigmoid<Scalar>::create(Net<Scalar> *net) const
     return std::make_shared<SigmoidOp<Scalar>>(net, *this);
 }
 
-
 template<typename Scalar>
 SigmoidOp<Scalar>::SigmoidOp(Net<Scalar> *net, const Sigmoid<Scalar> &definition)
-    : ILayerOp<Scalar>(net, definition), data_(0)
+    : ILayerOp<Scalar>(net, definition), data_(0, 0)
 {}
 
 template<typename Scalar>
-TensorData<Scalar> SigmoidOp<Scalar>::forward(TensorData<Scalar> &bottom, bool train)
+Tensor<Scalar, 2, RowMajor> SigmoidOp<Scalar>::forward(const Tensor<Scalar, 2, RowMajor> &bottom, bool train)
 {
-    auto bottom_tensor = bottom.template map<1>(bottom.size());
-
     if (train)
-        data_ = bottom_tensor;
+        data_ = bottom;
 
-    Tensor<Scalar, 1> result = bottom_tensor.unaryExpr(internal::SigmoidForwardhOp<Scalar>());
-    return TensorData<Scalar>(result.data(), result.size());
+    return bottom.unaryExpr(internal::SigmoidForwardhOp<Scalar>());
 }
 
 template<typename Scalar>
-TensorData<Scalar> SigmoidOp<Scalar>::backward(TensorData<Scalar> &top)
+Tensor<Scalar, 2, RowMajor> SigmoidOp<Scalar>::backward(const Tensor<Scalar, 2, RowMajor> &top)
 {
-    auto top_tensor = top.template map<1>(top.size());
+    Eigen::array<int, 2> transpose({1, 0});
 
-    Tensor<Scalar, 1> result = data_.unaryExpr(internal::SigmoidBackwardOp<Scalar>()) * top_tensor;
-    return TensorData<Scalar>(result.data(), result.size());
+    return data_.shuffle(transpose).unaryExpr(internal::SigmoidBackwardOp<Scalar>()) * top;
 }

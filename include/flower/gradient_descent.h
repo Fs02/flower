@@ -15,8 +15,7 @@ namespace flower {
         GradientDescent(Net<Scalar> *net, const IOptimizer<Scalar>& optimizer);
         ~GradientDescent();
 
-        template<int in_rank, int out_rank>
-        Tensor<Scalar, 0> feed(Tensor<Scalar, in_rank> &data, Tensor<Scalar, out_rank> &target);
+        Tensor<Scalar, 0, RowMajor> feed(const Tensor<Scalar, 2, RowMajor> &data, const Tensor<Scalar, 2, RowMajor> &target);
 
     private:
         Net<Scalar> *net_;

@@ -6,20 +6,21 @@
 
 namespace flower
 {
-    class Convolution : public ILayerDef
+    template<typename Scalar>
+    class Convolution : public ILayer<Scalar>
     {
     public:
-        Convolution(const Eigen::array<int, 3>& filter_dims, int filter_num, int stride, int padding);
+        Convolution(const array<int, 3>& filter_dims, int filter_num, int stride, int padding);
 
-        inline const char *type() const { return "Tanh"; }
+        inline const char *type() const { return "Convolution"; }
 
-        inline const Eigen::array<int, 3> &filter_dims() const { return filter_dims_; }
+        inline const array<int, 3> &filter_dims() const { return filter_dims_; }
         inline int filter_num() const { return filter_num_; }
         inline int stride() const { return stride_; }
         inline int padding() const { return padding_; }
 
     protected:
-        layer_ptr create(Net *net) const;
+        LayerPtr<Scalar> create(Net<Scalar> *net) const;
 
         Eigen::array<int, 3> filter_dims_;
         int filter_num_;
@@ -27,12 +28,16 @@ namespace flower
         int padding_;
     };
 
-    class ConvolutionLayer : public ILayer
+    template<typename Scalar>
+    class ConvolutionOp : public ILayerOp<Scalar>
     {
     public:
-        explicit ConvolutionLayer(Net *net, const Convolution &definition);
+        explicit ConvolutionOp(Net<Scalar> *net, const Convolution<Scalar> &definition);
 
-        inline const char *type() const { return "Tanh"; }
+        inline const char *type() const { return "Convolution"; }
+
+        TensorData<Scalar> forward(TensorData<Scalar> &bottom, bool train = false);
+        TensorData<Scalar> backward(TensorData<Scalar> &top);
 
         Eigen::Tensor<double, 2> forward(const Eigen::Tensor<double, 2> &data, bool train = false);
         Eigen::Tensor<double, 2> backward(const Eigen::Tensor<double, 2> &errors);
@@ -40,14 +45,16 @@ namespace flower
         Eigen::Tensor<double, 4> forward(const Eigen::Tensor<double, 4> &data, bool train = false);
         Eigen::Tensor<double, 4> backward(const Eigen::Tensor<double, 4> &errors);
 
-        static void convolve(const Eigen::Tensor<double, 4>& input, Eigen::Tensor<double, 3>& output, const Eigen::Tensor<double, 3>& filter, double bias, int stride);
+        static void convolve(const Eigen::Tensor<Scalar, 4>& input, Eigen::Tensor<Scalar, 3>& output, const Eigen::Tensor<Scalar, 3>& filter, double bias, int stride);
 
     protected:
-        std::vector<Eigen::Tensor<double, 3>> filters_;
-        std::vector<double> biases_;
+        Tensor<double, 3> filters_;
+        Tensor<double, 1> biases_;
         int stride_;
         int padding_;
     };
+
+    #include <flower/layer/convolution.inl>
 }
 
 #endif

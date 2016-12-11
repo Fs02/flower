@@ -29,12 +29,12 @@ namespace flower
 
         inline const char *type() const { return "Momentum"; }
 
-        Eigen::Tensor<double, 2> optimize(const Eigen::Tensor<double, 2> &weight, const Eigen::Tensor<double, 2> &derivative);
+        Tensor<double, 2, RowMajor> optimize(const Tensor<double, 2, RowMajor> &weight, const Tensor<double, 2, RowMajor> &derivative);
 
     protected:
         double lr_;
         double mu_;
-        Eigen::Tensor<double, 2> vel_;
+        Tensor<double, 2, RowMajor> vel_;
     };
 }
 

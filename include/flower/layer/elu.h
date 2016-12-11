@@ -29,11 +29,11 @@ namespace flower
 
         inline const char *type() const { return "Elu"; }
 
-        TensorData<Scalar> forward(TensorData<Scalar> &bottom, bool train = false);
-        TensorData<Scalar> backward(TensorData<Scalar> &top);
+        Tensor<Scalar, 2, RowMajor> forward(const Tensor<Scalar, 2, RowMajor> &bottom, bool train = false);
+        Tensor<Scalar, 2, RowMajor> backward(const Tensor<Scalar, 2, RowMajor> &top);
 
     protected:
-        Tensor<Scalar, 1> data_;
+        Tensor<Scalar, 2, RowMajor> data_;
         Elu<Scalar> definition_;
     };
 

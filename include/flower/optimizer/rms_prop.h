@@ -31,13 +31,13 @@ namespace flower
 
         inline const char *type() const { return "RmsProp"; }
 
-        Eigen::Tensor<double, 2> optimize(const Eigen::Tensor<double, 2> &weight, const Eigen::Tensor<double, 2> &derivative);
+        Tensor<double, 2, RowMajor> optimize(const Tensor<double, 2, RowMajor> &weight, const Tensor<double, 2, RowMajor> &derivative);
 
     protected:
         double lr_;
         double decay_;
         double eps_;
-        Eigen::Tensor<double, 2> gt_;
+        Tensor<double, 2, RowMajor> gt_;
     };
 }
 

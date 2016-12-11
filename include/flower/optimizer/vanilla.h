@@ -30,11 +30,11 @@ namespace flower
 
         inline const char *type() const { return "Vanilla"; }
 
-        Tensor<Scalar, 2> optimize(const Tensor<Scalar, 2> &weight, const Tensor<Scalar, 2> &derivative);
-        Tensor<Scalar, 4> optimize(const Tensor<Scalar, 4> &weight, const Tensor<Scalar, 4> &derivative);
+        Tensor<Scalar, 2, RowMajor> optimize(const Tensor<Scalar, 2, RowMajor> &weight, const Tensor<Scalar, 2, RowMajor> &derivative);
+        Tensor<Scalar, 4, RowMajor> optimize(const Tensor<Scalar, 4, RowMajor> &weight, const Tensor<Scalar, 4, RowMajor> &derivative);
 
         template<int rank>
-        Tensor<Scalar, rank> compute(const Tensor<Scalar, rank> &weight, const Tensor<Scalar, rank> &derivative);
+        Tensor<Scalar, rank, RowMajor> compute(const Tensor<Scalar, rank, RowMajor> &weight, const Tensor<Scalar, rank, RowMajor> &derivative);
 
     protected:
         double lr_;

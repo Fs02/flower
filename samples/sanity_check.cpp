@@ -23,11 +23,11 @@ int main()
     flower::GradientDescent<float> trainer(&net, flower::Vanilla<float>(0.5));
 
     // input
-    flower::Tensor<float, 2> t_data(1.f, 2.f);
+    flower::Tensor<float, 2, flower::RowMajor> t_data(1.f, 2.f);
     t_data.setValues({{0.05f, 0.1f}});
 
     // output
-    flower::Tensor<float, 2> t_target(1, 2);
+    flower::Tensor<float, 2, flower::RowMajor> t_target(1, 2);
     t_target.setValues({{0.01f, 0.99f}});
 
     auto fc1 = std::dynamic_pointer_cast<flower::FullyConnectedOp<float>>(net.layers()[0]);
@@ -58,6 +58,5 @@ int main()
               << fc1->weights()
               << "\nW2:\n"
               << fc2->weights();
-
     return 0;
 }

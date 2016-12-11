@@ -10,15 +10,15 @@ Net<Scalar>::~Net()
 }
 
 template<typename Scalar>
-Tensor<Scalar, 2> Net<Scalar>::infer(const Tensor<Scalar, 2> &data) const
+Tensor<Scalar, 2, RowMajor> Net<Scalar>::infer(const Tensor<Scalar, 2, RowMajor> &data) const
 {
     // forward propagate
-    TensorData<Scalar> predict(data.data());
+    Tensor<Scalar, 2, RowMajor> predict = data;
     for(const auto &layer : layers_)
     {
         predict = layer->forward(predict);
     }
-    return predict.map<2>(1, predict.size());
+    return predict;
 }
 
 template<typename Scalar>

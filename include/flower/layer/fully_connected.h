@@ -34,14 +34,14 @@ namespace flower
 
         void configure(const IOptimizer<Scalar> &optimizer);
 
-        TensorData<Scalar> forward(TensorData<Scalar> &bottom, bool train = false);
-        TensorData<Scalar> backward(TensorData<Scalar> &top);
+        Tensor<Scalar, 2, RowMajor> forward(const Tensor<Scalar, 2, RowMajor> &bottom, bool train = false);
+        Tensor<Scalar, 2, RowMajor> backward(const Tensor<Scalar, 2, RowMajor> &top);
 
-        Tensor<Scalar, 2> &weights();
+        Tensor<Scalar, 2, RowMajor> &weights();
 
     protected:
-        Tensor<Scalar, 2> data_;
-        Tensor<Scalar, 2> weights_;
+        Tensor<Scalar, 2, RowMajor> data_;
+        Tensor<Scalar, 2, RowMajor> weights_;
 
         OptimizerPtr<Scalar> optimizer_;
         FullyConnected<Scalar> definition_;

@@ -27,11 +27,11 @@ namespace flower
 
         inline const char *type() const { return "Dropout"; }
 
-        Eigen::Tensor<double, 2> forward(const Eigen::Tensor<double, 2> &data, bool train = false);
-        Eigen::Tensor<double, 2> backward(const Eigen::Tensor<double, 2> &errors);
+        Tensor<double, 2, RowMajor> forward(const Tensor<double, 2, RowMajor> &data, bool train = false);
+        Tensor<double, 2, RowMajor> backward(const Tensor<double, 2, RowMajor> &errors);
 
     protected:
-        Eigen::Tensor<double, 2> mask_;
+        Tensor<double, 2, RowMajor> mask_;
         double probability_;
     };
 }

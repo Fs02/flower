@@ -19,20 +19,20 @@ VanillaOp<Scalar>::VanillaOp(Net<Scalar> *net, const Vanilla<Scalar> &definition
 {}
 
 template <typename Scalar>
-Tensor<Scalar, 2> VanillaOp<Scalar>::optimize(const Tensor<Scalar, 2> &weight, const Tensor<Scalar, 2> &derivative)
+Tensor<Scalar, 2, RowMajor> VanillaOp<Scalar>::optimize(const Tensor<Scalar, 2, RowMajor> &weight, const Tensor<Scalar, 2, RowMajor> &derivative)
 {
     return compute<2>(weight, derivative);
 }
 
 template <typename Scalar>
-Tensor<Scalar, 4> VanillaOp<Scalar>::optimize(const Tensor<Scalar, 4> &weight, const Tensor<Scalar, 4> &derivative)
+Tensor<Scalar, 4, RowMajor> VanillaOp<Scalar>::optimize(const Tensor<Scalar, 4, RowMajor> &weight, const Tensor<Scalar, 4, RowMajor> &derivative)
 {
     return compute<4>(weight, derivative);
 }
 
 template <typename Scalar>
 template<int rank>
-Tensor<Scalar, rank> VanillaOp<Scalar>::compute(const Tensor<Scalar, rank> &weight, const Tensor<Scalar, rank> &derivative)
+Tensor<Scalar, rank, RowMajor> VanillaOp<Scalar>::compute(const Tensor<Scalar, rank, RowMajor> &weight, const Tensor<Scalar, rank, RowMajor> &derivative)
 {
     return weight - (lr_ * derivative);
 }

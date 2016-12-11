@@ -34,8 +34,8 @@ namespace flower {
 
         virtual inline const char *type() const = 0;
 
-        virtual Tensor<Scalar, 2> optimize(const Tensor<Scalar, 2> &weight, const Tensor<Scalar, 2> &derivative) = 0;
-        virtual Tensor<Scalar, 4> optimize(const Tensor<Scalar, 4> &weight, const Tensor<Scalar, 4> &derivative) = 0;
+        virtual Tensor<Scalar, 2, RowMajor> optimize(const Tensor<Scalar, 2, RowMajor> &weight, const Tensor<Scalar, 2, RowMajor> &derivative) = 0;
+        virtual Tensor<Scalar, 4, RowMajor> optimize(const Tensor<Scalar, 4, RowMajor> &weight, const Tensor<Scalar, 4, RowMajor> &derivative) = 0;
 
     protected:
         Net<Scalar>* net_;

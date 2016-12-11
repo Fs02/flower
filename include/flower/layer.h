@@ -40,8 +40,8 @@ namespace flower {
 
         virtual void configure(const IOptimizer<Scalar> &optimizer);
 
-        virtual TensorData<Scalar> forward(TensorData<Scalar> &bottom, bool train = false) = 0;
-        virtual TensorData<Scalar> backward(TensorData<Scalar> &top) = 0;
+        virtual Tensor<Scalar, 2, RowMajor> forward(const Tensor<Scalar, 2, RowMajor> &bottom, bool train = false) = 0;
+        virtual Tensor<Scalar, 2, RowMajor> backward(const Tensor<Scalar, 2, RowMajor> &top) = 0;
 
     protected:
         Net<Scalar> *net_;

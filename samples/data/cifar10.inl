@@ -29,3 +29,11 @@ void Cifar10<Scalar>::read_batch(const char *path, Tensor<Scalar, 4, RowMajor> &
         }
     }
 }
+
+template<typename Scalar>
+void Cifar10<Scalar>::read_batch(const char *path, Tensor<Scalar, 2, RowMajor> &images, Tensor<Scalar, 2, RowMajor> &labels) {
+    Tensor<Scalar, 4, RowMajor> images_4d;
+    read_batch(path, images_4d, labels);
+    Eigen::array<Eigen::DenseIndex, 2> dims({images_4d.dimension(0), 3*32*32});
+    images = images_4d.reshape(dims);
+}

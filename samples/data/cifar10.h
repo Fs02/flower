@@ -14,6 +14,7 @@ namespace flower {
     {
     public:
         void read_batch(const char *path, Tensor<Scalar, 4, RowMajor> &images, Tensor<Scalar, 2, RowMajor> &labels);
+        void read_batch(const char *path, Tensor<Scalar, 2, RowMajor> &images, Tensor<Scalar, 2, RowMajor> &labels);
     };
 
     #include <data/cifar10.inl>
